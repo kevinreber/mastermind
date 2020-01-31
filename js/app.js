@@ -26,6 +26,8 @@ let userInput = []; //store user input(similar to Simon Game)
 // return randomAPIResults;
 //}
 
+// SOURCE
+// https://stackoverflow.com/questions/6375461/get-html-code-using-javascript-with-a-url
 const request = makeHttpObject();
 request.open("GET", randomAPI, true);
 request.send(null);
