@@ -1,0 +1,63 @@
+/* ============================================= */
+/*              Container                        */
+/* ============================================= */
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  margin: auto;
+  text-align: center;
+}
+
+.number{
+  box-shadow: 0 0 10px 1px $color-shadow;
+}
+
+.random-number {
+  padding: 1.5rem;
+  margin: .5rem auto;
+  border-radius: 5px;
+  font-size: 36px;
+  color: $color-secondary;
+  background-color: $color-tertiary;
+
+  &-container {
+    padding: .7rem;
+    // width: 100%;
+    // display: flex;
+    // flex-direction: row;
+    // flex-wrap: wrap;
+    // background-color: $color-primary;
+  }
+}
+
+#random-numbers{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: $color-primary;
+}
+
+// [class^=col] {
+//   margin-top: 10px;
+//   flex-basis: 100%;
+//   min-height: 25px;
+//   padding: 10px;
+//   border-radius: 5px;
+
+//   @include mq("lg") {
+//     display: flex;
+//     justify-content: center;
+//     margin-top: 0;
+//     align-items: center;
+
+//     &+& {
+//       margin-left: 10px;
+//     }
+//   }
+// }
+

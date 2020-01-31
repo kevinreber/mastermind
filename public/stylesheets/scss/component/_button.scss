@@ -1,0 +1,35 @@
+/* ============================================= */
+/*              Buttons                          */
+/* ============================================= */
+
+.btn {
+  margin-top: 15px;
+  width: 100%;
+  color: #fff;
+  border: none;
+  padding: 10px 0;
+  text-transform: uppercase;
+  border-radius: 5px;
+
+  //This loop assigns a background color and hover effect to each button
+  @each $key,
+  $color in $button-colors {
+
+    &.#{$key} {
+      background-color: $color;
+
+      &:hover {
+        @include hover($color);
+      }
+    }
+
+  }
+
+  @include mq("lg") {
+    padding: 10px 30px;
+
+    &+& {
+      margin-left: 10px;
+    }
+  }
+}
