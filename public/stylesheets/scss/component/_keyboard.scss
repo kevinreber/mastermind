@@ -2,19 +2,26 @@
 /*              Keyboard                            */
 /* ============================================= */
 
-#keyboard{
+#keyboard {
   width: 85%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: auto;
 }
 
-.keyboard-number{
-  height: 50px;
-  width: 50px;
-  text-align: center;
-  padding: 1rem;
-  margin: .5rem;
-  border-radius: 3px;
-  background-color: $color-primary;
+.keyboard {
+  &-container {
+    align-self: flex-end;
+  }
+
+  &-number {
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    padding: 1rem;
+    margin: .5rem;
+    border-radius: 3px;
+    background-color: $color-primary;
+  }
 }

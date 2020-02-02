@@ -5,6 +5,8 @@
 .game-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 95vh;
 }
 
 .container {
@@ -12,20 +14,28 @@
   text-align: center;
 }
 
-.number{
+.number {
   box-shadow: 0 0 10px 1px $color-shadow;
 }
 
-.random-number {
+.random-number,
+.user-guess {
   padding: 1.5rem;
   margin: .5rem auto;
   border-radius: 5px;
   font-size: 36px;
+}
+
+.users-guess{
+  color: $color-secondary;
+}
+
+.random-number {
   color: $color-secondary;
   background-color: $color-tertiary;
 
   &-container {
-    padding: .7rem;
+    // padding: .7rem;
     // width: 100%;
     // display: flex;
     // flex-direction: row;
@@ -35,11 +45,14 @@
 }
 
 #random-numbers{
+  background-color: $color-primary;
+}
+
+#random-numbers, #users-guesses {
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: $color-primary;
 }
 
 // [class^=col] {
@@ -60,4 +73,3 @@
 //     }
 //   }
 // }
-

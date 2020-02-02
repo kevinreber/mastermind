@@ -462,8 +462,12 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: auto;
 }
 
+.keyboard-container {
+  align-self: flex-end;
+}
 .keyboard-number {
   height: 50px;
   width: 50px;
@@ -480,6 +484,8 @@ a {
 .game-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 95vh;
 }
 
 .container {
@@ -491,24 +497,31 @@ a {
   box-shadow: 0 0 10px 1px #777;
 }
 
-.random-number {
+.random-number,
+.user-guess {
   padding: 1.5rem;
   margin: 0.5rem auto;
   border-radius: 5px;
   font-size: 36px;
+}
+
+.users-guess {
+  color: #777;
+}
+
+.random-number {
   color: #777;
   background-color: #e4757a;
 }
-.random-number-container {
-  padding: 0.7rem;
+#random-numbers {
+  background-color: #58e1c1;
 }
 
-#random-numbers {
+#random-numbers, #users-guesses {
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: #58e1c1;
 }
 
 /*# sourceMappingURL=styles.css.map */

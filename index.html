@@ -15,16 +15,26 @@
     <!-- /Overlays -->
     <div class="game-container container">
         <header>
-            <h1>Mastermind</h1>
-            <p>Select a number 0-7</p>
+            <h1>MASTERMIND</h1>
+            <div class="attempts-container container">
+                <h3>Attempts Left: <span id="attempts">10</span></h3>
+            </div>
         </header>
         <!-- Gameboard -->
         <main id="gameboard container">
-            <div id="random-numbers" class="container">
-
+            <div id="random-numbers" class="container"></div>
+            <div id="users-guesses" class="container">
+                <p class="user-guess number">-</p>
+                <p class="user-guess number">-</p>
+                <p class="user-guess number">-</p>
+                <p class="user-guess number">-</p>
             </div>
+        </main><!-- /Gameboard -->
 
-            <div id="keyboard" class="container">
+        <!-- Keyboard -->
+        <div class="keyboard-container">
+            <p>SELECT A NUMBER</p>
+            <div id="keyboard" class="keys container">
                 <span class="keyboard-number number">0</span>
                 <span class="keyboard-number number">1</span>
                 <span class="keyboard-number number">2</span>
@@ -34,11 +44,9 @@
                 <span class="keyboard-number number">6</span>
                 <span class="keyboard-number number">7</span>
             </div>
+        </div><!-- Keyboard -->
 
-            <div id="attempts" class="container">
 
-            </div>
-        </main><!-- /Gameboard -->
     </div>
     <script src="js/app.js"></script>
 </body>
