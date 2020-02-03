@@ -4,7 +4,9 @@ const randomNumbers = document.getElementById('random-numbers');
 const usersGuesses = document.getElementById('users-guesses');
 const usersGuess = usersGuesses.querySelectorAll('.user-guess');
 const attempts = document.getElementById('attempts');
+const tableAttempts = document.querySelectorAll('.table-attempt');
 let attemptsLeft = 10;
+let attempt = 0;
 let randomAPIResults = [];
 let userInput = []; //store user input(similar to Simon Game)
 
@@ -51,9 +53,7 @@ function addRandomNumbers() {
 function userSelection(e) {
     userInput.push(e.target.innerText);
     displayUsersGuess();
-    //compareNumber();
     if (userInput.length === 4) {
-        //console.log(submitAttempt);
         checkAnswers();
         updateAttempts();
     }
@@ -65,11 +65,16 @@ function updateAttempts() { // updates attempts made after 4 guesses have been m
 }
 
 function checkAnswers() {
-    let html = '';
-
     const correctNumbers = checkIfNumberExists(); //  The player had guess a correct number
     const correctMatches = checkForMatches(); // The player had guessed a correct number and its correct location
 
+    displayResults(correctNumbers, correctMatches);
+    updateHistory(correctNumbers, correctMatches);
+    clearUserGuesses();
+}
+
+function displayResults(correctNumbers, correctMatches) {
+    let html = '';
     if (correctMatches === 4) {
         html = 'Congratulations! You Win!'
     } else if (correctNumbers) {
@@ -77,13 +82,21 @@ function checkAnswers() {
         Player has guessed ${correctNumbers}/4 numbers that exist,
         Player has guessed ${correctMatches}/4 numbers in the correct location
         `;
-    } else html = 'You have guessed wrong! Try Again';
-
+    } else html = 'You have guessed wrong! Try Again';  
     console.log(html);
+}
 
-
-
-
+function updateHistory(correct, located) {
+    let html = `
+        <td class="attempt">${userInput}</td>
+        <td class="attempt">${correct}/4</td>
+        <td class="attempt">${located}/4</td>
+    `
+    tableAttempts[attempt].innerHTML = html;
+    attempt++;
+    if(attempt === 10 || attemptsLeft === 0){
+        console.log('failed');      
+    }
 }
 
 function checkIfNumberExists() {
@@ -110,39 +123,18 @@ function checkForMatches() {
     return matches;
 }
 
-// function displayUsersGuess(){
-//     let html = '';
-//     for (let usersGuess of userInput) {
-//         html +=
-//         `
-//         <div class="users-number-container container">
-//             <p class="user-number number">${usersGuess}</p>
-//         </div>
-//         `;
-//     }
-//     usersGuesses.innerHTML = html;
-// }
-
 function displayUsersGuess() {
     for (let [index, guess] of usersGuess.entries()) {
         if (!userInput[index]) return;
-        // console.log(guess,index);
         guess.innerText = userInput[index];
     }
 }
 
-function compareNumber() {
-    console.log(userInput);
-    console.log(userInput.length);
-
-    for (let i = 0; i < userInput.length; i++) {
-
-        if (userInput[i] === randomAPIResults[i]) {
-            console.log('match');
-
-        } else console.log('no match');
-
+function clearUserGuesses() {
+    for (let guess of usersGuess) {
+        guess.innerText = '-';
     }
+    userInput = [];
 }
 
 keyboard.addEventListener('click', userSelection);

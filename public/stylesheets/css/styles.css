@@ -462,7 +462,7 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: auto;
+  margin-bottom: 1rem;
 }
 
 .keyboard-container {
@@ -477,6 +477,10 @@ a {
   border-radius: 3px;
   background-color: #58e1c1;
 }
+.keyboard-header {
+  font-size: 16px;
+  letter-spacing: 1px;
+}
 
 /* ============================================= */
 /*              Container                        */
@@ -485,7 +489,10 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 95vh;
+  height: 100vh;
+}
+.game-title {
+  letter-spacing: 1px;
 }
 
 .container {
@@ -511,17 +518,41 @@ a {
 
 .random-number {
   color: #777;
-  background-color: #e4757a;
+  background-color: #ffce52;
 }
 #random-numbers {
   background-color: #58e1c1;
 }
 
-#random-numbers, #users-guesses {
+#random-numbers,
+#users-guesses {
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+}
+.table-titles-container {
+  margin-bottom: 8px;
+}
+.table-title {
+  font-size: 14px;
+  height: 16px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+td {
+  height: 16px;
+}
+
+.attempt {
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
 /*# sourceMappingURL=styles.css.map */

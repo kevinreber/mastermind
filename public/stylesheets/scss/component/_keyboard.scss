@@ -7,7 +7,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: auto;
+  margin-bottom: 1rem;
 }
 
 .keyboard {
@@ -23,5 +23,10 @@
     margin: .5rem;
     border-radius: 3px;
     background-color: $color-primary;
+  }
+
+  &-header{
+    font-size: 16px;
+    letter-spacing: 1px;
   }
 }

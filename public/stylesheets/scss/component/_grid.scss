@@ -2,11 +2,17 @@
 /*              Container                        */
 /* ============================================= */
 
-.game-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 95vh;
+.game {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+  }
+
+  &-title {
+    letter-spacing: 1px;
+  }
 }
 
 .container {
@@ -26,7 +32,7 @@
   font-size: 36px;
 }
 
-.users-guess{
+.users-guess {
   color: $color-secondary;
 }
 
@@ -44,11 +50,12 @@
   }
 }
 
-#random-numbers{
+#random-numbers {
   background-color: $color-primary;
 }
 
-#random-numbers, #users-guesses {
+#random-numbers,
+#users-guesses {
   width: 100%;
   display: flex;
   flex-direction: row;
