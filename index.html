@@ -10,18 +10,21 @@
 </head>
 
 <body>
-    <!-- Overlays -->
-
-    <!-- /Overlays -->
+    <!-- Overlay -->
+    <div id="overlay"></div>
+    <!-- /Overlay -->
     <div class="game-container container">
+        <!-- Header -->
         <header>
             <h1 class="game-title">MASTERMIND</h1>
+            <p class="best-score">BEST SCORE: <span id="best-score">-</span></p>
             <div class="attempts-container container">
                 <h3>Attempts Left: <span id="attempts-left">10</span></h3>
             </div>
-        </header>
+        </header><!-- /Header -->
+
         <!-- Gameboard -->
-        <main id="gameboard container">
+        <main id="gameboard" class="container">
             <div id="random-numbers" class="container"></div>
             <div id="users-guesses" class="container">
                 <p class="user-guess number">-</p>
@@ -112,7 +115,10 @@
 
 
     </div>
+    <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Handlebars JS -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="js/app.js"></script>
 </body>
 

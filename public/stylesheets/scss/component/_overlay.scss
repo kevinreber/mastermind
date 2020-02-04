@@ -1,0 +1,32 @@
+#overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(77, 77, 77, .9);
+}
+
+.overlay-content {
+    &-container {
+        margin-top: 5rem;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 90%;
+        text-align: center;
+    }
+}
+
+.txt {
+    &-results {
+        color: #fff; 
+    }
+
+    &-correct {
+        text-align: start;
+    }
+}

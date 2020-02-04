@@ -2,17 +2,16 @@
 /*              Keyboard                            */
 /* ============================================= */
 
-#keyboard {
-  width: 85%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+#keyboard { 
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   margin-bottom: 1rem;
 }
 
 .keyboard {
   &-container {
-    align-self: flex-end;
+    margin: auto;
   }
 
   &-number {
@@ -23,9 +22,13 @@
     margin: .5rem;
     border-radius: 3px;
     background-color: $color-primary;
+
+    &:hover {
+      box-shadow: 0 0 10px 1px $color-golden;
+    }
   }
 
-  &-header{
+  &-header {
     font-size: 16px;
     letter-spacing: 1px;
   }

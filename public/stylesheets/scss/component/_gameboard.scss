@@ -2,6 +2,15 @@
 /*              Container                        */
 /* ============================================= */
 
+.best-score{
+  margin: 0;
+  font-size: 12px;
+}
+
+#gameboard{
+  width: 95%;
+}
+
 .game {
   &-container {
     display: flex;
@@ -11,6 +20,7 @@
   }
 
   &-title {
+    margin-bottom: 0;
     letter-spacing: 1px;
   }
 }
@@ -21,7 +31,13 @@
 }
 
 .number {
-  box-shadow: 0 0 10px 1px $color-shadow;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 10px $color-shadow;
+  transition: all .2s ease-in;
+  #gameboard &{
+    width: 64px;
+  }
 }
 
 .random-number,
@@ -38,7 +54,7 @@
 
 .random-number {
   color: $color-secondary;
-  background-color: $color-tertiary;
+  background-color: $color-golden;
 
   &-container {
     // padding: .7rem;

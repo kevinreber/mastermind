@@ -5,7 +5,7 @@
 //Global Colors
 $color-primary: #58e1c1;
 $color-secondary: #777;
-$color-tertiary: rgb(255, 206, 82);
+$color-golden: rgb(255, 206, 82);
 $color-button: #e4757a;
 
 $color-shadow: #777;
@@ -15,7 +15,7 @@ $button-colors: ("default":#51ddfc,
     "success": #63cc82,
     "error": #e4757a,
     "warning": #fd7856,
-    "info": #927bc1,);
+    "info": #927bc1);
 
 
 /* ============================================= */
@@ -23,12 +23,12 @@ $button-colors: ("default":#51ddfc,
 /* ============================================= */
 
 //Primary font-family
-$font-primary: 'Lato',
-sans-serif;
+$font-primary: 'Lato', sans-serif;
 
 /* ============================================= */
 /*               Media Queries                   */
 /* ============================================= */
 
-//Breakpoint for Large devices
-$break-lg: 768px;
+$break-sm: 480px;
+$break-md: 768px;
+$break-lg: 992px;
