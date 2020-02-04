@@ -4,16 +4,14 @@ const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('keyboard');
 const randomNumbers = document.getElementById('random-numbers');
 const keyboardNumber = document.querySelectorAll('.keyboard-number');
-//const usersGuesses = document.getElementById('users-guesses');
 const userGuess = document.querySelectorAll('.user-guess');
 const attemptsLeft = document.getElementById('attempts-left');
-//const attempts = document.querySelectorAll('.attempt');
 const tableAttempts = document.querySelectorAll('.table-attempt');
 const bestScore = document.getElementById('best-score');
 let gameData = {
-    highScore: 0,
+    bestScore: 10,
     attemptsUserHasLeft: 10,
-    attemptUserIsOn: 0, // Reference to update user history
+    attemptUserIsOn: 1, // Reference to update user history
     randomAPIResults: [], // Stores numbers from API call
     userInput: [] // Stores user's input
 }
@@ -24,18 +22,17 @@ async function startGame() {
     if (response.status === 200) {
         gameData.randomAPIResults = [...data];
         displayRandomNumbers();
-        toggleKeyboard(false); // after API call allow access to keyboard
+        toggleKeyboard(false); // after API call allow user access to keyboard
     }
 }
 
 function displayRandomNumbers() {
     let html = '';
     for (let randomNumber of gameData.randomAPIResults) {
-        html +=
-            `
-        <div class="random-number-container container">
-            <p class="random-number number">${randomNumber}</p>
-        </div>
+        html +=`
+            <div class="random-number-container container">
+                <p class="random-number number">${randomNumber}</p>
+            </div>
         `;
     }
     randomNumbers.innerHTML = html;
@@ -97,17 +94,17 @@ function displayResults(correctNumbers, correctMatches) {
     let html = `
         <div class="overlay-content-container">
         <div class="overlay-content">
-        `;
+    `;
 
     switch (true) {
         case (correctMatches === 4):
-            if (gameData.attemptUserIsOn < gameData.highScore) {
-                gameData.highScore = gameData.attemptUserIsOn;
-                localStorage.setItem('highScore', JSON.stringify(highScore)); //Update local storage
+            if (gameData.attemptUserIsOn < gameData.bestScore) {
+                gameData.bestScore = gameData.attemptUserIsOn;
+                localStorage.setItem('bestScore', JSON.stringify(gameData.bestScore)); //Update local storage
                 html += `
                     <h1 class="txt-win txt-results">NEW BEST SCORE!</h1>
-                    <h3 class="txt-win txt-results">${gameData.attemptUserIsOn} ATTEMPT(S)</h3>
-                    `;
+                    <h3 class="txt-win txt-results">${gameData.attemptUserIsOn} attempts</h3>
+                `;
 
             } else html += '<h1 class="txt-win txt-results">YOU WIN!</h1>';
             break;
@@ -116,7 +113,7 @@ function displayResults(correctNumbers, correctMatches) {
                 <h1 class="txt-results txt-results-header">YOU GUESSED</h1>
                 <h3 class="txt-correct txt-results">&#8226 ${correctNumbers}/4 correct numbers<br>
                 &#8226 ${correctMatches}/4 numbers correct location</h3>
-                `;
+            `;
             break;
         case (correctNumbers === 0 && correctMatches === 0):
             html += '<h1 class="txt-wrong txt-results">YOU GUESSED WRONG!<br>TRY AGAIN</h1>';
@@ -137,7 +134,8 @@ function displayResults(correctNumbers, correctMatches) {
 
     html += `
             </div>
-        </div>`; // Close container 
+        </div>
+        `; // Close container 
 
     overlay.innerHTML = html;
     overlay.style.display = 'block';
@@ -167,8 +165,15 @@ function updateHistory(correct, located) {
         <td class="attempt">${correct}/4</td>
         <td class="attempt">${located}/4</td>
     `
-    tableAttempts[gameData.attemptUserIsOn].innerHTML = html;
+    tableAttempts[gameData.attemptUserIsOn - 1].innerHTML = html;
     gameData.attemptUserIsOn++;
+}
+
+// CLEAR ELEMENTS 
+function clearElements(elements) {
+    for (let element of elements) {
+        element.innerText = '-';
+    }
 }
 
 function clearUserGuesses() {
@@ -181,20 +186,15 @@ function clearUserHistory() {
     clearElements(attempts);
 }
 
-function clearElements(elements) {
-    for (let element of elements) {
-        element.innerText = '-';
-    }
-}
-
 function resetGame() {
     toggleKeyboard(true); // temporarily disable keyboard
     clearUserHistory();
     clearUserGuesses();
     gameData.attemptsUserHasLeft = 11; // subtracts 1 when game restarts
-    gameData.attemptUserIsOn = 0;
+    gameData.attemptUserIsOn = 1;
     gameData.randomAPIResults = []; // clear API Results
     updateAttempts();
+    checkIfHighScoreExists();
     startGame();
 }
 
@@ -205,12 +205,11 @@ function toggleKeyboard(bool) {
 }
 
 function checkIfHighScoreExists() {
-    if (localStorage.highScore) {
-        highScore = JSON.parse(localStorage.highScore);
-        bestScore.innerText = highScore; //Update Best Score
+    if (localStorage.bestScore) {
+        gameData.bestScore = JSON.parse(localStorage.bestScore);
+        bestScore.innerText = gameData.bestScore + ' attempts'; //Update Best Score
     } else bestScore.innerText = '-';
 }
-
 
 window.onload = checkIfHighScoreExists();
 document.addEventListener('DOMContentLoaded', startGame);
