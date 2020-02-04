@@ -2,12 +2,12 @@ const query = '?num=4&min=0&max=7&col=1&base=16&format=plain';
 const url = `https://www.random.org/integers/${query}`;
 const keyboard = document.getElementById('keyboard');
 const randomNumbers = document.getElementById('random-numbers');
+const keyboardNumber = document.querySelectorAll('.keyboard-number');
 //const usersGuesses = document.getElementById('users-guesses');
 const userGuess = document.querySelectorAll('.user-guess');
 const attemptsLeft = document.getElementById('attempts-left');
 //const attempts = document.querySelectorAll('.attempt');
 const tableAttempts = document.querySelectorAll('.table-attempt');
-const firstReq = new XMLHttpRequest();
 let attemptsUserHasLeft = 10;
 let attemptUserIsOn = 0; // Reference to update user history
 let randomAPIResults = []; // Store numbers from API call
@@ -16,19 +16,14 @@ let userInput = []; // store user input
 // SOURCE
 // https://stackoverflow.com/questions/6375461/get-html-code-using-javascript-with-a-url
 
-firstReq.addEventListener('load', () => console.log('SUCCESS!'));
-firstReq.addEventListener('error', () => console.log('ERROR'));
-
-function startGame() {
-    firstReq.open('GET', url); // Make API call
-    firstReq.send();
-    firstReq.onreadystatechange = function () {
-        if (firstReq.readyState === 4) {
-            const response = firstReq.responseText.replace(/\s+/g, ''); // remove carriage return            
-            randomAPIResults = [...response];
-            displayRandomNumbers();
-        }
-    };
+async function startGame() {
+    const response = await axios.get(url);
+    const data = response.data.replace(/\s+/g, ''); // remove spaces and carriage returns
+    if (response.status === 200) {
+        randomAPIResults = [...data];
+        displayRandomNumbers();
+        toggleKeyboard(false); // after API call allow access to keyboard
+    }
 }
 
 function displayRandomNumbers() {
@@ -125,26 +120,35 @@ function updateHistory(correct, located) {
 }
 
 function clearUserGuesses() {
-    for (let guess of userGuess) {
-        guess.innerText = '-';
-    }
+    clearElements(userGuess);
     userInput = [];
 }
 
 function clearUserHistory() {
     const attempts = document.querySelectorAll('.attempt');
-    for (let attempt of attempts) {
-        attempt.innerText = '-';
+    clearElements(attempts);
+}
+
+function clearElements(elements) {
+    for (let element of elements) {
+        element.innerText = '-';
     }
 }
 
 function resetGame() {
+    toggleKeyboard(true); // temporarily disable keyboard
     clearUserHistory();
     clearUserGuesses();
     attemptsUserHasLeft = 11; // subtracts 1 when game restarts
     attemptUserIsOn = 0;
     randomAPIResults = []; // clear API Results 
     startGame();
+}
+
+function toggleKeyboard(bool) {
+    for (let key of keyboardNumber) {
+        key.disabled = bool;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', startGame);
