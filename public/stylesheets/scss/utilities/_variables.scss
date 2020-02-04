@@ -7,16 +7,7 @@ $color-primary: #58e1c1;
 $color-secondary: #777;
 $color-golden: rgb(255, 206, 82);
 $color-button: #e4757a;
-
 $color-shadow: #777;
-
-//Button Colors
-$button-colors: ("default":#51ddfc,
-    "success": #63cc82,
-    "error": #e4757a,
-    "warning": #fd7856,
-    "info": #927bc1);
-
 
 /* ============================================= */
 /*                     Font                      */
@@ -29,6 +20,7 @@ $font-primary: 'Lato', sans-serif;
 /*               Media Queries                   */
 /* ============================================= */
 
+$break-xsm: 375px;
 $break-sm: 480px;
 $break-md: 768px;
 $break-lg: 992px;

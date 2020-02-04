@@ -8,6 +8,9 @@
 /*               Media Queries                   */
 /* ============================================= */
 /* ============================================= */
+/*              Mixins                           */
+/* ============================================= */
+/* ============================================= */
 /*             Functions                         */
 /* ============================================= */
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -366,6 +369,9 @@ a {
   text-decoration: none;
 }
 
+/* ============================================= */
+/*              Overlay                          */
+/* ============================================= */
 #overlay {
   display: none;
   position: absolute;
@@ -392,71 +398,15 @@ a {
 }
 .txt-correct {
   text-align: start;
+  margin-left: 1rem;
+}
+.txt-correct-container {
+  display: flex;
+  justify-content: center;
 }
 
 /* ============================================= */
-/*              Buttons                          */
-/* ============================================= */
-.btn {
-  margin-top: 15px;
-  width: 100%;
-  color: #fff;
-  border: none;
-  padding: 10px 0;
-  text-transform: uppercase;
-  border-radius: 5px;
-}
-.btn.default {
-  background-color: #51ddfc;
-}
-.btn.default:hover {
-  background-color: #9cecfd;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-.btn.success {
-  background-color: #63cc82;
-}
-.btn.success:hover {
-  background-color: #9ddfb0;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-.btn.error {
-  background-color: #e4757a;
-}
-.btn.error:hover {
-  background-color: #f1b5b8;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-.btn.warning {
-  background-color: #fd7856;
-}
-.btn.warning:hover {
-  background-color: #feb4a2;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-.btn.info {
-  background-color: #927bc1;
-}
-.btn.info:hover {
-  background-color: #bdafd9;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-@media (min-width: 992px) {
-  .btn {
-    padding: 10px 30px;
-  }
-  .btn + .btn {
-    margin-left: 10px;
-  }
-}
-
-/* ============================================= */
-/*              Keyboard                            */
+/*              Keyboard                         */
 /* ============================================= */
 #keyboard {
   display: grid;
@@ -475,10 +425,23 @@ a {
   padding: 1rem;
   margin: 0.5rem;
   border-radius: 3px;
-  background-color: #58e1c1;
+  background-color: #fff;
+  transition: all 0.2s ease-in;
 }
 .keyboard-number:hover {
+  transform: scale(1.1);
+}
+.keyboard-number:active {
+  transform: scale(0.9);
+}
+.keyboard-number:hover {
+  color: #444;
   box-shadow: 0 0 10px 1px #ffce52;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+.keyboard-number:active {
+  background-color: #ffce52;
 }
 .keyboard-header {
   font-size: 16px;
@@ -486,14 +449,47 @@ a {
 }
 
 /* ============================================= */
+/*              Buttons                          */
+/* ============================================= */
+.btn {
+  display: block;
+  margin: 1rem auto 0 auto;
+  width: 100%;
+  max-width: 375px;
+  color: #fff;
+  border: none;
+  padding: 10px 0;
+  text-transform: uppercase;
+  border-radius: 5px;
+}
+.btn:hover {
+  transform: scale(1.1);
+}
+.btn:active {
+  transform: scale(0.9);
+}
+.btn:hover {
+  color: #444;
+  box-shadow: 0 0 10px 1px #ffce52;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  background-color: #ffce52;
+}
+
+/* ============================================= */
 /*              Container                        */
 /* ============================================= */
+br {
+  margin-bottom: 1rem;
+}
+
 .best-score {
   margin: 0;
   font-size: 12px;
 }
 
 #gameboard {
+  max-width: 375px;
   width: 95%;
 }
 
@@ -517,7 +513,6 @@ a {
   display: flex;
   justify-content: center;
   box-shadow: 0 0 10px #777;
-  transition: all 0.2s ease-in;
 }
 #gameboard .number {
   width: 64px;
@@ -539,6 +534,7 @@ a {
   color: #777;
   background-color: #ffce52;
 }
+
 #random-numbers {
   margin-bottom: 1rem;
 }
@@ -551,6 +547,9 @@ a {
   flex-wrap: wrap;
 }
 
+/* ============================================= */
+/*              Tables                           */
+/* ============================================= */
 .table {
   display: flex;
   flex-direction: column;

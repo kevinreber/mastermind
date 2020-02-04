@@ -1,5 +1,5 @@
 /* ============================================= */
-/*              Keyboard                            */
+/*              Keyboard                         */
 /* ============================================= */
 
 #keyboard { 
@@ -21,10 +21,16 @@
     padding: 1rem;
     margin: .5rem;
     border-radius: 3px;
-    background-color: $color-primary;
+    background-color: #fff;
+    transition: all .2s ease-in;
+    @include scale-element(hover, 1.1);
+    @include scale-element(active, .9);
 
     &:hover {
-      box-shadow: 0 0 10px 1px $color-golden;
+      @include hover;   
+    }
+    &:active{
+      background-color: $color-golden;
     }
   }
 

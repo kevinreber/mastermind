@@ -1,12 +1,11 @@
+/* ============================================= */
+/*              Tables                           */
+/* ============================================= */
+
 .table {
     display: flex;
     flex-direction: column;
 
-    // &-titles-container, .attempts-container{
-    //     display: flex;
-    //     flex-direction: row;
-    //     justify-content: space-evenly;
-    // }
     &-titles-container {
         margin-bottom: 8px;
     }

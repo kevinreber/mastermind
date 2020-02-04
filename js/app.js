@@ -22,14 +22,14 @@ async function startGame() {
     if (response.status === 200) {
         gameData.randomAPIResults = [...data];
         displayRandomNumbers();
-        toggleKeyboard(false); // after API call allow user access to keyboard
+        toggleKeyboardAccess(false); // after API call allow user access to keyboard
     }
 }
 
 function displayRandomNumbers() {
     let html = '';
     for (let randomNumber of gameData.randomAPIResults) {
-        html +=`
+        html += `
             <div class="random-number-container container">
                 <p class="random-number number">${randomNumber}</p>
             </div>
@@ -91,39 +91,57 @@ function checkForMatches() {
 }
 
 function displayResults(correctNumbers, correctMatches) {
+    let html = overlayHTML(correctNumbers, correctMatches); // Build Overlay
+
+    html += `
+            </div>
+        </div>
+        `; // Close overlay container 
+
+    overlay.innerHTML = html;
+    overlay.style.display = 'block';
+    closeOverlayListener();
+}
+
+function overlayHTML(numbers, matches) {
     let html = `
         <div class="overlay-content-container">
         <div class="overlay-content">
     `;
 
     switch (true) {
-        case (correctMatches === 4):
-            if (gameData.attemptUserIsOn < gameData.bestScore) {
+        case (matches === 4):
+            if (gameData.attemptUserIsOn < gameData.bestScore) { // Check for new best score
                 gameData.bestScore = gameData.attemptUserIsOn;
                 localStorage.setItem('bestScore', JSON.stringify(gameData.bestScore)); //Update local storage
                 html += `
                     <h1 class="txt-win txt-results">NEW BEST SCORE!</h1>
                     <h3 class="txt-win txt-results">${gameData.attemptUserIsOn} attempts</h3>
                 `;
-
             } else html += '<h1 class="txt-win txt-results">YOU WIN!</h1>';
             break;
-        case (correctNumbers > 0 && correctMatches < 4):
+        case (gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0):
+            html += '<h1 class="txt-wrong txt-results">YOU LOSE!</h1>';
+            break;
+        case (numbers > 0 && matches < 4):
             html += `
                 <h1 class="txt-results txt-results-header">YOU GUESSED</h1>
-                <h3 class="txt-correct txt-results">&#8226 ${correctNumbers}/4 correct numbers<br>
-                &#8226 ${correctMatches}/4 numbers correct location</h3>
+                <div class="txt-correct-container">
+                    <h3 class="txt-correct txt-results">&#8226 ${numbers}/4 Numbers That Exist<br>
+                    &#8226 ${matches}/4 Numbers Correct Location</h3>
+                </div>
             `;
             break;
-        case (correctNumbers === 0 && correctMatches === 0):
-            html += '<h1 class="txt-wrong txt-results">YOU GUESSED WRONG!<br>TRY AGAIN</h1>';
-            break;
         default:
-            html += '<h1 class="txt-wrong txt-results">YOU LOSE!</h1>';
+            html += '<h1 class="txt-wrong txt-results">YOU GUESSED WRONG!<br>TRY AGAIN</h1>';
     }
+    html += overlayHTMLButtons(matches);
+    return html;
+}
 
-    //Add buttons
-    if (correctMatches === 4 || gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0) {
+function overlayHTMLButtons(matches) { //Add buttons
+    let html = '';
+    if (matches === 4 || gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0) {
         html += '<button id="btn-win" class="btn reset">PLAY AGAIN?</button>';
     } else {
         html += `                 
@@ -131,15 +149,7 @@ function displayResults(correctNumbers, correctMatches) {
             <button id="btn-reset" class="btn reset">RESET</button>
         `
     }
-
-    html += `
-            </div>
-        </div>
-        `; // Close container 
-
-    overlay.innerHTML = html;
-    overlay.style.display = 'block';
-    closeOverlayListener();
+    return html;
 }
 
 function closeOverlayListener() {
@@ -187,7 +197,7 @@ function clearUserHistory() {
 }
 
 function resetGame() {
-    toggleKeyboard(true); // temporarily disable keyboard
+    toggleKeyboardAccess(true); // temporarily disable keyboard
     clearUserHistory();
     clearUserGuesses();
     gameData.attemptsUserHasLeft = 11; // subtracts 1 when game restarts
@@ -198,7 +208,7 @@ function resetGame() {
     startGame();
 }
 
-function toggleKeyboard(bool) {
+function toggleKeyboardAccess(bool) {
     for (let key of keyboardNumber) {
         key.disabled = bool;
     }
