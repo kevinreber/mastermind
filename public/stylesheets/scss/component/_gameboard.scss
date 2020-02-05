@@ -1,18 +1,27 @@
 /* ============================================= */
 /*              Game Board                       */
 /* ============================================= */
-br{
+* {
+  outline: none;
+}
+
+br {
   margin-bottom: 1rem;
 }
 
-.best-score{
+.header{
+  height: 120px;
+}
+
+.best-score {
   margin: 0;
   font-size: 12px;
 }
 
-#gameboard{
+#gameboard {
   max-width: $break-xsm;
   width: 95%;
+  margin: .7rem auto;
 }
 
 .game {
@@ -39,7 +48,8 @@ br{
   display: flex;
   justify-content: center;
   @include box-shadow(10px);
-  #gameboard &{
+
+  #gameboard & {
     width: 64px;
   }
 }

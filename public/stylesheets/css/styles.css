@@ -55,25 +55,26 @@
 /* ============================================= */
 /*              Timer                        */
 /* ============================================= */
+svg path {
+  stroke-width: 6;
+}
+
 .circular-chart {
   display: block;
-  margin: 10px auto;
-  max-width: 250px;
-  max-height: 250px;
+  margin: auto;
+  max-width: 50px;
+  max-height: 50px;
 }
 
 .progress-bg {
   fill: none;
   stroke: #eee;
-  stroke-width: 4;
 }
 
 .progress {
   fill: none;
   stroke: red;
-  stroke-width: 4;
-  stroke-linecap: round;
-  animation: progress 5s ease-out forwards;
+  animation: progress 5s linear;
 }
 
 @keyframes progress {
@@ -472,6 +473,8 @@ a {
   flex-direction: column;
 }
 .difficulty-btn {
+  background-color: #fff;
+  border: none;
   padding: 5px;
   cursor: pointer;
   transition: 0.2s all ease-in;
@@ -517,6 +520,9 @@ a {
 .keyboard-container {
   margin: auto;
 }
+.keyboard-header {
+  margin: 0 auto 8px auto;
+}
 .keyboard-number {
   height: 50px;
   width: 50px;
@@ -555,7 +561,6 @@ a {
   margin: 1rem auto 0 auto;
   width: 100%;
   max-width: 375px;
-  color: #fff;
   border: none;
   padding: 10px 0;
   text-transform: uppercase;
@@ -578,8 +583,16 @@ a {
 /* ============================================= */
 /*              Game Board                       */
 /* ============================================= */
+* {
+  outline: none;
+}
+
 br {
   margin-bottom: 1rem;
+}
+
+.header {
+  height: 120px;
 }
 
 .best-score {
@@ -590,6 +603,7 @@ br {
 #gameboard {
   max-width: 375px;
   width: 95%;
+  margin: 0.7rem auto;
 }
 
 .game-container {

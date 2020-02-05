@@ -49,25 +49,26 @@
 /*              Timer                        */
 /* ============================================= */
 
+svg path{
+    stroke-width: 6;
+}
+
 .circular-chart {
     display: block;
-    margin: 10px auto;
-    max-width: 250px;
-    max-height: 250px;
+    margin: auto;
+    max-width: 50px;
+    max-height: 50px;
 }
 
 .progress-bg {
     fill: none;
     stroke: #eee;
-    stroke-width: 4;
 }
 
 .progress {
     fill: none;
     stroke: red;
-    stroke-width: 4;
-    stroke-linecap: round;
-    animation: progress 5s ease-out forwards;
+    animation: progress 5s linear;
 }
 
 @keyframes progress {

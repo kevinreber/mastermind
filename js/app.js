@@ -24,7 +24,6 @@ let selectedDifficulty;
 //     }, ((seconds * 1000)/ 100)
 //   )}
 
-
 let gameData = {
     bestScore: 10,
     attemptsUserHasLeft: 10,
@@ -66,9 +65,7 @@ async function startGame() {
         const data = response.data.replace(/\s+/g, ''); // remove spaces and carriage returns
         if (response.status === 200) {
             gameData.randomAPIResults = [...data];
-            displayRandomNumbers();
-            renderKeyboard();
-            displayGameboard();
+            renderGameboard();
             toggleKeyboardAccess(false); // after API call allow user access to keyboard
         }
     } catch (e) {
@@ -77,23 +74,18 @@ async function startGame() {
     }
 }
 
-function displayGameboard() {
+function renderGameboard() {
     const sections = document.querySelectorAll('section');
+    renderRandomNumbers();
+    renderTimer();
+    renderKeyboard();
     for (let section of sections) {
         section.classList.remove('hide');
         section.classList.add('animated', 'animatedFadeInUp', 'fadeInUp');
     }
 }
 
-function renderKeyboard() {
-    let html = '';
-    for (let i = 0; i < 8; i++) {
-        html += `<button class="keyboard-number number">${i}</button>`
-    }
-    keyboard.innerHTML = html;
-}
-
-function displayRandomNumbers() {
+function renderRandomNumbers() {
     let html = '';
     for (let randomNumber of gameData.randomAPIResults) {
         html += `
@@ -103,6 +95,28 @@ function displayRandomNumbers() {
         `;
     }
     randomNumbers.innerHTML = html;
+}
+function renderKeyboard() {
+    let html = '';
+    for (let i = 0; i < 8; i++) {
+        html += `<button class="keyboard-number number">${i}</button>`
+    }
+    keyboard.innerHTML = html;
+}
+
+function renderTimer() {
+    const timer = document.getElementById('timer');
+    let html = `
+    <svg  class="circular-chart">
+        <path class="progress-bg" d="M18 2.0845
+        a 15.9155 15.9155 0 0 1 0 31.831
+        a 15.9155 15.9155 0 0 1 0 -31.831" />
+        <path class="progress" stroke-dasharray="100, 100" d="M18 2.0845
+        a 15.9155 15.9155 0 0 1 0 31.831
+        a 15.9155 15.9155 0 0 1 0 -31.831"/>
+    </svg>
+    `;
+    timer.innerHTML = html;
 }
 
 function userMakesGuess(e) {

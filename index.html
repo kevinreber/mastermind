@@ -29,7 +29,7 @@
 
     <div id="game-container" class="game-container container">
         <!-- Header -->
-        <section class="hide">
+        <section class="header hide">
             <h1 class="game-title">MASTERMIND</h1>
             <p class="best-score">BEST SCORE: <span id="best-score">-</span></p>
             <div class="attempts-container container">
@@ -112,16 +112,7 @@
         </section> <!-- /Player History -->
 
         <!-- Timer -->
-        <section class="container hide">
-            <svg viewBox="0 0 50 50" class="circular-chart">
-                <path class="progress-bg" d="M18 2.0845
-      a 15.9155 15.9155 0 0 1 0 31.831
-      a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path class="progress" stroke-dasharray="100, 100" d="M18 2.0845
-      a 15.9155 15.9155 0 0 1 0 31.831
-      a 15.9155 15.9155 0 0 1 0 -31.831" />
-            </svg>
-        </section><!-- /Timer -->
+        <section id="timer" class="container hide"></section><!-- /Timer -->
 
         <!-- Keyboard -->
         <section class="keyboard-container hide">
