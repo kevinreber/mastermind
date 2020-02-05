@@ -1,4 +1,19 @@
-const query = '?num=4&min=0&max=7&col=1&base=16&format=plain';
+const gameDifficulty = {
+    easy: {
+        keyboardMax: 7,
+        timer: 12
+    },
+    medium: {
+        keyboardMax: 7,
+        timer: 8
+    },
+    hard: {
+        keyboardMax: 11,
+        timer: 5
+    }
+}
+// const selectDifficulty = document.getElementById('')
+const query = `?num=4&min=0&max=${gameDifficulty.easy.keyboardMax}&col=1&base=16&format=plain&rnd=new`;
 const url = `https://www.random.org/integers/${query}`;
 const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('keyboard');
@@ -8,6 +23,7 @@ const userGuess = document.querySelectorAll('.user-guess');
 const attemptsLeft = document.getElementById('attempts-left');
 const tableAttempts = document.querySelectorAll('.table-attempt');
 const bestScore = document.getElementById('best-score');
+
 let gameData = {
     bestScore: 10,
     attemptsUserHasLeft: 10,
@@ -17,13 +33,36 @@ let gameData = {
 }
 
 async function startGame() {
-    const response = await axios.get(url);
-    const data = response.data.replace(/\s+/g, ''); // remove spaces and carriage returns
-    if (response.status === 200) {
-        gameData.randomAPIResults = [...data];
-        displayRandomNumbers();
-        toggleKeyboardAccess(false); // after API call allow user access to keyboard
+    try {
+        const response = await axios.get(url);
+        const data = response.data.replace(/\s+/g, ''); // remove spaces and carriage returns
+        if (response.status === 200) {
+            gameData.randomAPIResults = [...data];
+            displayRandomNumbers();
+            renderKeyboard();
+            showGame();
+            toggleKeyboardAccess(false); // after API call allow user access to keyboard
+        }
+    } catch (e) {
+        console.log(e);
+        alert("TROUBLESHOOT API");
     }
+}
+
+function showGame() {
+    const sections = document.querySelectorAll('section');
+    for (let section of sections) {
+        section.classList.remove('hide');
+        section.classList.add('animated', 'animatedFadeInUp', 'fadeInUp');
+    }
+}
+
+function renderKeyboard() {
+    let html = '';
+    for (let i = 0; i < 8; i++) {
+        html += `<button class="keyboard-number number">${i}</button>`
+    }
+    keyboard.innerHTML = html;
 }
 
 function displayRandomNumbers() {
@@ -99,6 +138,7 @@ function displayResults(correctNumbers, correctMatches) {
         `; // Close overlay container 
 
     overlay.innerHTML = html;
+    overlay.style.backgroundColor = 'rgba(77, 77, 77, .9)';
     overlay.style.display = 'block';
     closeOverlayListener();
 }

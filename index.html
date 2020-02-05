@@ -11,20 +11,34 @@
 
 <body>
     <!-- Overlay -->
-    <div id="overlay"></div>
-    <!-- /Overlay -->
-    <div class="game-container container">
+    <div id="overlay">
+        <div class="overlay-content-container">
+            <div class="overlay-content">
+                <h1 class="game-title start-screen">MASTERMIND</h1>
+                <div class="difficulty-container">
+                    <h3>SELECT YOUR DIFFICULTY</h3>
+                    <div class="difficulty-options">
+                        <button class="difficulty-txt">EASY</button>
+                        <button class="difficulty-txt">MEDIUM</button>
+                        <button class="difficulty-txt">HARD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /Overlay -->
+
+    <div id="game-container" class="game-container container">
         <!-- Header -->
-        <header>
+        <section>
             <h1 class="game-title">MASTERMIND</h1>
             <p class="best-score">BEST SCORE: <span id="best-score">-</span></p>
             <div class="attempts-container container">
                 <h3>Attempts Left: <span id="attempts-left">10</span></h3>
             </div>
-        </header><!-- /Header -->
+        </section><!-- /Header -->
 
         <!-- Gameboard -->
-        <main id="gameboard" class="container">
+        <section id="gameboard" class="container">
             <div id="random-numbers" class="container"></div>
             <div id="users-guesses" class="container">
                 <p class="user-guess number">-</p>
@@ -32,10 +46,10 @@
                 <p class="user-guess number">-</p>
                 <p class="user-guess number">-</p>
             </div>
-        </main><!-- /Gameboard -->
+        </section><!-- /Gameboard -->
 
         <!-- Player History -->
-        <div id="history" class="container">
+        <section id="history" class="container">
             <div class="table container">
                 <table>
                     <tr class="table-titles-container">
@@ -95,22 +109,13 @@
                     </tr>
                 </table>
             </div>
-        </div> <!-- /Player History -->
-        
+        </section> <!-- /Player History -->
+
         <!-- Keyboard -->
-        <div class="keyboard-container">
+        <section class="keyboard-container">
             <h3 class="keyboard-header">GUESS THE CODE ABOVE</h3>
-            <div id="keyboard" class="keys container">
-                <button class="keyboard-number number">0</button>
-                <button class="keyboard-number number">1</button>
-                <button class="keyboard-number number">2</button>
-                <button class="keyboard-number number">3</button>
-                <button class="keyboard-number number">4</button>
-                <button class="keyboard-number number">5</button>
-                <button class="keyboard-number number">6</button>
-                <button class="keyboard-number number">7</button>
-            </div>
-        </div><!-- Keyboard -->
+            <div id="keyboard" class="keys container"></div>
+        </section><!-- Keyboard -->
 
 
     </div>

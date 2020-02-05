@@ -11,8 +11,43 @@
 /*              Mixins                           */
 /* ============================================= */
 /* ============================================= */
-/*             Functions                         */
+/*              Keyframes                        */
 /* ============================================= */
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+}
+
+.animatedFadeInUp {
+  opacity: 0;
+}
+
+.fadeInUp {
+  opacity: 0;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -373,13 +408,14 @@ a {
 /*              Overlay                          */
 /* ============================================= */
 #overlay {
-  display: none;
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(77, 77, 77, 0.9);
+  background: #fff;
+  z-index: 10;
 }
 
 .overlay-content-container {
@@ -391,6 +427,23 @@ a {
   justify-content: center;
   width: 90%;
   text-align: center;
+}
+
+.start-screen {
+  font-size: 36px;
+  margin-bottom: 2rem;
+}
+
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+}
+.difficulty-text {
+  padding: 5px;
+  cursor: pointer;
+}
+.difficulty-text:hover {
+  color: #444;
 }
 
 .txt-results {
@@ -502,6 +555,7 @@ br {
 .game-title {
   margin-bottom: 0;
   letter-spacing: 1px;
+  color: #444;
 }
 
 .container {

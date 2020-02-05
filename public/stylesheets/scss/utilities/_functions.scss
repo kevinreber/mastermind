@@ -1,8 +1,0 @@
-/* ============================================= */
-/*             Functions                         */
-/* ============================================= */
-
-//This function adds a hover affect for buttons
-@function hovering($color) {
-  @return lighten($color, 15%);
-}
