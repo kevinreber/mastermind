@@ -1,19 +1,5 @@
-const gameDifficulty = {
-    easy: {
-        keyboardMax: 7,
-        timer: 12
-    },
-    medium: {
-        keyboardMax: 7,
-        timer: 8
-    },
-    hard: {
-        keyboardMax: 11,
-        timer: 5
-    }
-}
-// const selectDifficulty = document.getElementById('')
-const query = `?num=4&min=0&max=${gameDifficulty.easy.keyboardMax}&col=1&base=16&format=plain&rnd=new`;
+const maxNumber = 7;
+const query = `?num=4&min=0&max=${maxNumber}&col=1&base=16&format=plain&rnd=new`;
 const url = `https://www.random.org/integers/${query}`;
 const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('keyboard');
@@ -23,6 +9,21 @@ const userGuess = document.querySelectorAll('.user-guess');
 const attemptsLeft = document.getElementById('attempts-left');
 const tableAttempts = document.querySelectorAll('.table-attempt');
 const bestScore = document.getElementById('best-score');
+let selectedDifficulty;
+
+
+// function fillBar(seconds){
+//     const progressBar = document.querySelector('.progress');
+//     const interval = setInterval(function () {
+//       let bar = 1000;
+//       progressBar.setAttribute('stroke-dashoffset', bar);
+//       bar--;
+//       if(bar === 0){
+//         clearInterval(interval);
+//       }
+//     }, ((seconds * 1000)/ 100)
+//   )}
+
 
 let gameData = {
     bestScore: 10,
@@ -30,6 +31,33 @@ let gameData = {
     attemptUserIsOn: 1, // Reference to update user history
     randomAPIResults: [], // Stores numbers from API call
     userInput: [] // Stores user's input
+}
+
+function selectDifficulty(e) {
+    const gameDifficulty = {
+        easy: {
+            keyboardMax: 7,
+            timer: 12
+        },
+        medium: {
+            keyboardMax: 7,
+            timer: 8
+        },
+        hard: {
+            keyboardMax: 11,
+            timer: 5
+        }
+    }
+
+    if (e.target.classList.contains('difficulty-btn')) {
+        e.preventDefault();
+        const difficulty = e.target.innerText.toLowerCase();
+        selectedDifficulty = gameDifficulty[difficulty];
+        // maxNumber = gameDifficulty[difficulty].keyboardMax;
+
+        startGame();
+        overlay.style.display = 'none';
+    }
 }
 
 async function startGame() {
@@ -40,7 +68,7 @@ async function startGame() {
             gameData.randomAPIResults = [...data];
             displayRandomNumbers();
             renderKeyboard();
-            showGame();
+            displayGameboard();
             toggleKeyboardAccess(false); // after API call allow user access to keyboard
         }
     } catch (e) {
@@ -49,7 +77,7 @@ async function startGame() {
     }
 }
 
-function showGame() {
+function displayGameboard() {
     const sections = document.querySelectorAll('section');
     for (let section of sections) {
         section.classList.remove('hide');
@@ -199,9 +227,11 @@ function closeOverlayListener() {
         btn.addEventListener('click', (e) => {
             const btnClass = e.target.classList;
             if (btnClass.contains('reset')) {
+                e.preventDefault();
                 resetGame();
             }
             if (btnClass.contains('continue')) {
+                e.preventDefault();
                 clearUserGuesses();
             }
             overlay.style.display = 'none';
@@ -262,5 +292,6 @@ function checkIfHighScoreExists() {
 }
 
 window.onload = checkIfHighScoreExists();
-document.addEventListener('DOMContentLoaded', startGame);
+// document.addEventListener('DOMContentLoaded', startGame);
+overlay.addEventListener('click', selectDifficulty);
 keyboard.addEventListener('click', userMakesGuess);

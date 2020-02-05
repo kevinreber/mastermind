@@ -13,14 +13,14 @@
     <!-- Overlay -->
     <div id="overlay">
         <div class="overlay-content-container">
-            <div class="overlay-content">
+            <div class="overlay-content animated animatedFadeInUp fadeInUp">
                 <h1 class="game-title start-screen">MASTERMIND</h1>
                 <div class="difficulty-container">
                     <h3>SELECT YOUR DIFFICULTY</h3>
                     <div class="difficulty-options">
-                        <button class="difficulty-txt">EASY</button>
-                        <button class="difficulty-txt">MEDIUM</button>
-                        <button class="difficulty-txt">HARD</button>
+                        <button class="difficulty-btn">EASY</button>
+                        <button class="difficulty-btn">MEDIUM</button>
+                        <button class="difficulty-btn">HARD</button>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
 
     <div id="game-container" class="game-container container">
         <!-- Header -->
-        <section>
+        <section class="hide">
             <h1 class="game-title">MASTERMIND</h1>
             <p class="best-score">BEST SCORE: <span id="best-score">-</span></p>
             <div class="attempts-container container">
@@ -38,7 +38,7 @@
         </section><!-- /Header -->
 
         <!-- Gameboard -->
-        <section id="gameboard" class="container">
+        <section id="gameboard" class="container hide">
             <div id="random-numbers" class="container"></div>
             <div id="users-guesses" class="container">
                 <p class="user-guess number">-</p>
@@ -49,7 +49,7 @@
         </section><!-- /Gameboard -->
 
         <!-- Player History -->
-        <section id="history" class="container">
+        <section id="history" class="container hide">
             <div class="table container">
                 <table>
                     <tr class="table-titles-container">
@@ -111,8 +111,20 @@
             </div>
         </section> <!-- /Player History -->
 
+        <!-- Timer -->
+        <section class="container hide">
+            <svg viewBox="0 0 50 50" class="circular-chart">
+                <path class="progress-bg" d="M18 2.0845
+      a 15.9155 15.9155 0 0 1 0 31.831
+      a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="progress" stroke-dasharray="100, 100" d="M18 2.0845
+      a 15.9155 15.9155 0 0 1 0 31.831
+      a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+        </section><!-- /Timer -->
+
         <!-- Keyboard -->
-        <section class="keyboard-container">
+        <section class="keyboard-container hide">
             <h3 class="keyboard-header">GUESS THE CODE ABOVE</h3>
             <div id="keyboard" class="keys container"></div>
         </section><!-- Keyboard -->

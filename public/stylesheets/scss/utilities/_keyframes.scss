@@ -2,10 +2,14 @@
 /*              Keyframes                        */
 /* ============================================= */
 
+.hide {
+    opacity: 0;
+}
+
 .animated {
-    animation-duration: 1s;
+    animation-duration: .8s;
     animation-fill-mode: both;
-    -webkit-animation-duration: 1s;
+    -webkit-animation-duration: .8s;
     -webkit-animation-fill-mode: both
 }
 
@@ -21,22 +25,53 @@
 
 @keyframes fadeInUp {
     from {
-        transform: translate3d(0,40px,0)
+        transform: translate3d(0, 40px, 0)
     }
 
     to {
-        transform: translate3d(0,0,0);
+        transform: translate3d(0, 0, 0);
         opacity: 1
     }
 }
 
 @-webkit-keyframes fadeInUp {
     from {
-        transform: translate3d(0,40px,0)
+        transform: translate3d(0, 40px, 0)
     }
 
     to {
-        transform: translate3d(0,0,0);
+        transform: translate3d(0, 0, 0);
         opacity: 1
+    }
+}
+
+/* ============================================= */
+/*              Timer                        */
+/* ============================================= */
+
+.circular-chart {
+    display: block;
+    margin: 10px auto;
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.progress-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 4;
+}
+
+.progress {
+    fill: none;
+    stroke: red;
+    stroke-width: 4;
+    stroke-linecap: round;
+    animation: progress 5s ease-out forwards;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
     }
 }
