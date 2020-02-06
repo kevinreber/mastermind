@@ -1,31 +1,24 @@
-const maxNumber = 7;
-const query = `?num=4&min=0&max=${maxNumber}&col=1&base=16&format=plain&rnd=new`;
-const url = `https://www.random.org/integers/${query}`;
 const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('keyboard');
-const randomNumbers = document.getElementById('random-numbers');
-const keyboardNumber = document.querySelectorAll('.keyboard-number');
 const userGuess = document.querySelectorAll('.user-guess');
-const attemptsLeft = document.getElementById('attempts-left');
-const tableAttempts = document.querySelectorAll('.table-attempt');
-const bestScore = document.getElementById('best-score');
+let gameOver = false;
+let lockBoard = false;
 let selectedDifficulty;
 
-
-// function fillBar(seconds){
-//     const progressBar = document.querySelector('.progress');
-//     const interval = setInterval(function () {
-//       let bar = 1000;
-//       progressBar.setAttribute('stroke-dashoffset', bar);
-//       bar--;
-//       if(bar === 0){
-//         clearInterval(interval);
-//       }
-//     }, ((seconds * 1000)/ 100)
-//   )}
+//TO DOs
+// -add flip to numbers
+// -setTimeout on overlay screen to see results with timer
+// -display result pages differently
+// -add sound?
+// -debug firefox and safari
+// -generate random number as fallback if API call fails
+// -try different way to access API
+// -OOP
+// -Handlebars or Ember
+// -add instructions
 
 let gameData = {
-    bestScore: 10,
+    bestScore: 10, //lowest score possible
     attemptsUserHasLeft: 10,
     attemptUserIsOn: 1, // Reference to update user history
     randomAPIResults: [], // Stores numbers from API call
@@ -36,14 +29,14 @@ function selectDifficulty(e) {
     const gameDifficulty = {
         easy: {
             keyboardMax: 7,
-            timer: 12
+            timer: 10
         },
         medium: {
             keyboardMax: 7,
             timer: 8
         },
         hard: {
-            keyboardMax: 11,
+            keyboardMax: 9,
             timer: 5
         }
     }
@@ -52,7 +45,6 @@ function selectDifficulty(e) {
         e.preventDefault();
         const difficulty = e.target.innerText.toLowerCase();
         selectedDifficulty = gameDifficulty[difficulty];
-        // maxNumber = gameDifficulty[difficulty].keyboardMax;
 
         startGame();
         overlay.style.display = 'none';
@@ -60,32 +52,36 @@ function selectDifficulty(e) {
 }
 
 async function startGame() {
+    const maxNumber = selectedDifficulty.keyboardMax;
+    const query = `?num=4&min=0&max=${maxNumber}&col=1&base=16&format=plain&rnd=new`;
+    const url = `https://www.random.org/integers/${query}`;
+    gameOver = false;
+    lockBoard = false;
+
     try {
         const response = await axios.get(url);
         const data = response.data.replace(/\s+/g, ''); // remove spaces and carriage returns
         if (response.status === 200) {
             gameData.randomAPIResults = [...data];
-            renderGameboard();
-            toggleKeyboardAccess(false); // after API call allow user access to keyboard
         }
     } catch (e) {
         console.log(e);
         alert("TROUBLESHOOT API");
     }
+    checkIfHighScoreExists();
+    renderGameBoard();
+    startTimer(selectedDifficulty.timer);
 }
 
-function renderGameboard() {
-    const sections = document.querySelectorAll('section');
+function renderGameBoard() {
     renderRandomNumbers();
-    renderTimer();
     renderKeyboard();
-    for (let section of sections) {
-        section.classList.remove('hide');
-        section.classList.add('animated', 'animatedFadeInUp', 'fadeInUp');
-    }
+    fadeSections('in');
+    toggleKeyboardAccess(false); // after API call allow user access to keyboard
 }
 
 function renderRandomNumbers() {
+    const randomNumbers = document.getElementById('random-numbers');
     let html = '';
     for (let randomNumber of gameData.randomAPIResults) {
         html += `
@@ -96,27 +92,64 @@ function renderRandomNumbers() {
     }
     randomNumbers.innerHTML = html;
 }
+
 function renderKeyboard() {
     let html = '';
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i <= selectedDifficulty.keyboardMax; i++) {
         html += `<button class="keyboard-number number">${i}</button>`
     }
     keyboard.innerHTML = html;
+
+    if (selectedDifficulty.keyboardMax === 9) { // Adjust keyboard size based off difficulty
+        keyboard.style.gridTemplateColumns = 'repeat(5, 1fr)';
+    } else {
+        keyboard.style.gridTemplateColumns = 'repeat(4, 1fr)';
+    }
 }
 
 function renderTimer() {
     const timer = document.getElementById('timer');
     let html = `
-    <svg  class="circular-chart">
-        <path class="progress-bg" d="M18 2.0845
-        a 15.9155 15.9155 0 0 1 0 31.831
-        a 15.9155 15.9155 0 0 1 0 -31.831" />
-        <path class="progress" stroke-dasharray="100, 100" d="M18 2.0845
-        a 15.9155 15.9155 0 0 1 0 31.831
-        a 15.9155 15.9155 0 0 1 0 -31.831"/>
-    </svg>
+    <div class="timer-container">
+        <svg viewBox="0 0 75 75" class="progress">
+            <path class="progress-bg" d="M18 2.0845
+            a 15.9155 15.9155 0 0 1 0 31.831
+            a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path class="progress-bar" stroke-dasharray="100, 100" d="M18 2.0845
+            a 15.9155 15.9155 0 0 1 0 31.831
+            a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+    </div>
     `;
     timer.innerHTML = html;
+}
+
+function startTimer(seconds) {
+    renderTimer();
+    const progressBar = document.querySelector('.progress-bar');
+    const interval = setInterval(function () {
+        progressBar.style.animation = `progress ${seconds}s linear`;
+        clearInterval(interval);
+    }, seconds);
+
+    const timer = setTimeout(checkAnswers, seconds * 1000);
+    if (!gameOver || !lockBoard) clearTimeout(timer); // Prevent timer from calling checkAnswers
+}
+
+function fadeSections(fade) { // fade in/out sections
+    const sections = document.querySelectorAll('section');
+    if (fade === 'in') {
+        for (let section of sections) {
+            section.classList.remove('hide');
+            section.classList.add('animated', 'animatedFadeInUp', 'fadeInUp');
+        }
+    }
+    if (fade === 'out') {
+        for (let section of sections) {
+            section.classList.add('hide');
+            section.classList.remove('animated', 'animatedFadeInUp', 'fadeInUp');
+        }
+    }
 }
 
 function userMakesGuess(e) {
@@ -139,14 +172,25 @@ function displayGuessMade() {
 }
 
 function checkAnswers() {
+    lockBoard = true;
+    if (gameData.userInput !== 4) { // If user runs out of time store a '-'        
+        for (let i = 0; i < 4; i++) {
+            if (!gameData.userInput[i]) {
+                gameData.userInput[i] = ' x ';
+                console.log('adding -');
+            }
+        }
+    }
+
     const correctNumbers = checkIfNumberExists(); // The player had guess a correct number
     const correctMatches = checkForMatches(); // The player had guessed a correct number and its correct location
 
-    displayResults(correctNumbers, correctMatches);
+    renderResults(correctNumbers, correctMatches);
     updateHistory(correctNumbers, correctMatches);
 }
 
 function updateAttempts() { // updates attempts left after 4 guesses have been made
+    const attemptsLeft = document.getElementById('attempts-left');
     gameData.attemptsUserHasLeft--;
     attemptsLeft.innerText = gameData.attemptsUserHasLeft;
 }
@@ -171,8 +215,8 @@ function checkForMatches() {
     return matches;
 }
 
-function displayResults(correctNumbers, correctMatches) {
-    let html = overlayHTML(correctNumbers, correctMatches); // Build Overlay
+function renderResults(correctNumbers, correctMatches) {
+    let html = overlayHTMLResults(correctNumbers, correctMatches); // Build Overlay
 
     html += `
             </div>
@@ -185,7 +229,7 @@ function displayResults(correctNumbers, correctMatches) {
     closeOverlayListener();
 }
 
-function overlayHTML(numbers, matches) {
+function overlayHTMLResults(numbers, matches) {
     let html = `
         <div class="overlay-content-container">
         <div class="overlay-content">
@@ -193,6 +237,7 @@ function overlayHTML(numbers, matches) {
 
     switch (true) {
         case (matches === 4):
+            gameOver = true;
             if (gameData.attemptUserIsOn < gameData.bestScore) { // Check for new best score
                 gameData.bestScore = gameData.attemptUserIsOn;
                 localStorage.setItem('bestScore', JSON.stringify(gameData.bestScore)); //Update local storage
@@ -203,6 +248,7 @@ function overlayHTML(numbers, matches) {
             } else html += '<h1 class="txt-win txt-results">YOU WIN!</h1>';
             break;
         case (gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0):
+            gameOver = true;
             html += '<h1 class="txt-wrong txt-results">YOU LOSE!</h1>';
             break;
         case (numbers > 0 && matches < 4):
@@ -245,15 +291,19 @@ function closeOverlayListener() {
                 resetGame();
             }
             if (btnClass.contains('continue')) {
+                lockBoard = false;
                 e.preventDefault();
                 clearUserGuesses();
+                overlay.style.display = 'none';
+                // setTimeout(startTimer, 3000);
+                startTimer(selectedDifficulty.timer);
             }
-            overlay.style.display = 'none';
         });
     }
 }
 
 function updateHistory(correct, located) {
+    const tableAttempts = document.querySelectorAll('.table-attempt');
     let html = `
         <td class="attempt">${gameData.userInput}</td>
         <td class="attempt">${correct}/4</td>
@@ -282,30 +332,56 @@ function clearUserHistory() {
 
 function resetGame() {
     toggleKeyboardAccess(true); // temporarily disable keyboard
+    fadeSections('out');
     clearUserHistory();
     clearUserGuesses();
     gameData.attemptsUserHasLeft = 11; // subtracts 1 when game restarts
     gameData.attemptUserIsOn = 1;
     gameData.randomAPIResults = []; // clear API Results
     updateAttempts();
-    checkIfHighScoreExists();
-    startGame();
+    renderHomeScreen();
 }
 
 function toggleKeyboardAccess(bool) {
+    const keyboardNumber = document.querySelectorAll('.keyboard-number');
     for (let key of keyboardNumber) {
         key.disabled = bool;
     }
 }
 
 function checkIfHighScoreExists() {
+    const bestScore = document.getElementById('best-score');
     if (localStorage.bestScore) {
         gameData.bestScore = JSON.parse(localStorage.bestScore);
         bestScore.innerText = gameData.bestScore + ' attempts'; //Update Best Score
     } else bestScore.innerText = '-';
 }
 
-window.onload = checkIfHighScoreExists();
+function renderHomeScreen() {
+    lockBoard = true;
+    overlay.style.backgroundColor = '#fff';
+    //change opacity
+
+    let html = `
+        <div id="home-screen" class="overlay-content-container">
+            <div class="overlay-content animated animatedFadeInUp fadeInUp">
+                <h1 class="game-title start-screen">MASTERMIND</h1>
+                <div class="difficulty-container">
+                    <h3>SELECT YOUR DIFFICULTY</h3>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn">EASY</button>
+                        <button class="difficulty-btn">MEDIUM</button>
+                        <button class="difficulty-btn">HARD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    overlay.innerHTML = html;
+}
+
+window.onload = renderHomeScreen();
 // document.addEventListener('DOMContentLoaded', startGame);
 overlay.addEventListener('click', selectDifficulty);
 keyboard.addEventListener('click', userMakesGuess);

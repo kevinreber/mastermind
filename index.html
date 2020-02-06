@@ -6,26 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mastermind Game</title>
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="public/stylesheets/css/styles.css">
 </head>
 
 <body>
     <!-- Overlay -->
-    <div id="overlay">
-        <div class="overlay-content-container">
-            <div class="overlay-content animated animatedFadeInUp fadeInUp">
-                <h1 class="game-title start-screen">MASTERMIND</h1>
-                <div class="difficulty-container">
-                    <h3>SELECT YOUR DIFFICULTY</h3>
-                    <div class="difficulty-options">
-                        <button class="difficulty-btn">EASY</button>
-                        <button class="difficulty-btn">MEDIUM</button>
-                        <button class="difficulty-btn">HARD</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!-- /Overlay -->
+    <div id="overlay"></div><!-- /Overlay -->
 
     <div id="game-container" class="game-container container">
         <!-- Header -->
@@ -112,7 +100,9 @@
         </section> <!-- /Player History -->
 
         <!-- Timer -->
-        <section id="timer" class="container hide"></section><!-- /Timer -->
+        <section id="timer" class="container hide">
+
+        </section><!-- /Timer -->
 
         <!-- Keyboard -->
         <section class="keyboard-container hide">

@@ -2,7 +2,7 @@
 /*              Keyboard                         */
 /* ============================================= */
 
-#keyboard { 
+#keyboard {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(4, 1fr);
@@ -13,9 +13,10 @@
   &-container {
     margin: auto;
   }
-&-header{
-  margin: 0 auto 8px auto;
-}
+
+  &-header {
+    margin: 0 auto 8px auto;
+  }
 
   &-number {
     height: 50px;
@@ -30,9 +31,10 @@
     @include scale-element(active, .9);
 
     &:hover {
-      @include hover;   
+      @include hover;
     }
-    &:active{
+
+    &:active {
       background-color: $color-golden;
     }
   }

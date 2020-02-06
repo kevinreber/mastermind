@@ -49,26 +49,33 @@
 /*              Timer                        */
 /* ============================================= */
 
-svg path{
-    stroke-width: 6;
+svg path {
+    stroke-width: 10;
+    transform: translate(20px, 5px);
 }
 
-.circular-chart {
+#timer {
+    margin: 0 auto 1rem auto;
+}
+.timer-container{
+    height: 30px;
+}
+.progress {
     display: block;
     margin: auto;
-    max-width: 50px;
-    max-height: 50px;
-}
+    width: 4.5rem;
+    height: 4.5rem;
 
-.progress-bg {
-    fill: none;
-    stroke: #eee;
-}
+    &-bg {
+        fill: none;
+        stroke: lighten($color-shadow, 40%);
+    }
 
-.progress {
-    fill: none;
-    stroke: red;
-    animation: progress 5s linear;
+    &-bar {
+        fill: none;
+        stroke: $color-progress;
+        animation: progress 3s linear;
+    }
 }
 
 @keyframes progress {
