@@ -3,16 +3,16 @@ const keyboard = document.getElementById('keyboard');
 const userGuess = document.querySelectorAll('.user-guess');
 let gameOver = false;
 let lockBoard = false;
+let timer;
 let selectedDifficulty;
 
 //TO DOs
-// -edit "easy" mode layout
 // -add flip to numbers
+// -generate random number as fallback if API call fails
 // -setTimeout on overlay screen to see results with timer
 // -display result pages differently
 // -add sound?
 // -debug firefox and safari
-// -generate random number as fallback if API call fails
 // -try different way to access API
 // -OOP
 // -Handlebars or Ember
@@ -101,14 +101,18 @@ function renderKeyboard() {
     }
     keyboard.innerHTML = html;
 
-    if (selectedDifficulty.keyboardMax === 9) { // Adjust keyboard size based off difficulty
-        keyboard.style.gridTemplateColumns = 'repeat(5, 1fr)';
-    } else {
-        keyboard.style.gridTemplateColumns = 'repeat(4, 1fr)';
+    switch (true) { // Adjust keyboard size based off difficulty
+        case (selectedDifficulty.keyboardMax === 9):    // Hard
+            keyboard.style.gridTemplateColumns = 'repeat(5, 1fr)';  
+            break;
+        case (selectedDifficulty.keyboardMax === 7):    // Medium
+            keyboard.style.gridTemplateColumns = 'repeat(4, 1fr)';  
+            break;
+        default:
+            keyboard.style.gridTemplateColumns = 'repeat(3, 1fr)'; // Easy
     }
 }
 
-let timer;
 function startTimerBar(seconds) {
     renderTimer();
     const timerBar = document.querySelector('.progress-bar');
@@ -117,22 +121,10 @@ function startTimerBar(seconds) {
         clearTimeout(startTimerBar);
     }, seconds);
 
-    // if (gameOver || lockBoard) clearTimeout(timer); // Prevent timer from calling checkAnswers
-
-    // const timer = setTimeout(checkAnswers, seconds * 1000);
-
-   startTimer(seconds);
-    //if gameover or lockboard is true checkAnswers isn't called
-    //if gameover or lockboard resets to false while timeout is running
-        //checkanswers still gets called
-
-    // if (gameOver || lockBoard) {
-    //     clearTimeout(timer);
-    // }
-    // timer = 0;
+    startTimer(seconds);
 }
 
-function startTimer(seconds){
+function startTimer(seconds) {
     timer = setTimeout(() => {
         if (gameOver || lockBoard) {
             clearTimeout(timer);
@@ -201,7 +193,6 @@ function checkAnswers() {
         for (let i = 0; i < 4; i++) {
             if (!gameData.userInput[i]) {
                 gameData.userInput[i] = ' x ';
-                console.log('adding -');
             }
         }
     }
