@@ -71,7 +71,7 @@ async function startGame() {
     }
     checkIfHighScoreExists();
     renderGameBoard();
-    startTimer(selectedDifficulty.timer);
+    startTimerBar(selectedDifficulty.timer);
 }
 
 function renderGameBoard() {
@@ -108,6 +108,41 @@ function renderKeyboard() {
     }
 }
 
+let timer;
+function startTimerBar(seconds) {
+    renderTimer();
+    const timerBar = document.querySelector('.progress-bar');
+    const startTimerBar = setTimeout(function () {
+        timerBar.style.animation = `progress ${seconds}s linear`;
+        clearTimeout(startTimerBar);
+    }, seconds);
+
+    // if (gameOver || lockBoard) clearTimeout(timer); // Prevent timer from calling checkAnswers
+
+    // const timer = setTimeout(checkAnswers, seconds * 1000);
+
+   startTimer(seconds);
+    //if gameover or lockboard is true checkAnswers isn't called
+    //if gameover or lockboard resets to false while timeout is running
+        //checkanswers still gets called
+
+    // if (gameOver || lockBoard) {
+    //     clearTimeout(timer);
+    // }
+    // timer = 0;
+}
+
+function startTimer(seconds){
+    timer = setTimeout(() => {
+        if (gameOver || lockBoard) {
+            clearTimeout(timer);
+            return;
+        } else {
+            checkAnswers();
+        }
+    }, seconds * 1000);
+}
+
 function renderTimer() {
     const timer = document.getElementById('timer');
     let html = `
@@ -123,18 +158,6 @@ function renderTimer() {
     </div>
     `;
     timer.innerHTML = html;
-}
-
-function startTimer(seconds) {
-    renderTimer();
-    const progressBar = document.querySelector('.progress-bar');
-    const interval = setInterval(function () {
-        progressBar.style.animation = `progress ${seconds}s linear`;
-        clearInterval(interval);
-    }, seconds);
-
-    const timer = setTimeout(checkAnswers, seconds * 1000);
-    if (!gameOver || !lockBoard) clearTimeout(timer); // Prevent timer from calling checkAnswers
 }
 
 function fadeSections(fade) { // fade in/out sections
@@ -160,7 +183,6 @@ function userMakesGuess(e) {
         displayGuessMade();
     }
     if (gameData.userInput.length === 4) {
-        updateAttempts();
         checkAnswers();
     }
 }
@@ -174,6 +196,7 @@ function displayGuessMade() {
 
 function checkAnswers() {
     lockBoard = true;
+    clearInterval(timer);
     if (gameData.userInput !== 4) { // If user runs out of time store a '-'        
         for (let i = 0; i < 4; i++) {
             if (!gameData.userInput[i]) {
@@ -186,6 +209,7 @@ function checkAnswers() {
     const correctNumbers = checkIfNumberExists(); // The player had guess a correct number
     const correctMatches = checkForMatches(); // The player had guessed a correct number and its correct location
 
+    updateAttempts();
     renderResults(correctNumbers, correctMatches);
     updateHistory(correctNumbers, correctMatches);
 }
@@ -275,7 +299,7 @@ function overlayHTMLButtons(matches) { //Add buttons
     } else {
         html += `                 
             <button id="btn-continue" class="btn continue">CONTINUE</button>
-            <button id="btn-reset" class="btn reset">RESET</button>
+            <button id="btn-reset" class="btn reset">RESTART</button>
         `
     }
     return html;
@@ -297,7 +321,7 @@ function closeOverlayListener() {
                 clearUserGuesses();
                 overlay.style.display = 'none';
                 // setTimeout(startTimer, 3000);
-                startTimer(selectedDifficulty.timer);
+                startTimerBar(selectedDifficulty.timer);
             }
         });
     }
