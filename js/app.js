@@ -6,6 +6,7 @@ let lockBoard = false;
 let selectedDifficulty;
 
 //TO DOs
+// -edit "easy" mode layout
 // -add flip to numbers
 // -setTimeout on overlay screen to see results with timer
 // -display result pages differently
@@ -28,12 +29,12 @@ let gameData = {
 function selectDifficulty(e) {
     const gameDifficulty = {
         easy: {
-            keyboardMax: 7,
+            keyboardMax: 5,
             timer: 10
         },
         medium: {
             keyboardMax: 7,
-            timer: 8
+            timer: 7
         },
         hard: {
             keyboardMax: 9,
