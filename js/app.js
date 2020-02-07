@@ -129,7 +129,9 @@ function renderKeyboard() {
 
 //Starts animation of timer bar
 function startTimerBar(seconds) {
-    renderTimer();
+    const timer = document.getElementById('timer');
+    renderTimer(timer);
+
     const timerBar = document.querySelector('.progress-bar');
     const startTimerBar = setTimeout(function () {
         timerBar.style.animation = `progress ${seconds}s linear`;
@@ -142,9 +144,8 @@ function startTimerBar(seconds) {
 //Starts timer for player's attempt
 function startTimer(seconds) {
     timer = setTimeout(() => {
-        if (gameOver || lockBoard) {
+        if (lockBoard || gameOver) { //If player makes attempt or game is over
             clearTimeout(timer);
-            return;
         } else {
             checkAnswers(); //If timer runs out checkAnswers
         }
@@ -152,8 +153,7 @@ function startTimer(seconds) {
 }
 
 //Displays timer
-function renderTimer() {
-    const timer = document.getElementById('timer');
+function renderTimer(el) {
     let html = `
     <div class="timer-container">
         <svg viewBox="0 0 75 75" class="progress">
@@ -166,7 +166,7 @@ function renderTimer() {
         </svg>
     </div>
     `;
-    timer.innerHTML = html;
+    el.innerHTML = html;
 }
 
 // fade in/out sections
@@ -291,11 +291,15 @@ function overlayHTMLResults(numbers, matches) {
                 `;
             } else html += '<h1 class="txt-win txt-results">YOU WIN!</h1>';
             overlay.style.backgroundColor = 'rgba(159, 230, 159, .9)';
+            overlay.classList.add('overlay-game-over');
+            overlay.classList.remove('overlay-default');
             break;
         case (gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0): // If player has lost game
             gameOver = true;
             html += '<h1 class="txt-lose txt-results">YOU LOSE!</h1>';
             overlay.style.backgroundColor = 'rgba(228, 117, 122, .9)';
+            overlay.classList.add('overlay-game-over');
+            overlay.classList.remove('overlay-default');
             break;
         case (numbers > 0 && matches < 4): // Player has guessed correct numbers
             html += `
@@ -311,16 +315,16 @@ function overlayHTMLResults(numbers, matches) {
             html += '<h1 class="txt-wrong txt-results">YOU GUESSED WRONG!<br>TRY AGAIN</h1>';
             overlay.style.backgroundColor = 'rgba(77, 77, 77, .9)';
     }
-    html += overlayHTMLButtons(matches);
+    html += overlayHTMLButtons();
     return html;
 }
 
 //Adds buttons to overlay
-function overlayHTMLButtons(matches) {
+function overlayHTMLButtons() {
     let html = '';
     if (gameOver) { //Checks if game is over
-        html += '<button id="btn-win" class="btn reset">PLAY AGAIN?</button>';
-    } else {    //Continues game
+        html += '<button id="btn-game-over" class="btn reset">PLAY AGAIN?</button>';
+    } else { //Continues game
         html += `                 
             <button id="btn-continue" class="btn continue">CONTINUE</button>
             <button id="btn-reset" class="btn reset">RESTART</button>
@@ -337,11 +341,11 @@ function closeOverlayListener() {
 function closeOverlayHandle(e) {
     const classList = e.target.classList;
 
-    if (classList.contains('reset')) { //Reset game button
+    if (classList.contains('reset') || classList.contains('overlay-game-over')) { //Reset game button
         e.preventDefault();
         resetGame();
     }
-    if (classList.contains('continue') || classList.contains('overlay')) { //Continue game if player selects button or clicks on overlay      
+    if (classList.contains('continue') || classList.contains('overlay-default')) { //Continue game if player selects button or clicks on overlay      
         lockBoard = false;
         e.preventDefault();
         clearUserGuesses();
