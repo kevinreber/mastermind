@@ -7,6 +7,7 @@ let timer;
 let selectedDifficulty;
 
 //TO DOs
+// -localStorage store scores for different difficulties
 // -setTimeout for numbers to finish then display screen
 // -setTimeout on overlay screen to see results with timer
 // -add sound?
@@ -331,21 +332,26 @@ function closeOverlayListener() {
 
 function closeOverlayHandle(e) {
     const btnClass = e.target.classList;
-    if (btnClass.contains('reset')) {
+    if (btnClass.contains('reset')) {   // Reset game button
         e.preventDefault();
         resetGame();
     }
-    if (btnClass.contains('continue')) {
+    if (btnClass.contains('continue')) {    // Continue game button
         lockBoard = false;
         e.preventDefault();
         clearUserGuesses();
         overlay.style.display = 'none';
         startTimerBar(selectedDifficulty.timer);
     }
+    resetUsersGuessCards(); // Remove animation from users guess cards
+
+    gameData.guessUserIsOn = 1; // Reset guessUserIsOn
+}
+
+function resetUsersGuessCards(){ // Remove animation from users guess cards
     for (let guess of userGuess) {
-        guess.classList.remove('grow'); // Remove animation from cards
+        guess.classList.remove('grow'); 
     }
-    gameData.guessUserIsOn = 1;
 }
 
 function updateHistory(correct, located) {
@@ -359,7 +365,7 @@ function updateHistory(correct, located) {
     gameData.attemptUserIsOn++;
 }
 
-// CLEAR ELEMENTS 
+// CLEAR GAME ELEMENTS --------
 function clearElements(elements) {
     for (let element of elements) {
         element.innerText = '-';
@@ -375,17 +381,18 @@ function clearUserHistory() {
     const attempts = document.querySelectorAll('.attempt');
     clearElements(attempts);
 }
+//----------------------------
 
 function resetGame() {
     toggleKeyboardAccess(true); // temporarily disable keyboard
-    fadeSections('out');
-    clearUserHistory();
-    clearUserGuesses();
-    gameData.attemptsUserHasLeft = 11; // subtracts 1 when game restarts
-    gameData.attemptUserIsOn = 1;
+    fadeSections('out');    // Game fades out back to home screen
+    clearUserHistory();     // Resets user history on screen
+    clearUserGuesses(); // Resets users guesses on screen
+    gameData.attemptsUserHasLeft = 11; // Reset attempts user has left
+    gameData.attemptUserIsOn = 1;   // Reset attempts
     gameData.randomAPIResults = []; // clear API Results
-    updateAttempts();
-    renderHomeScreen();
+    updateAttempts();   // Resets attempts displayed on screen
+    renderHomeScreen(); //Displays home screen
 }
 
 function toggleKeyboardAccess(bool) {
@@ -397,10 +404,10 @@ function toggleKeyboardAccess(bool) {
 
 function checkIfHighScoreExists() {
     const bestScore = document.getElementById('best-score');
-    if (localStorage.bestScore) {
+    if (localStorage.bestScore) {   // If localStorage.bestScore exists update Best Score displayed
         gameData.bestScore = JSON.parse(localStorage.bestScore);
-        bestScore.innerText = gameData.bestScore + ' attempts'; //Update Best Score
-    } else bestScore.innerText = '-';
+        bestScore.innerText = gameData.bestScore + ' attempts'; 
+    } else bestScore.innerText = '-'; // else display no score
 }
 
 function renderHomeScreen() {

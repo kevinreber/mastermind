@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mastermind Game</title>
-    <!-- Normalize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"><!-- Normalize CSS -->
     <link rel="stylesheet" href="public/stylesheets/css/styles.css">
 </head>
 
@@ -19,7 +18,7 @@
         <!-- Header -->
         <section class="header hide">
             <h1 class="game-title">MASTERMIND</h1>
-            <p class="best-score">BEST SCORE: <span id="best-score">-</span></p>
+            <p class="best-score">BEST SCORE: <span id="best-score"></span></p>
             <div class="attempts-container container">
                 <h3>Attempts Left: <span id="attempts-left">10</span></h3>
             </div>
@@ -101,7 +100,6 @@
 
         <!-- Timer -->
         <section id="timer" class="container hide">
-
         </section><!-- /Timer -->
 
         <!-- Keyboard -->
@@ -112,10 +110,9 @@
 
 
     </div>
-    <!-- Axios -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- Handlebars JS -->
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script><!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script><!-- Handlebars JS -->
     <script src="js/app.js"></script>
 </body>
 
