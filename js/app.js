@@ -1,14 +1,13 @@
 const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('keyboard');
 const userGuess = document.querySelectorAll('.user-guess');
-let gameOver = false;
-let lockBoard = false;
-let timer;
-let selectedDifficulty;
+let gameOver, lockBoard; //Boolean values
+let timer;  //Timer that calls checkAnswers if guess time expires
+let resultsTimer;    //Timer for player to view result screen
+let selectedDifficulty; //Stores Player Selected Difficulty
 
 //TO DOs
 // -localStorage store scores for different difficulties
-// -setTimeout on overlay screen to see results with timer
 // -add sound?
 // -debug firefox and safari
 // -try different way to access API
@@ -129,8 +128,8 @@ function renderKeyboard() {
 
 //Starts animation of timer bar
 function startTimerBar(seconds) {
-    const timer = document.getElementById('timer');
-    renderTimer(timer);
+    const timerContainer = document.getElementById('timer');
+    renderTimer(timerContainer);
 
     const timerBar = document.querySelector('.progress-bar');
     const startTimerBar = setTimeout(function () {
@@ -144,7 +143,7 @@ function startTimerBar(seconds) {
 //Starts timer for player's attempt
 function startTimer(seconds) {
     timer = setTimeout(() => {
-        if (lockBoard || gameOver) { //If player makes attempt or game is over
+        if (lockBoard || gameOver) { //If player makes attempt or game is over clearTimeout
             clearTimeout(timer);
         } else {
             checkAnswers(); //If timer runs out checkAnswers
@@ -169,7 +168,7 @@ function renderTimer(el) {
     el.innerHTML = html;
 }
 
-// fade in/out sections
+// fade in/out page sections
 function fadeSections(fade) {
     const sections = document.querySelectorAll('section');
     if (fade === 'in') {
@@ -212,7 +211,7 @@ function displayGuessMade() {
 function checkAnswers() {
     lockBoard = true;
     clearInterval(timer); //clearInterval of timer if checkAnswers is called before time expires
-    if (gameData.userInput !== 4) { //If user runs out of time store a 'x'        
+    if (gameData.userInput !== 4) { //If user runs out of time store a ' x '        
         for (let i = 0; i < 4; i++) {
             if (!gameData.userInput[i]) {
                 gameData.userInput[i] = ' x ';
@@ -271,6 +270,13 @@ function renderResults(correctNumbers, correctMatches) {
     overlay.innerHTML = html;
     overlay.style.display = 'block';
     closeOverlayListener(); //Event listener when player closes overlay
+    resultsTimer = setTimeout(() => {   //Timer for player to view result screen
+        if (!lockBoard && gameOver) {
+            clearTimeout(resultsTimer);
+        } else {
+            continueGame();
+        }
+    }, 3000);
 }
 
 function overlayHTMLResults(numbers, matches) {
@@ -340,18 +346,28 @@ function closeOverlayListener() {
 //Handles overlay target
 function closeOverlayHandle(e) {
     const classList = e.target.classList;
+    e.preventDefault();
 
     if (classList.contains('reset') || classList.contains('overlay-game-over')) { //Reset game button
-        e.preventDefault();
+        clearTimeout(resultsTimer);
         resetGame();
+        resetGuesses();
     }
     if (classList.contains('continue') || classList.contains('overlay-default')) { //Continue game if player selects button or clicks on overlay      
-        lockBoard = false;
-        e.preventDefault();
-        clearUserGuesses();
-        overlay.style.display = 'none'; //Closes overlay and continues game
-        startTimerBar(selectedDifficulty.timer); //Reset timer
+        continueGame();
     }
+}
+
+function continueGame() {
+    lockBoard = false;
+    clearTimeout(resultsTimer);
+    clearUserGuesses();
+    overlay.style.display = 'none'; //Closes overlay and continues game
+    startTimerBar(selectedDifficulty.timer); //Reset timer
+    resetGuesses();
+}
+
+function resetGuesses() {
     resetUsersGuessCards(); // Remove animation from users guess cards
     gameData.guessUserIsOn = 1; // Reset guessUserIsOn
 }
@@ -419,6 +435,7 @@ function checkIfHighScoreExists() {
 }
 
 function renderHomeScreen() {
+    gameOver = true;
     lockBoard = true;
     overlay.style.backgroundColor = '#fff';
 
