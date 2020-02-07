@@ -3,13 +3,14 @@
 /* ============================================= */
 * {
   outline: none;
+  box-sizing: border-box;
 }
 
 br {
   margin-bottom: 1rem;
 }
 
-.header{
+.header {
   height: 120px;
 }
 
@@ -50,6 +51,7 @@ br {
   @include box-shadow(10px);
 
   #gameboard & {
+    transition: all .2s linear;
     width: 64px;
   }
 }
@@ -62,14 +64,13 @@ br {
   font-size: 36px;
 }
 
-.users-guess {
+.user-guess {
   color: $color-secondary;
 }
 
 .random-number {
   color: $color-secondary;
   background-color: $color-golden;
-
 }
 
 #random-numbers {
@@ -84,21 +85,49 @@ br {
   flex-wrap: wrap;
 }
 
-// [class^=col] {
-//   margin-top: 10px;
-//   flex-basis: 100%;
-//   min-height: 25px;
-//   padding: 10px;
-//   border-radius: 5px;
+#users-guesses {
+  margin-top: 7.5rem;
+}
 
-//   @include mq("lg") {
-//     display: flex;
-//     justify-content: center;
-//     margin-top: 0;
-//     align-items: center;
+.card {
+  position: relative;
+  margin: auto;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: all .2s linear;
 
-//     &+& {
-//       margin-left: 10px;
-//     }
-//   }
-// }
+  &-face {
+    position: absolute;
+    left: -32px;
+    backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    color: orange;
+  }
+
+  & .front {
+    transform: rotateY(180deg);
+    box-shadow: 0 0 12px 1px orange,
+  }
+
+  & .back {
+    box-shadow: 0 0 12px 1px orange, inset 0px 0px 0px 10px orange;
+  }
+}
+
+.active {
+  box-shadow: 0 0 15px 1px orange;
+}
+
+.shrink {
+  transform: scale(.8);
+}
+
+.grow {
+  transform: scale(1);
+}
+
+.flip {
+  transform: rotateY(180deg);
+  box-shadow: 0 0 20px 3px var(--orange);
+}

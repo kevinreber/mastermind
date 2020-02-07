@@ -9,7 +9,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #fff;
+    background-color: #fff;
     z-index: 10;
 }
 
@@ -66,14 +66,67 @@
     }
 }
 
+.instructions {
+    margin: 28rem auto 0 auto;
+    font-weight: lighter;
+    font-size: 14px;
+    letter-spacing: 1px;
+
+    & .txt-instructions {
+        margin: 0 auto 5px auto;
+        padding: 3px;
+        cursor: pointer;
+    }
+
+    &-list {
+        font-size: 12px;
+        margin: auto;
+        text-align: start;
+        line-height: 1.5;
+        width: 80%;
+    }
+
+}
+
+.toggle-display{
+    display: none;
+}
+
+li{
+    margin-bottom: 8px;
+}
+
 .txt {
     &-results {
+        font-size: 48px;
         color: #fff;
+    }
+
+    &-win {
+        // background-color: $color-win;
+        color: teal;
+        font-size: 48px;
+    }
+
+    &-wrong {
+        // background-color: $color-wrong;
+        color: $color-golden;
+
+    }
+
+    &-lose {
+        color: rgb(133, 0, 0);
     }
 
     &-correct {
         text-align: start;
         margin-left: 1rem;
+        font-size: 24px;
+        color: #fff;
+
+        &-header {
+            color: $color-golden;
+        }
 
         &-container {
             display: flex;

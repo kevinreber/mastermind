@@ -116,7 +116,7 @@ a {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: #fff;
+  background-color: #fff;
   z-index: 10;
 }
 
@@ -163,12 +163,55 @@ a {
   width: 4rem;
 }
 
+.instructions {
+  margin: 28rem auto 0 auto;
+  font-weight: lighter;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.instructions .txt-instructions {
+  margin: 0 auto 5px auto;
+  padding: 3px;
+  cursor: pointer;
+}
+.instructions-list {
+  font-size: 12px;
+  margin: auto;
+  text-align: start;
+  line-height: 1.5;
+  width: 80%;
+}
+
+.toggle-display {
+  display: none;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
 .txt-results {
+  font-size: 48px;
   color: #fff;
+}
+.txt-win {
+  color: teal;
+  font-size: 48px;
+}
+.txt-wrong {
+  color: #ffce52;
+}
+.txt-lose {
+  color: #850000;
 }
 .txt-correct {
   text-align: start;
   margin-left: 1rem;
+  font-size: 24px;
+  color: #fff;
+}
+.txt-correct-header {
+  color: #ffce52;
 }
 .txt-correct-container {
   display: flex;
@@ -227,12 +270,13 @@ a {
 .btn {
   display: block;
   margin: 1rem auto 0 auto;
-  width: 100%;
+  width: 95%;
   max-width: 375px;
   border: none;
   padding: 10px 0;
   text-transform: uppercase;
   border-radius: 5px;
+  box-shadow: 0 0 8px #777;
 }
 .btn:hover {
   transform: scale(1.1);
@@ -253,6 +297,7 @@ a {
 /* ============================================= */
 * {
   outline: none;
+  box-sizing: border-box;
 }
 
 br {
@@ -297,6 +342,7 @@ br {
   box-shadow: 0 0 10px #777;
 }
 #gameboard .number {
+  transition: all 0.2s linear;
   width: 64px;
 }
 
@@ -308,7 +354,7 @@ br {
   font-size: 36px;
 }
 
-.users-guess {
+.user-guess {
   color: #777;
 }
 
@@ -327,6 +373,50 @@ br {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+#users-guesses {
+  margin-top: 7.5rem;
+}
+
+.card {
+  position: relative;
+  margin: auto;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: all 0.2s linear;
+}
+.card-face {
+  position: absolute;
+  left: -32px;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  color: orange;
+}
+.card .front {
+  transform: rotateY(180deg);
+  box-shadow: 0 0 12px 1px orange;
+}
+.card .back {
+  box-shadow: 0 0 12px 1px orange, inset 0px 0px 0px 10px orange;
+}
+
+.active {
+  box-shadow: 0 0 15px 1px orange;
+}
+
+.shrink {
+  transform: scale(0.8);
+}
+
+.grow {
+  transform: scale(1);
+}
+
+.flip {
+  transform: rotateY(180deg);
+  box-shadow: 0 0 20px 3px var(--orange);
 }
 
 /* ============================================= */

@@ -8,13 +8,16 @@ $color-secondary: #777;
 $color-golden: rgb(255, 206, 82);
 $color-shadow: #777;
 $color-progress: #e4757a;
+$color-win: rgba(159, 230, 159, .8);
+$color-wrong: rgba(228, 117, 122, .8);
 
 /* ============================================= */
 /*                     Font                      */
 /* ============================================= */
 
 //Primary font-family
-$font-primary: 'Lato', sans-serif;
+$font-primary: 'Lato',
+sans-serif;
 
 /* ============================================= */
 /*               Media Queries                   */

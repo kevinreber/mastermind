@@ -7,21 +7,19 @@ let timer;
 let selectedDifficulty;
 
 //TO DOs
-// -add flip to numbers
-// -generate random number as fallback if API call fails
+// -setTimeout for numbers to finish then display screen
 // -setTimeout on overlay screen to see results with timer
-// -display result pages differently
 // -add sound?
 // -debug firefox and safari
 // -try different way to access API
 // -OOP
 // -Handlebars or Ember
-// -add instructions
 
 let gameData = {
     bestScore: 10, //lowest score possible
     attemptsUserHasLeft: 10,
     attemptUserIsOn: 1, // Reference to update user history
+    guessUserIsOn: 1, // 
     randomAPIResults: [], // Stores numbers from API call
     userInput: [] // Stores user's input
 }
@@ -67,12 +65,25 @@ async function startGame() {
         }
     } catch (e) {
         console.log(e);
-        alert("TROUBLESHOOT API");
+        alert("ERROR CALLING API!");
+        randomNumbersFallback(maxNumber); // Fallback to generate random numbers
     }
     checkIfHighScoreExists();
     renderGameBoard();
     startTimerBar(selectedDifficulty.timer);
 }
+
+// Fallback ---------------------------
+function randomNumbersFallback(number) {
+    for (let i = 0; i < 4; i++) {
+        gameData.randomAPIResults.push(generateRandomNumber(number).toString());
+    }
+}
+
+function generateRandomNumber(number) {
+    return Math.floor(Math.random() * (number + 1))
+}
+//-------------------------------------
 
 function renderGameBoard() {
     renderRandomNumbers();
@@ -86,8 +97,9 @@ function renderRandomNumbers() {
     let html = '';
     for (let randomNumber of gameData.randomAPIResults) {
         html += `
-            <div class="random-number-container container">
-                <p class="random-number number">${randomNumber}</p>
+            <div class="card container">
+                <p class="random-number card-face front number">${randomNumber}</p>
+                <p class="random-number card-face back number">?</p>
             </div>
         `;
     }
@@ -102,11 +114,11 @@ function renderKeyboard() {
     keyboard.innerHTML = html;
 
     switch (true) { // Adjust keyboard size based off difficulty
-        case (selectedDifficulty.keyboardMax === 9):    // Hard
-            keyboard.style.gridTemplateColumns = 'repeat(5, 1fr)';  
+        case (selectedDifficulty.keyboardMax === 9): // Hard
+            keyboard.style.gridTemplateColumns = 'repeat(5, 1fr)';
             break;
-        case (selectedDifficulty.keyboardMax === 7):    // Medium
-            keyboard.style.gridTemplateColumns = 'repeat(4, 1fr)';  
+        case (selectedDifficulty.keyboardMax === 7): // Medium
+            keyboard.style.gridTemplateColumns = 'repeat(4, 1fr)';
             break;
         default:
             keyboard.style.gridTemplateColumns = 'repeat(3, 1fr)'; // Easy
@@ -173,9 +185,13 @@ function userMakesGuess(e) {
     if (key.tagName === 'BUTTON') {
         gameData.userInput.push(key.innerText);
         displayGuessMade();
+        userGuess[gameData.guessUserIsOn - 1].classList.toggle('grow');
+
+        gameData.guessUserIsOn++;
     }
-    if (gameData.userInput.length === 4) {
+    if (gameData.userInput.length === 4) { // if user made 4 guesses
         checkAnswers();
+        gameData.guessUserIsOn = 0;
     }
 }
 
@@ -201,8 +217,14 @@ function checkAnswers() {
     const correctMatches = checkForMatches(); // The player had guessed a correct number and its correct location
 
     updateAttempts();
-    renderResults(correctNumbers, correctMatches);
-    updateHistory(correctNumbers, correctMatches);
+    if (correctMatches === 4 || gameData.attemptsUserHasLeft === 0) {
+        toggleAnswers();
+        setTimeout(renderResults(correctNumbers, correctMatches), 5000);
+        console.log('time');
+    } else {
+        renderResults(correctNumbers, correctMatches);
+        updateHistory(correctNumbers, correctMatches);
+    }
 }
 
 function updateAttempts() { // updates attempts left after 4 guesses have been made
@@ -240,7 +262,6 @@ function renderResults(correctNumbers, correctMatches) {
         `; // Close overlay container 
 
     overlay.innerHTML = html;
-    overlay.style.backgroundColor = 'rgba(77, 77, 77, .9)';
     overlay.style.display = 'block';
     closeOverlayListener();
 }
@@ -252,7 +273,7 @@ function overlayHTMLResults(numbers, matches) {
     `;
 
     switch (true) {
-        case (matches === 4):
+        case (matches === 4): // Player has matched all numbers
             gameOver = true;
             if (gameData.attemptUserIsOn < gameData.bestScore) { // Check for new best score
                 gameData.bestScore = gameData.attemptUserIsOn;
@@ -262,22 +283,26 @@ function overlayHTMLResults(numbers, matches) {
                     <h3 class="txt-win txt-results">${gameData.attemptUserIsOn} attempts</h3>
                 `;
             } else html += '<h1 class="txt-win txt-results">YOU WIN!</h1>';
+            overlay.style.backgroundColor = 'rgba(159, 230, 159, .9)';
             break;
-        case (gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0):
+        case (gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0): // If player has lost game
             gameOver = true;
-            html += '<h1 class="txt-wrong txt-results">YOU LOSE!</h1>';
+            html += '<h1 class="txt-lose txt-results">YOU LOSE!</h1>';
+            overlay.style.backgroundColor = 'rgba(228, 117, 122, .9)';
             break;
-        case (numbers > 0 && matches < 4):
+        case (numbers > 0 && matches < 4): // Player has guessed correct numbers
             html += `
-                <h1 class="txt-results txt-results-header">YOU GUESSED</h1>
+                <h1 class="txt-results txt-correct-header">YOU GUESSED</h1>
                 <div class="txt-correct-container">
-                    <h3 class="txt-correct txt-results">&#8226 ${numbers}/4 Numbers That Exist<br>
+                    <h3 class="txt-correct">&#8226 ${numbers}/4 Numbers That Exist<br>
                     &#8226 ${matches}/4 Numbers Correct Location</h3>
                 </div>
             `;
+            overlay.style.backgroundColor = 'rgba(77, 77, 77, .9)';
             break;
-        default:
+        default: // Player has guessed wrong
             html += '<h1 class="txt-wrong txt-results">YOU GUESSED WRONG!<br>TRY AGAIN</h1>';
+            overlay.style.backgroundColor = 'rgba(77, 77, 77, .9)';
     }
     html += overlayHTMLButtons(matches);
     return html;
@@ -300,22 +325,27 @@ function closeOverlayListener() {
     const gameButtons = document.querySelectorAll('.btn');
 
     for (let btn of gameButtons) {
-        btn.addEventListener('click', (e) => {
-            const btnClass = e.target.classList;
-            if (btnClass.contains('reset')) {
-                e.preventDefault();
-                resetGame();
-            }
-            if (btnClass.contains('continue')) {
-                lockBoard = false;
-                e.preventDefault();
-                clearUserGuesses();
-                overlay.style.display = 'none';
-                // setTimeout(startTimer, 3000);
-                startTimerBar(selectedDifficulty.timer);
-            }
-        });
+        btn.addEventListener('click', closeOverlayHandle);
     }
+}
+
+function closeOverlayHandle(e) {
+    const btnClass = e.target.classList;
+    if (btnClass.contains('reset')) {
+        e.preventDefault();
+        resetGame();
+    }
+    if (btnClass.contains('continue')) {
+        lockBoard = false;
+        e.preventDefault();
+        clearUserGuesses();
+        overlay.style.display = 'none';
+        startTimerBar(selectedDifficulty.timer);
+    }
+    for (let guess of userGuess) {
+        guess.classList.remove('grow'); // Remove animation from cards
+    }
+    gameData.guessUserIsOn = 1;
 }
 
 function updateHistory(correct, located) {
@@ -376,7 +406,6 @@ function checkIfHighScoreExists() {
 function renderHomeScreen() {
     lockBoard = true;
     overlay.style.backgroundColor = '#fff';
-    //change opacity
 
     let html = `
         <div id="home-screen" class="overlay-content-container">
@@ -390,6 +419,14 @@ function renderHomeScreen() {
                         <button class="difficulty-btn">HARD</button>
                     </div>
                 </div>
+                <div id="instructions" class="instructions">
+                    <p class="txt-instructions">INSTRUCTIONS</p>
+                    <ul class="instructions-list toggle-display">
+                    <li>Player is given 10 attempts to guess the correct location of 4 numbers</li>
+                    <li>After each attempt, player receives feedback if any of the attempted numbers are located or exist</li> 
+                    <li>Each attempt is timed depending on the difficulty level</li>
+                </ul>
+                </div>
             </div>
         </div>
     `;
@@ -397,7 +434,29 @@ function renderHomeScreen() {
     overlay.innerHTML = html;
 }
 
+async function toggleAnswers() {
+    const cards = document.querySelectorAll('#random-numbers .card');
+    for (let [i, card] of cards.entries()) {
+        let flip = flipCard(card);
+        let timer = setTimeout(flip, i * 500);
+        await timer;
+    }
+}
+
+function flipCard(card) {
+    return function () {
+        card.classList.toggle('flip');
+    }
+}
+
+function renderInstructions(e) {
+    const instructionsList = document.querySelector('.instructions-list');
+    if (e.target.innerText === 'INSTRUCTIONS') {
+        instructionsList.classList.toggle('toggle-display');
+    }
+}
+
 window.onload = renderHomeScreen();
-// document.addEventListener('DOMContentLoaded', startGame);
 overlay.addEventListener('click', selectDifficulty);
+overlay.addEventListener('click', renderInstructions);
 keyboard.addEventListener('click', userMakesGuess);
