@@ -8,7 +8,6 @@ let selectedDifficulty;
 
 //TO DOs
 // -localStorage store scores for different difficulties
-// -setTimeout for numbers to finish then display screen
 // -setTimeout on overlay screen to see results with timer
 // -add sound?
 // -debug firefox and safari
@@ -59,24 +58,24 @@ async function startGame() {
     lockBoard = false;
 
     try {
-        const response = await axios.get(url);
-        const data = response.data.replace(/\s+/g, ''); // remove spaces and carriage returns
+        const response = await axios.get(url);  //Call API
+        const data = response.data.replace(/\s+/g, ''); //Remove spaces and carriage returns
         if (response.status === 200) {
-            gameData.randomAPIResults = [...data];
+            gameData.randomAPIResults = [...data]; //Store API results
         }
-    } catch (e) {
+    } catch (e) {   //Fallback if error calling API
         console.log(e);
         alert("ERROR CALLING API!");
-        randomNumbersFallback(maxNumber); // Fallback to generate random numbers
+        randomNumbersFallback(maxNumber); //Fallback to generate random numbers
     }
     checkIfHighScoreExists();
     renderGameBoard();
     startTimerBar(selectedDifficulty.timer);
 }
 
-// Fallback ---------------------------
+// Fallback if API call fails-----------
 function randomNumbersFallback(number) {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {   //Return 4 elements
         gameData.randomAPIResults.push(generateRandomNumber(number).toString());
     }
 }
@@ -86,11 +85,11 @@ function generateRandomNumber(number) {
 }
 //-------------------------------------
 
-function renderGameBoard() {
+function renderGameBoard() {    //Render game board after API call attempt
     renderRandomNumbers();
     renderKeyboard();
     fadeSections('in');
-    toggleKeyboardAccess(false); // after API call allow user access to keyboard
+    toggleKeyboardAccess(false); //Allow user access to keyboard
 }
 
 function renderRandomNumbers() {
@@ -126,7 +125,8 @@ function renderKeyboard() {
     }
 }
 
-function startTimerBar(seconds) {
+//Starts animation of timer bar
+function startTimerBar(seconds) {   
     renderTimer();
     const timerBar = document.querySelector('.progress-bar');
     const startTimerBar = setTimeout(function () {
@@ -137,17 +137,19 @@ function startTimerBar(seconds) {
     startTimer(seconds);
 }
 
-function startTimer(seconds) {
+//Starts timer for player's attempt
+function startTimer(seconds) {  
     timer = setTimeout(() => {
         if (gameOver || lockBoard) {
             clearTimeout(timer);
             return;
         } else {
-            checkAnswers();
+            checkAnswers(); //If timer runs out checkAnswers
         }
     }, seconds * 1000);
 }
 
+//Displays timer
 function renderTimer() {
     const timer = document.getElementById('timer');
     let html = `
@@ -165,7 +167,8 @@ function renderTimer() {
     timer.innerHTML = html;
 }
 
-function fadeSections(fade) { // fade in/out sections
+// fade in/out sections
+function fadeSections(fade) {
     const sections = document.querySelectorAll('section');
     if (fade === 'in') {
         for (let section of sections) {
@@ -181,21 +184,22 @@ function fadeSections(fade) { // fade in/out sections
     }
 }
 
+//Initializes when user has made a guess
 function userMakesGuess(e) {
     const key = e.target;
     if (key.tagName === 'BUTTON') {
-        gameData.userInput.push(key.innerText);
+        gameData.userInput.push(key.innerText); //Store player's guess
         displayGuessMade();
         userGuess[gameData.guessUserIsOn - 1].classList.toggle('grow');
-
         gameData.guessUserIsOn++;
     }
-    if (gameData.userInput.length === 4) { // if user made 4 guesses
+    if (gameData.userInput.length === 4) { //checkAnswers when player has made 4 guesses
         checkAnswers();
         gameData.guessUserIsOn = 0;
     }
 }
 
+//Updates display of player's guesses
 function displayGuessMade() {
     for (let [index, guess] of userGuess.entries()) {
         if (!gameData.userInput[index]) return;
@@ -205,8 +209,8 @@ function displayGuessMade() {
 
 function checkAnswers() {
     lockBoard = true;
-    clearInterval(timer);
-    if (gameData.userInput !== 4) { // If user runs out of time store a '-'        
+    clearInterval(timer);   //clearInterval of timer if checkAnswers is called before time expires
+    if (gameData.userInput !== 4) { //If user runs out of time store a 'x'        
         for (let i = 0; i < 4; i++) {
             if (!gameData.userInput[i]) {
                 gameData.userInput[i] = ' x ';
@@ -214,13 +218,13 @@ function checkAnswers() {
         }
     }
 
-    const correctNumbers = checkIfNumberExists(); // The player had guess a correct number
-    const correctMatches = checkForMatches(); // The player had guessed a correct number and its correct location
+    const correctNumbers = checkIfNumberExists(); //Checks if player's guesses match any of the random numbers 
+    const correctMatches = checkForMatches(); //Checks if player has guessed any numbers in their correct correct location
 
     updateAttempts();
     if (correctMatches === 4 || gameData.attemptsUserHasLeft === 0) {
         toggleAnswers();
-        setTimeout(renderResults(correctNumbers, correctMatches), 5000);
+        setTimeout(renderResults, 2500, correctNumbers, correctMatches);    //Calls renderResults after toggleAnswers finish
         console.log('time');
     } else {
         renderResults(correctNumbers, correctMatches);
@@ -228,7 +232,8 @@ function checkAnswers() {
     }
 }
 
-function updateAttempts() { // updates attempts left after 4 guesses have been made
+//Updates attempts left after 4 guesses have been made
+function updateAttempts() { 
     const attemptsLeft = document.getElementById('attempts-left');
     gameData.attemptsUserHasLeft--;
     attemptsLeft.innerText = gameData.attemptsUserHasLeft;
@@ -255,16 +260,16 @@ function checkForMatches() {
 }
 
 function renderResults(correctNumbers, correctMatches) {
-    let html = overlayHTMLResults(correctNumbers, correctMatches); // Build Overlay
+    let html = overlayHTMLResults(correctNumbers, correctMatches); //Build overlay results
 
     html += `
             </div>
         </div>
-        `; // Close overlay container 
+        `; //Close overlay container 
 
     overlay.innerHTML = html;
     overlay.style.display = 'block';
-    closeOverlayListener();
+    closeOverlayListener(); //Event listener when player closes overlay
 }
 
 function overlayHTMLResults(numbers, matches) {
@@ -274,9 +279,9 @@ function overlayHTMLResults(numbers, matches) {
     `;
 
     switch (true) {
-        case (matches === 4): // Player has matched all numbers
+        case (matches === 4): //Player has matched all numbers
             gameOver = true;
-            if (gameData.attemptUserIsOn < gameData.bestScore) { // Check for new best score
+            if (gameData.attemptUserIsOn < gameData.bestScore) { //Compares player's score with bestScore
                 gameData.bestScore = gameData.attemptUserIsOn;
                 localStorage.setItem('bestScore', JSON.stringify(gameData.bestScore)); //Update local storage
                 html += `
@@ -309,9 +314,10 @@ function overlayHTMLResults(numbers, matches) {
     return html;
 }
 
-function overlayHTMLButtons(matches) { //Add buttons
+//Adds buttons to overlay
+function overlayHTMLButtons(matches) { 
     let html = '';
-    if (matches === 4 || gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0) {
+    if (gameOver) {   //Checks if game is over
         html += '<button id="btn-win" class="btn reset">PLAY AGAIN?</button>';
     } else {
         html += `                 
@@ -332,19 +338,18 @@ function closeOverlayListener() {
 
 function closeOverlayHandle(e) {
     const btnClass = e.target.classList;
-    if (btnClass.contains('reset')) {   // Reset game button
+    if (btnClass.contains('reset')) {   //Reset game button
         e.preventDefault();
         resetGame();
     }
-    if (btnClass.contains('continue')) {    // Continue game button
+    if (btnClass.contains('continue')) {    //Continue game button
         lockBoard = false;
         e.preventDefault();
         clearUserGuesses();
-        overlay.style.display = 'none';
-        startTimerBar(selectedDifficulty.timer);
+        overlay.style.display = 'none'; //Closes overlay and continues game
+        startTimerBar(selectedDifficulty.timer); //Reset timer
     }
     resetUsersGuessCards(); // Remove animation from users guess cards
-
     gameData.guessUserIsOn = 1; // Reset guessUserIsOn
 }
 
