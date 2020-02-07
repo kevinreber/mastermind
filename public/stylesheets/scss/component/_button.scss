@@ -19,5 +19,22 @@
   &:hover {
     @include hover;
     background-color: $color-golden;
+    border: 1px solid #fff;
+  }
+
+  &.continue {
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &.reset {
+    background-color: rgb(77, 77, 77);
+    color: #fff;
+    border: 1px solid #fff;
+
+    &:hover {
+      background-color: $color-golden;
+    }
   }
 }

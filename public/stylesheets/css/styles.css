@@ -194,16 +194,13 @@ li {
 .txt-results {
   font-size: 48px;
   color: #fff;
+  -webkit-text-stroke: 2px orange;
 }
 .txt-win {
-  color: teal;
   font-size: 48px;
 }
-.txt-wrong {
+.txt-wrong, .txt-win, .txt-lose {
   color: #ffce52;
-}
-.txt-lose {
-  color: #850000;
 }
 .txt-correct {
   text-align: start;
@@ -290,6 +287,18 @@ li {
   box-shadow: 0 0 10px 1px #ffce52;
   cursor: pointer;
   transition: all 0.2s linear;
+  background-color: #ffce52;
+  border: 1px solid #fff;
+}
+.btn.continue:hover {
+  color: #fff;
+}
+.btn.reset {
+  background-color: #4d4d4d;
+  color: #fff;
+  border: 1px solid #fff;
+}
+.btn.reset:hover {
   background-color: #ffce52;
 }
 

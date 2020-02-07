@@ -58,12 +58,12 @@ async function startGame() {
     lockBoard = false;
 
     try {
-        const response = await axios.get(url);  //Call API
+        const response = await axios.get(url); //Call API
         const data = response.data.replace(/\s+/g, ''); //Remove spaces and carriage returns
         if (response.status === 200) {
             gameData.randomAPIResults = [...data]; //Store API results
         }
-    } catch (e) {   //Fallback if error calling API
+    } catch (e) { //Fallback if error calling API
         console.log(e);
         alert("ERROR CALLING API!");
         randomNumbersFallback(maxNumber); //Fallback to generate random numbers
@@ -75,7 +75,7 @@ async function startGame() {
 
 // Fallback if API call fails-----------
 function randomNumbersFallback(number) {
-    for (let i = 0; i < 4; i++) {   //Return 4 elements
+    for (let i = 0; i < 4; i++) { //Return 4 elements
         gameData.randomAPIResults.push(generateRandomNumber(number).toString());
     }
 }
@@ -85,13 +85,14 @@ function generateRandomNumber(number) {
 }
 //-------------------------------------
 
-function renderGameBoard() {    //Render game board after API call attempt
+function renderGameBoard() { //Render game board after API call attempt
     renderRandomNumbers();
     renderKeyboard();
     fadeSections('in');
     toggleKeyboardAccess(false); //Allow user access to keyboard
 }
 
+//Displays random numbers faced down onto gameboard
 function renderRandomNumbers() {
     const randomNumbers = document.getElementById('random-numbers');
     let html = '';
@@ -106,6 +107,7 @@ function renderRandomNumbers() {
     randomNumbers.innerHTML = html;
 }
 
+//Renders player keyboard
 function renderKeyboard() {
     let html = '';
     for (let i = 0; i <= selectedDifficulty.keyboardMax; i++) {
@@ -113,20 +115,20 @@ function renderKeyboard() {
     }
     keyboard.innerHTML = html;
 
-    switch (true) { // Adjust keyboard size based off difficulty
+    switch (true) { // Adjust keyboard size based off player difficulty
         case (selectedDifficulty.keyboardMax === 9): // Hard
             keyboard.style.gridTemplateColumns = 'repeat(5, 1fr)';
             break;
         case (selectedDifficulty.keyboardMax === 7): // Medium
             keyboard.style.gridTemplateColumns = 'repeat(4, 1fr)';
             break;
-        default:
-            keyboard.style.gridTemplateColumns = 'repeat(3, 1fr)'; // Easy
+        default: // Easy
+            keyboard.style.gridTemplateColumns = 'repeat(3, 1fr)';
     }
 }
 
 //Starts animation of timer bar
-function startTimerBar(seconds) {   
+function startTimerBar(seconds) {
     renderTimer();
     const timerBar = document.querySelector('.progress-bar');
     const startTimerBar = setTimeout(function () {
@@ -138,7 +140,7 @@ function startTimerBar(seconds) {
 }
 
 //Starts timer for player's attempt
-function startTimer(seconds) {  
+function startTimer(seconds) {
     timer = setTimeout(() => {
         if (gameOver || lockBoard) {
             clearTimeout(timer);
@@ -209,7 +211,7 @@ function displayGuessMade() {
 
 function checkAnswers() {
     lockBoard = true;
-    clearInterval(timer);   //clearInterval of timer if checkAnswers is called before time expires
+    clearInterval(timer); //clearInterval of timer if checkAnswers is called before time expires
     if (gameData.userInput !== 4) { //If user runs out of time store a 'x'        
         for (let i = 0; i < 4; i++) {
             if (!gameData.userInput[i]) {
@@ -224,8 +226,7 @@ function checkAnswers() {
     updateAttempts();
     if (correctMatches === 4 || gameData.attemptsUserHasLeft === 0) {
         toggleAnswers();
-        setTimeout(renderResults, 2500, correctNumbers, correctMatches);    //Calls renderResults after toggleAnswers finish
-        console.log('time');
+        setTimeout(renderResults, 2500, correctNumbers, correctMatches); //Calls renderResults after toggleAnswers finish
     } else {
         renderResults(correctNumbers, correctMatches);
         updateHistory(correctNumbers, correctMatches);
@@ -233,7 +234,7 @@ function checkAnswers() {
 }
 
 //Updates attempts left after 4 guesses have been made
-function updateAttempts() { 
+function updateAttempts() {
     const attemptsLeft = document.getElementById('attempts-left');
     gameData.attemptsUserHasLeft--;
     attemptsLeft.innerText = gameData.attemptsUserHasLeft;
@@ -315,11 +316,11 @@ function overlayHTMLResults(numbers, matches) {
 }
 
 //Adds buttons to overlay
-function overlayHTMLButtons(matches) { 
+function overlayHTMLButtons(matches) {
     let html = '';
-    if (gameOver) {   //Checks if game is over
+    if (gameOver) { //Checks if game is over
         html += '<button id="btn-win" class="btn reset">PLAY AGAIN?</button>';
-    } else {
+    } else {    //Continues game
         html += `                 
             <button id="btn-continue" class="btn continue">CONTINUE</button>
             <button id="btn-reset" class="btn reset">RESTART</button>
@@ -329,20 +330,18 @@ function overlayHTMLButtons(matches) {
 }
 
 function closeOverlayListener() {
-    const gameButtons = document.querySelectorAll('.btn');
-
-    for (let btn of gameButtons) {
-        btn.addEventListener('click', closeOverlayHandle);
-    }
+    overlay.addEventListener('click', closeOverlayHandle);
 }
 
+//Handles overlay target
 function closeOverlayHandle(e) {
-    const btnClass = e.target.classList;
-    if (btnClass.contains('reset')) {   //Reset game button
+    const classList = e.target.classList;
+
+    if (classList.contains('reset')) { //Reset game button
         e.preventDefault();
         resetGame();
     }
-    if (btnClass.contains('continue')) {    //Continue game button
+    if (classList.contains('continue') || classList.contains('overlay')) { //Continue game if player selects button or clicks on overlay      
         lockBoard = false;
         e.preventDefault();
         clearUserGuesses();
@@ -353,9 +352,9 @@ function closeOverlayHandle(e) {
     gameData.guessUserIsOn = 1; // Reset guessUserIsOn
 }
 
-function resetUsersGuessCards(){ // Remove animation from users guess cards
+function resetUsersGuessCards() { // Remove animation from users guess cards
     for (let guess of userGuess) {
-        guess.classList.remove('grow'); 
+        guess.classList.remove('grow');
     }
 }
 
@@ -390,13 +389,13 @@ function clearUserHistory() {
 
 function resetGame() {
     toggleKeyboardAccess(true); // temporarily disable keyboard
-    fadeSections('out');    // Game fades out back to home screen
-    clearUserHistory();     // Resets user history on screen
+    fadeSections('out'); // Game fades out back to home screen
+    clearUserHistory(); // Resets user history on screen
     clearUserGuesses(); // Resets users guesses on screen
     gameData.attemptsUserHasLeft = 11; // Reset attempts user has left
-    gameData.attemptUserIsOn = 1;   // Reset attempts
+    gameData.attemptUserIsOn = 1; // Reset attempts
     gameData.randomAPIResults = []; // clear API Results
-    updateAttempts();   // Resets attempts displayed on screen
+    updateAttempts(); // Resets attempts displayed on screen
     renderHomeScreen(); //Displays home screen
 }
 
@@ -409,9 +408,9 @@ function toggleKeyboardAccess(bool) {
 
 function checkIfHighScoreExists() {
     const bestScore = document.getElementById('best-score');
-    if (localStorage.bestScore) {   // If localStorage.bestScore exists update Best Score displayed
+    if (localStorage.bestScore) { // If localStorage.bestScore exists update Best Score displayed
         gameData.bestScore = JSON.parse(localStorage.bestScore);
-        bestScore.innerText = gameData.bestScore + ' attempts'; 
+        bestScore.innerText = gameData.bestScore + ' attempts';
     } else bestScore.innerText = '-'; // else display no score
 }
 
