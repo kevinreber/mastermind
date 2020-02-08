@@ -304,6 +304,7 @@ li {
 
 #btn-game-over {
   background-color: #ffce52;
+  border: 1px solid orange;
 }
 
 /* ============================================= */

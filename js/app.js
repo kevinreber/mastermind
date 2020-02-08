@@ -1,9 +1,9 @@
 const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('keyboard');
-const userGuess = document.querySelectorAll('.user-guess');
+
 let gameOver, lockBoard; //Boolean values
-let timer;  //Timer that calls checkAnswers if guess time expires
-let resultsTimer;    //Timer for player to view result screen
+let timer; //Timer that calls checkAnswers if guess time expires
+let resultsTimer; //Timer for player to view result screen
 let selectedDifficulty; //Stores Player Selected Difficulty
 
 //TO DOs
@@ -15,16 +15,52 @@ let selectedDifficulty; //Stores Player Selected Difficulty
 // -Handlebars or Ember
 
 let gameData = {
-    bestScore: 10, //lowest score possible
+    bestScore: 11, //placeholder for lowest score
     attemptsUserHasLeft: 10,
     attemptUserIsOn: 1, // Reference to update user history
-    guessUserIsOn: 1, // 
+    guessUserIsOn: 1, // Stores guess of player
     randomAPIResults: [], // Stores numbers from API call
     userInput: [] // Stores user's input
 }
 
+//Render game's home screen
+function renderHomeScreen() {
+    overlay.style.display = 'block';
+    overlay.classList.remove('overlay-game-over'); //Reset overlay classes
+    overlay.classList.add('overlay-default');
+    gameOver = true;
+    lockBoard = true;
+    overlay.style.backgroundColor = '#fff';
+
+    let html = `
+        <div id="home-screen" class="overlay-content-container">
+            <div class="overlay-content animated animatedFadeInUp fadeInUp">
+                <h1 class="game-title start-screen">MASTERMIND</h1>
+                <div class="difficulty-container">
+                    <h3>SELECT YOUR DIFFICULTY</h3>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn">EASY</button>
+                        <button class="difficulty-btn">MEDIUM</button>
+                        <button class="difficulty-btn">HARD</button>
+                    </div>
+                </div>
+                <div id="instructions" class="instructions">
+                    <p class="txt-instructions">INSTRUCTIONS</p>
+                    <ul class="instructions-list toggle-display">
+                    <li>Player has 10 attempts to guess the correct location of 4 numbers</li>
+                    <li>After each attempt, player has 3 seconds to view see if they matched/located any numbers</li> 
+                    <li>Each attempt is timed based on the difficulty level</li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    `;
+
+    overlay.innerHTML = html;
+}
+
 function selectDifficulty(e) {
-    const gameDifficulty = {
+    const gameDifficulty = { //Settings for game difficulty
         easy: {
             keyboardMax: 5,
             timer: 10
@@ -72,7 +108,7 @@ async function startGame() {
     startTimerBar(selectedDifficulty.timer);
 }
 
-// Fallback if API call fails-----------
+// Fallback if API call fails-----------------
 function randomNumbersFallback(number) {
     for (let i = 0; i < 4; i++) { //Return 4 elements
         gameData.randomAPIResults.push(generateRandomNumber(number).toString());
@@ -82,13 +118,26 @@ function randomNumbersFallback(number) {
 function generateRandomNumber(number) {
     return Math.floor(Math.random() * (number + 1))
 }
-//-------------------------------------
+//-------------------------------------------
 
 function renderGameBoard() { //Render game board after API call attempt
     renderRandomNumbers();
+    renderUserGuesses();
+    renderHistory();
     renderKeyboard();
     fadeSections('in');
     toggleKeyboardAccess(false); //Allow user access to keyboard
+}
+
+function renderUserGuesses() {
+    const usersGuesses = document.getElementById('users-guesses');
+    let html = '';
+    for (let i = 0; i < 4; i++) {
+        html += `
+        <p class="user-guess number shrink">-</p>
+        `
+    }
+    usersGuesses.innerHTML = html;
 }
 
 //Displays random numbers faced down onto gameboard
@@ -104,6 +153,28 @@ function renderRandomNumbers() {
         `;
     }
     randomNumbers.innerHTML = html;
+}
+
+//Render clean player History
+function renderHistory() {
+    const historyTables = document.getElementById('history-tables');
+    let html = `
+        <tr class="table-titles-container">
+            <td class="table-title">Attempts</td>
+            <td class="table-title">Exist</td>
+            <td class="table-title">Location</td>
+        </tr>
+    `
+    for (let i = 0; i < 9; i++) {
+        html += `
+        <tr class="table-attempt">
+            <td class="attempt">-</td>
+            <td class="attempt">-</td>
+            <td class="attempt">-</td>
+        </tr>
+    `
+    }
+    historyTables.innerHTML = html;
 }
 
 //Renders player keyboard
@@ -151,7 +222,7 @@ function startTimer(seconds) {
     }, seconds * 1000);
 }
 
-//Displays timer
+//Builds timer
 function renderTimer(el) {
     let html = `
     <div class="timer-container">
@@ -187,6 +258,7 @@ function fadeSections(fade) {
 
 //Initializes when user has made a guess
 function userMakesGuess(e) {
+    const userGuess = document.querySelectorAll('.user-guess');
     const key = e.target;
     if (key.tagName === 'BUTTON') {
         gameData.userInput.push(key.innerText); //Store player's guess
@@ -202,6 +274,7 @@ function userMakesGuess(e) {
 
 //Updates display of player's guesses
 function displayGuessMade() {
+    const userGuess = document.querySelectorAll('.user-guess');
     for (let [index, guess] of userGuess.entries()) {
         if (!gameData.userInput[index]) return;
         guess.innerText = gameData.userInput[index];
@@ -221,9 +294,11 @@ function checkAnswers() {
 
     const correctNumbers = checkIfNumberExists(); //Checks if player's guesses match any of the random numbers 
     const correctMatches = checkForMatches(); //Checks if player has guessed any numbers in their correct correct location
+    gameData.matches = correctMatches;
 
     updateAttempts();
     if (correctMatches === 4 || gameData.attemptsUserHasLeft === 0) {
+        gameOver = true;
         toggleAnswers();
         setTimeout(renderResults, 2500, correctNumbers, correctMatches); //Calls renderResults after toggleAnswers finish
     } else {
@@ -270,16 +345,21 @@ function renderResults(correctNumbers, correctMatches) {
     overlay.innerHTML = html;
     overlay.style.display = 'block';
     closeOverlayListener(); //Event listener when player closes overlay
-    resultsTimer = setTimeout(() => {   //Timer for player to view result screen
+    resultsTimer = setTimeout(() => { //Timer for player to view result screen
+        if (gameData.attemptsUserHasLeft !== 0) {
+            continueGame();
+        }
         if (!lockBoard && gameOver) {
             clearTimeout(resultsTimer);
         } else {
-            continueGame();
+            clearTimeout(resultsTimer);
         }
     }, 3000);
 }
 
 function overlayHTMLResults(numbers, matches) {
+    const winColor = 'rgba(159, 230, 159, .9)';
+    const loseColor = 'rgba(228, 117, 122, .9)';
     let html = `
         <div class="overlay-content-container">
         <div class="overlay-content">
@@ -287,7 +367,6 @@ function overlayHTMLResults(numbers, matches) {
 
     switch (true) {
         case (matches === 4): //Player has matched all numbers
-            gameOver = true;
             if (gameData.attemptUserIsOn < gameData.bestScore) { //Compares player's score with bestScore
                 gameData.bestScore = gameData.attemptUserIsOn;
                 localStorage.setItem('bestScore', JSON.stringify(gameData.bestScore)); //Update local storage
@@ -296,16 +375,11 @@ function overlayHTMLResults(numbers, matches) {
                     <h3 class="txt-win txt-results">${gameData.attemptUserIsOn} attempts</h3>
                 `;
             } else html += '<h1 class="txt-win txt-results">YOU WIN!</h1>';
-            overlay.style.backgroundColor = 'rgba(159, 230, 159, .9)';
-            overlay.classList.add('overlay-game-over');
-            overlay.classList.remove('overlay-default');
+            gameEnds(winColor);
             break;
         case (gameData.attemptUserIsOn === 10 || gameData.attemptsUserHasLeft === 0): // If player has lost game
-            gameOver = true;
             html += '<h1 class="txt-lose txt-results">YOU LOSE!</h1>';
-            overlay.style.backgroundColor = 'rgba(228, 117, 122, .9)';
-            overlay.classList.add('overlay-game-over');
-            overlay.classList.remove('overlay-default');
+            gameEnds(loseColor);
             break;
         case (numbers > 0 && matches < 4): // Player has guessed correct numbers
             html += `
@@ -339,6 +413,14 @@ function overlayHTMLButtons() {
     return html;
 }
 
+//Changes overlay background color based on game results
+function gameEnds(result) {
+    gameData.attemptsUserHasLeft = 0; //Change attemptsUserHasLeft to stop resultsTimer
+    overlay.style.backgroundColor = result;
+    overlay.classList.add('overlay-game-over');
+    overlay.classList.remove('overlay-default');
+}
+
 function closeOverlayListener() {
     overlay.addEventListener('click', closeOverlayHandle);
 }
@@ -348,10 +430,8 @@ function closeOverlayHandle(e) {
     const classList = e.target.classList;
     e.preventDefault();
 
-    if (classList.contains('reset') || classList.contains('overlay-game-over')) { //Reset game button
-        clearTimeout(resultsTimer);
+    if (classList.contains('reset')) { //Reset game button
         resetGame();
-        resetGuesses();
     }
     if (classList.contains('continue') || classList.contains('overlay-default')) { //Continue game if player selects button or clicks on overlay      
         continueGame();
@@ -359,20 +439,21 @@ function closeOverlayHandle(e) {
 }
 
 function continueGame() {
+    clearTimeout(resultsTimer); //Stops resultsTimer when overlay of results closes
     lockBoard = false;
-    clearTimeout(resultsTimer);
     clearUserGuesses();
     overlay.style.display = 'none'; //Closes overlay and continues game
     startTimerBar(selectedDifficulty.timer); //Reset timer
-    resetGuesses();
+    resetGuessData();
 }
 
-function resetGuesses() {
+function resetGuessData() {
     resetUsersGuessCards(); // Remove animation from users guess cards
     gameData.guessUserIsOn = 1; // Reset guessUserIsOn
 }
 
 function resetUsersGuessCards() { // Remove animation from users guess cards
+    const userGuess = document.querySelectorAll('.user-guess');
     for (let guess of userGuess) {
         guess.classList.remove('grow');
     }
@@ -389,29 +470,20 @@ function updateHistory(correct, located) {
     gameData.attemptUserIsOn++;
 }
 
-// CLEAR GAME ELEMENTS --------
-function clearElements(elements) {
-    for (let element of elements) {
-        element.innerText = '-';
-    }
-}
-
+// Clear User Guesses with animation
 function clearUserGuesses() {
-    clearElements(userGuess);
+    const userGuess = document.querySelectorAll('.user-guess');
+    for (let guess of userGuess) {
+        guess.innerText = '-';
+    }
     gameData.userInput = [];
 }
 
-function clearUserHistory() {
-    const attempts = document.querySelectorAll('.attempt');
-    clearElements(attempts);
-}
-//----------------------------
-
 function resetGame() {
-    toggleKeyboardAccess(true); // temporarily disable keyboard
+    toggleKeyboardAccess(true); // temporarily disable keyboard elements
     fadeSections('out'); // Game fades out back to home screen
-    clearUserHistory(); // Resets user history on screen
     clearUserGuesses(); // Resets users guesses on screen
+    resetGuessData();
     gameData.attemptsUserHasLeft = 11; // Reset attempts user has left
     gameData.attemptUserIsOn = 1; // Reset attempts
     gameData.randomAPIResults = []; // clear API Results
@@ -432,38 +504,6 @@ function checkIfHighScoreExists() {
         gameData.bestScore = JSON.parse(localStorage.bestScore);
         bestScore.innerText = gameData.bestScore + ' attempts';
     } else bestScore.innerText = '-'; // else display no score
-}
-
-function renderHomeScreen() {
-    gameOver = true;
-    lockBoard = true;
-    overlay.style.backgroundColor = '#fff';
-
-    let html = `
-        <div id="home-screen" class="overlay-content-container">
-            <div class="overlay-content animated animatedFadeInUp fadeInUp">
-                <h1 class="game-title start-screen">MASTERMIND</h1>
-                <div class="difficulty-container">
-                    <h3>SELECT YOUR DIFFICULTY</h3>
-                    <div class="difficulty-options">
-                        <button class="difficulty-btn">EASY</button>
-                        <button class="difficulty-btn">MEDIUM</button>
-                        <button class="difficulty-btn">HARD</button>
-                    </div>
-                </div>
-                <div id="instructions" class="instructions">
-                    <p class="txt-instructions">INSTRUCTIONS</p>
-                    <ul class="instructions-list toggle-display">
-                    <li>Player is given 10 attempts to guess the correct location of 4 numbers</li>
-                    <li>After each attempt, player receives feedback if any of the attempted numbers are located or exist</li> 
-                    <li>Each attempt is timed depending on the difficulty level</li>
-                </ul>
-                </div>
-            </div>
-        </div>
-    `;
-
-    overlay.innerHTML = html;
 }
 
 async function toggleAnswers() {
