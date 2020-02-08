@@ -27,7 +27,6 @@ let gameData = {
 function renderHomeScreen() {
     overlay.style.display = 'block';
     overlay.classList.remove('overlay-game-over'); //Reset overlay classes
-    overlay.classList.add('overlay-default');
     gameOver = true;
     lockBoard = true;
     overlay.style.backgroundColor = '#fff';
@@ -335,6 +334,7 @@ function checkForMatches() {
 }
 
 function renderResults(correctNumbers, correctMatches) {
+    overlay.classList.add('overlay-default');
     let html = overlayHTMLResults(correctNumbers, correctMatches); //Build overlay results
 
     html += `
@@ -480,6 +480,7 @@ function clearUserGuesses() {
 }
 
 function resetGame() {
+    clearTimeout(resultsTimer);
     toggleKeyboardAccess(true); // temporarily disable keyboard elements
     fadeSections('out'); // Game fades out back to home screen
     clearUserGuesses(); // Resets users guesses on screen

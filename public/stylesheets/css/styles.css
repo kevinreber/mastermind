@@ -181,9 +181,11 @@ a {
   line-height: 1.5;
   max-width: 300px;
   width: 80%;
+  transform: 0.2s linear all;
 }
 
 .toggle-display {
+  opacity: 0;
   display: none;
 }
 
