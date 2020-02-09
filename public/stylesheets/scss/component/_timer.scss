@@ -30,5 +30,11 @@ svg path {
         fill: none;
         stroke: $color-progress;
         animation: progress 3s linear;
+        animation-name: progress;
+        animation-duration: 3s;
+        animation-fill-mode: both;
+        -webkit-animation-name: progress;
+        -webkit-animation-duration: 3s;
+        -webkit-animation-fill-mode: both
     }
 }

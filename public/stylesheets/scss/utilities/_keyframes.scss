@@ -19,13 +19,6 @@
     -webkit-animation-name: fadeInUp;
 }
 
-.moveUp {
-    animation: moveUp .3s ease-out;
-    -webkit-animation: moveUp .3s ease-out;
-    animation-fill-mode: forwards;
-    -webkit-animation-fill-mode: forwards;
-}
-
 //ANIMATION FOR ELEMENTS TO FADE IN
 @keyframes fadeInUp {
     from {

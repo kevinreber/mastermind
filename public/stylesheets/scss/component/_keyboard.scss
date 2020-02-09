@@ -27,6 +27,7 @@
     padding: 1rem;
     margin: .5rem;
     border-radius: 3px;
+    border: none;
     background-color: #fff;
     transition: all .2s ease-in;
     @include scale-element(hover, 1.1);

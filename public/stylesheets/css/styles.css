@@ -30,13 +30,6 @@
   -webkit-animation-name: fadeInUp;
 }
 
-.moveUp {
-  animation: moveUp 0.3s ease-out;
-  -webkit-animation: moveUp 0.3s ease-out;
-  animation-fill-mode: forwards;
-  -webkit-animation-fill-mode: forwards;
-}
-
 @keyframes fadeInUp {
   from {
     transform: translate3d(0, 40px, 0);
@@ -225,6 +218,7 @@ li {
   padding: 1rem;
   margin: 0.5rem;
   border-radius: 3px;
+  border: none;
   background-color: #fff;
   transition: all 0.2s ease-in;
 }
@@ -456,6 +450,12 @@ svg path {
   fill: none;
   stroke: #e4757a;
   animation: progress 3s linear;
+  animation-name: progress;
+  animation-duration: 3s;
+  animation-fill-mode: both;
+  -webkit-animation-name: progress;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-fill-mode: both;
 }
 
 /*# sourceMappingURL=styles.css.map */
