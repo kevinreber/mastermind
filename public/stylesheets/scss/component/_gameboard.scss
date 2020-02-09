@@ -10,36 +10,15 @@ br {
   margin-bottom: 1rem;
 }
 
-.header {
-  height: 120px;
+//GAME CONTAINER
+#game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 
-.best-score {
-  margin: 0;
-  font-size: 12px;
-}
-
-#gameboard {
-  max-width: $break-xsm;
-  width: 95%;
-  margin: .7rem auto;
-}
-
-.game {
-  &-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-  }
-
-  &-title {
-    margin: 1rem auto 0 auto;
-    letter-spacing: 1px;
-    color: #444;
-  }
-}
-
+//GLOBAL SELECTORS
 .container {
   margin: auto;
   text-align: center;
@@ -49,85 +28,109 @@ br {
   display: flex;
   justify-content: center;
   @include box-shadow(10px);
+}
 
-  #gameboard & {
+//HEADER SECTION
+.header {
+  height: 120px;
+
+  & .game-title {
+    margin: 1rem auto 0 auto;
+    letter-spacing: 1px;
+    color: #444;
+  }
+
+  & .best-score {
+    margin: 0;
+    font-size: 12px;
+  }
+}
+
+//GAME BOARD SECTION
+#gameboard {
+  max-width: $break-xsm;
+  width: 95%;
+  margin: .7rem auto;
+
+  & #random-numbers {
+    margin-bottom: 1rem;
+
+    & .card {
+      position: relative;
+      margin: auto;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      transition: all .2s linear;
+
+      &-face {
+        position: absolute;
+        left: -32px;
+        backface-visibility: hidden;
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        color: $color-orange;
+      }
+
+      & .front {
+        transform: rotateY(180deg);
+        box-shadow: 0 0 12px 1px $color-orange,
+      }
+
+      & .back {
+        box-shadow: 0 0 12px 1px $color-orange, inset 0px 0px 0px 10px $color-orange;
+      }
+    }
+  }
+
+  & #players-guesses {
+    margin-top: 7.5rem;
+  }
+
+  & #random-numbers,
+  & #players-guesses {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  & .random-number,
+  & .player-guess {
+    padding: 1.5rem;
+    margin: .5rem auto;
+    border-radius: 5px;
+    font-size: 36px;
+  }
+
+  & .random-number {
+    color: $color-overlay-bg;
+    background-color: $color-golden;
+  }
+
+  & .player-guess {
+    color: $color-overlay-bg;
+
+    &.shrink {
+      transform: scale(.8);
+    }
+
+    &.grow {
+      transform: scale(1);
+    }
+  }
+
+  & .number {
     transition: all .2s linear;
     width: 64px;
   }
 }
 
-.random-number,
-.user-guess {
-  padding: 1.5rem;
-  margin: .5rem auto;
-  border-radius: 5px;
-  font-size: 36px;
-}
-
-.user-guess {
-  color: $color-secondary;
-}
-
-.random-number {
-  color: $color-secondary;
-  background-color: $color-golden;
-}
-
-#random-numbers {
-  margin-bottom: 1rem;
-}
-
-#random-numbers,
-#users-guesses {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#users-guesses {
-  margin-top: 7.5rem;
-}
-
-.card {
-  position: relative;
-  margin: auto;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition: all .2s linear;
-
-  &-face {
-    position: absolute;
-    left: -32px;
-    backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    -webkit-backface-visibility: hidden;
-    color: orange;
-  }
-
-  & .front {
-    transform: rotateY(180deg);
-    box-shadow: 0 0 12px 1px orange,
-  }
-
-  & .back {
-    box-shadow: 0 0 12px 1px orange, inset 0px 0px 0px 10px orange;
-  }
-}
-
+//ANIMATIONS FOR CARDS & PLAYER GUESSES
 .active {
-  box-shadow: 0 0 15px 1px orange;
-}
-
-.shrink {
-  transform: scale(.8);
-}
-
-.grow {
-  transform: scale(1);
+  box-shadow: 0 0 15px 1px $color-orange;
 }
 
 .flip {
   transform: rotateY(180deg);
-  box-shadow: 0 0 20px 3px var(--orange);
+  box-shadow: 0 0 20px 3px $color-orange;
 }

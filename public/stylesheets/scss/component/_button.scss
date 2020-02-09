@@ -2,6 +2,7 @@
 /*              Buttons                          */
 /* ============================================= */
 
+//DEFAULT BUTTON STYLE
 .btn {
   display: block;
   margin: 1rem auto 0 auto;
@@ -11,7 +12,7 @@
   padding: 10px 0;
   text-transform: uppercase;
   border-radius: 5px;
-  box-shadow: 0 0 8px $color-shadow;
+  box-shadow: 0 0 8px $color-overlay-bg;
 
   @include scale-element(hover, 1.1);
   @include scale-element(active, .9);
@@ -20,12 +21,6 @@
     @include hover;
     background-color: $color-golden;
     border: 1px solid #fff;
-  }
-
-  &.continue {
-    &:hover {
-      color: #fff;
-    }
   }
 
   &.reset {
@@ -39,6 +34,7 @@
   }
 }
 
+//GAME OVER BUTTON
 #btn-game-over {
   background-color: $color-golden;
   border: 1px solid orange;

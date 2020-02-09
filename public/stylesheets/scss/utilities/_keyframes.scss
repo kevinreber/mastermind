@@ -1,5 +1,5 @@
 /* ============================================= */
-/*              Keyframes                        */
+/*              Animations & Keyframes           */
 /* ============================================= */
 
 .hide {
@@ -13,16 +13,20 @@
     -webkit-animation-fill-mode: both
 }
 
-.animatedFadeInUp {
-    opacity: 0
-}
-
 .fadeInUp {
     opacity: 0;
     animation-name: fadeInUp;
     -webkit-animation-name: fadeInUp;
 }
 
+.moveUp {
+    animation: moveUp .3s ease-out;
+    -webkit-animation: moveUp .3s ease-out;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+}
+
+//ANIMATION FOR ELEMENTS TO FADE IN
 @keyframes fadeInUp {
     from {
         transform: translate3d(0, 40px, 0)
@@ -45,40 +49,14 @@
     }
 }
 
-/* ============================================= */
-/*              Timer                        */
-/* ============================================= */
-
-svg path {
-    stroke-width: 10;
-    transform: translate(20px, 5px);
-}
-
-#timer {
-    margin: 0 auto 1rem auto;
-}
-.timer-container{
-    height: 30px;
-}
-.progress {
-    display: block;
-    margin: auto;
-    width: 4.5rem;
-    height: 4.5rem;
-
-    &-bg {
-        fill: none;
-        stroke: lighten($color-shadow, 40%);
-    }
-
-    &-bar {
-        fill: none;
-        stroke: $color-progress;
-        animation: progress 3s linear;
-    }
-}
-
+//ANIMATION FOR TIMER
 @keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+@-webkit-keyframes progress {
     0% {
         stroke-dasharray: 0 100;
     }
