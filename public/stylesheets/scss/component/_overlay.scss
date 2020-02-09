@@ -15,22 +15,24 @@
 
 .overlay-content {
     &-container {
-        margin-top: 5rem;
         margin-left: auto;
         margin-right: auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 90%;
         text-align: center;
+        width: 90%;
+        margin-top: 1rem;
     }
 }
 
 .start-screen {
     font-size: 36px;
     margin-bottom: 2rem;
+    letter-spacing: 1px;
 }
 
+// DIFFICULTY
 .difficulty {
     &-options {
         display: flex;
@@ -68,14 +70,14 @@
     }
 }
 
+// INSTRUCTIONS
 .instructions {
-    // margin: 20rem auto 0 auto;
     font-weight: lighter;
     font-size: 14px;
     letter-spacing: 1px;
     transition: all .3s ease-out;
     margin-top: 20rem;
-    
+
 
     & .txt-instructions {
         margin: 0 auto 5px auto;
@@ -104,13 +106,18 @@ li {
     margin-bottom: 8px;
 }
 
+// TEXT STYLES
 .txt {
     &-results {
-        font-size: 48px;
         color: #fff;
-        -webkit-text-stroke: 2px orange;
+        -webkit-text-stroke: 2px $color-orange;
     }
 
+    &-continue {
+        color: rgb(226, 226, 226);
+    }
+
+    &-results,
     &-win {
         font-size: 48px;
     }
@@ -118,9 +125,7 @@ li {
     &-wrong,
     &-win,
     &-lose {
-
         color: $color-golden;
-
     }
 
     &-correct {

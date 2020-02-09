@@ -2,9 +2,14 @@
 /*              Tables                           */
 /* ============================================= */
 
+//HISTORY TABLE
 .table {
     display: flex;
     flex-direction: column;
+
+    & td {
+        height: 16px;
+    }
 
     &-titles-container {
         margin-bottom: 8px;
@@ -19,9 +24,7 @@
     }
 }
 
-td {
-    height: 16px;
-}
+
 
 .attempt {
     font-size: 12px;

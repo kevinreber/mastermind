@@ -1,0 +1,34 @@
+/* ============================================= */
+/*              Timer                        */
+/* ============================================= */
+
+svg path {
+    stroke-width: 10;
+    transform: translate(20px, 5px);
+}
+
+#timer {
+    margin: 0 auto 1rem auto;
+}
+
+.timer-container {
+    height: 30px;
+}
+
+.progress {
+    display: block;
+    margin: auto;
+    width: 4.5rem;
+    height: 4.5rem;
+
+    &-bg {
+        fill: none;
+        stroke: lighten($color-overlay-bg, 40%);
+    }
+
+    &-bar {
+        fill: none;
+        stroke: $color-progress;
+        animation: progress 3s linear;
+    }
+}

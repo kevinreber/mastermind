@@ -3,7 +3,7 @@
 /* ============================================= */
 
 @mixin box-shadow($px) {
-  box-shadow: 0 0 $px $color-shadow;
+  box-shadow: 0 0 $px $color-overlay-bg;
 }
 
 @mixin hover {

@@ -2,11 +2,10 @@
 /*                  Colors                       */
 /* ============================================= */
 
-//Global Colors
-$color-primary: #58e1c1;
-$color-secondary: #777;
+//GLOBAL COLORS
+$color-overlay-bg: #777;
 $color-golden: rgb(255, 206, 82);
-$color-shadow: #777;
+$color-orange: orange;
 $color-progress: #e4757a;
 $color-win: rgba(159, 230, 159, .8);
 $color-wrong: rgba(228, 117, 122, .8);
@@ -15,7 +14,7 @@ $color-wrong: rgba(228, 117, 122, .8);
 /*                     Font                      */
 /* ============================================= */
 
-//Primary font-family
+//PRIMARY FONT FAMILY
 $font-primary: 'Lato',
 sans-serif;
 
@@ -24,6 +23,3 @@ sans-serif;
 /* ============================================= */
 
 $break-xsm: 375px;
-$break-sm: 480px;
-$break-md: 768px;
-$break-lg: 992px;
