@@ -11,7 +11,7 @@
 /*              Mixins                           */
 /* ============================================= */
 /* ============================================= */
-/*              Keyframes                        */
+/*              Animations & Keyframes           */
 /* ============================================= */
 .hide {
   opacity: 0;
@@ -24,14 +24,17 @@
   -webkit-animation-fill-mode: both;
 }
 
-.animatedFadeInUp {
-  opacity: 0;
-}
-
 .fadeInUp {
   opacity: 0;
   animation-name: fadeInUp;
   -webkit-animation-name: fadeInUp;
+}
+
+.moveUp {
+  animation: moveUp 0.3s ease-out;
+  -webkit-animation: moveUp 0.3s ease-out;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 }
 
 @keyframes fadeInUp {
@@ -50,6 +53,22 @@
   to {
     transform: translate3d(0, 0, 0);
     opacity: 1;
+  }
+}
+@keyframes moveUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -8rem, 0);
+  }
+}
+@-webkit-keyframes moveUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -8rem, 0);
   }
 }
 /* ============================================= */
@@ -139,6 +158,8 @@ a {
 .difficulty-options {
   display: flex;
   flex-direction: column;
+  max-width: 300px;
+  margin: auto;
 }
 .difficulty-btn {
   background-color: #fff;
@@ -164,10 +185,11 @@ a {
 }
 
 .instructions {
-  margin: 20rem auto 0 auto;
   font-weight: lighter;
   font-size: 14px;
   letter-spacing: 1px;
+  transition: all 0.3s ease-out;
+  margin-top: 20rem;
 }
 .instructions .txt-instructions {
   margin: 0 auto 5px auto;

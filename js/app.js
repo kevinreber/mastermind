@@ -1,6 +1,7 @@
 const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('keyboard');
 
+let instructionsShown = false; //Toggle instructions on home screen
 let gameOver, lockBoard; //Boolean values
 let timer; //Timer that calls checkAnswers if guess time expires
 let resultsTimer; //Timer for player to view result screen
@@ -33,7 +34,7 @@ function renderHomeScreen() {
 
     let html = `
         <div id="home-screen" class="overlay-content-container">
-            <div class="overlay-content animated animatedFadeInUp fadeInUp">
+            <div class="overlay-content animated hide fadeInUp">
                 <h1 class="game-title start-screen">MASTERMIND</h1>
                 <div class="difficulty-container">
                     <h3>SELECT YOUR DIFFICULTY</h3>
@@ -244,13 +245,13 @@ function fadeSections(fade) {
     if (fade === 'in') {
         for (let section of sections) {
             section.classList.remove('hide');
-            section.classList.add('animated', 'animatedFadeInUp', 'fadeInUp');
+            section.classList.add('animated', 'hide', 'fadeInUp');
         }
     }
     if (fade === 'out') {
         for (let section of sections) {
             section.classList.add('hide');
-            section.classList.remove('animated', 'animatedFadeInUp', 'fadeInUp');
+            section.classList.remove('animated', 'hide', 'fadeInUp');
         }
     }
 }
@@ -523,8 +524,20 @@ function flipCard(card) {
 }
 
 function renderInstructions(e) {
+    const instructionsContainer = document.getElementById('instructions');
     const instructionsList = document.querySelector('.instructions-list');
+
     if (e.target.innerText === 'INSTRUCTIONS') {
+        if (instructionsShown) {
+            instructionsShown = false;
+            instructionsContainer.style.animationDirection = 'reverse';
+        } else {
+            instructionsShown = true;
+            instructionsContainer.style.animationDirection = '';
+        }
+        console.log(instructionsShown);
+
+        instructionsContainer.classList.toggle('moveUp');
         instructionsList.classList.toggle('toggle-display');
     }
 }

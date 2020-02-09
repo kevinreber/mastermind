@@ -35,6 +35,8 @@
     &-options {
         display: flex;
         flex-direction: column;
+        max-width: 300px;
+        margin: auto;
     }
 
     &-btn {
@@ -67,10 +69,13 @@
 }
 
 .instructions {
-    margin: 20rem auto 0 auto;
+    // margin: 20rem auto 0 auto;
     font-weight: lighter;
     font-size: 14px;
     letter-spacing: 1px;
+    transition: all .3s ease-out;
+    margin-top: 20rem;
+    
 
     & .txt-instructions {
         margin: 0 auto 5px auto;
