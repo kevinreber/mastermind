@@ -9,7 +9,7 @@ let selectedDifficulty; //Stores Player Selected Difficulty
 //TO DOs
 // -localStorage store scores for different difficulties
 // -add sound?
-// -debug firefox and safari
+// -debug firefox
 
 let gameData = {
     bestScore: 11, //placeholder for lowest score
