@@ -34,16 +34,33 @@ br {
 .header {
   height: 120px;
 
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+  @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    height: 90px;
+  }
+
   & .game-title {
     margin: 1rem auto 0 auto;
     letter-spacing: 1px;
     color: #444;
+
+    /* ----------- iPhone 6+/7+/8+ ----------- */
+    /* Portrait */
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+      margin-top: .75rem;
+    }
   }
 
   & .best-score {
     margin: 0;
     font-size: 12px;
   }
+
+  & .attempts-container h3 {
+    margin: 8px;
+  }
+
 }
 
 //GAME BOARD SECTION
@@ -51,6 +68,12 @@ br {
   max-width: $break-xsm;
   width: 95%;
   margin: .7rem auto;
+
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+  @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    margin: .7rem auto 0 auto;
+  }
 
   & #random-numbers {
     margin-bottom: 1rem;
@@ -84,6 +107,12 @@ br {
 
   & #players-guesses {
     margin-top: 7.5rem;
+
+    /* ----------- iPhone 6+/7+/8+ ----------- */
+    /* Portrait */
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+      margin-top: 7rem;
+    }
   }
 
   & #random-numbers,

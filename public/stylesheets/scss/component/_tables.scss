@@ -3,6 +3,10 @@
 /* ============================================= */
 
 //HISTORY TABLE
+#history{
+   margin-top: 0; 
+}
+
 .table {
     display: flex;
     flex-direction: column;
@@ -23,8 +27,6 @@
 
     }
 }
-
-
 
 .attempt {
     font-size: 12px;

@@ -89,6 +89,9 @@ a {
   z-index: 10;
 }
 
+.overlay-content {
+  position: relative;
+}
 .overlay-content-container {
   margin-left: auto;
   margin-right: auto;
@@ -140,7 +143,28 @@ a {
   font-size: 14px;
   letter-spacing: 1px;
   transition: all 0.3s ease-out;
-  margin-top: 20rem;
+  margin-top: 40%;
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+  /* ----------- iPhone X ----------- */
+  /* Portrait */
+}
+.instructions.slideUp {
+  margin-top: 25%;
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+  /* ----------- iPhone X ----------- */
+  /* Portrait */
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  .instructions.slideUp {
+    margin-top: 17rem;
+  }
+}
+@media only screen and (max-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  .instructions.slideUp {
+    margin-top: 20rem;
+  }
 }
 .instructions .txt-instructions {
   margin: 0 auto 5px auto;
@@ -154,11 +178,16 @@ a {
   line-height: 1.5;
   max-width: 300px;
   width: 80%;
-  transform: 0.2s linear all;
+  transition: all 0.3s ease-out;
 }
-@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
   .instructions {
-    margin-top: 80%;
+    margin-top: 25rem;
+  }
+}
+@media only screen and (max-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  .instructions {
+    margin-top: 30rem;
   }
 }
 
@@ -317,21 +346,45 @@ br {
 
 .header {
   height: 120px;
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  .header {
+    height: 90px;
+  }
 }
 .header .game-title {
   margin: 1rem auto 0 auto;
   letter-spacing: 1px;
   color: #444;
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  .header .game-title {
+    margin-top: 0.75rem;
+  }
 }
 .header .best-score {
   margin: 0;
   font-size: 12px;
+}
+.header .attempts-container h3 {
+  margin: 8px;
 }
 
 #gameboard {
   max-width: 375px;
   width: 95%;
   margin: 0.7rem auto;
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  #gameboard {
+    margin: 0.7rem auto 0 auto;
+  }
 }
 #gameboard #random-numbers {
   margin-bottom: 1rem;
@@ -360,6 +413,13 @@ br {
 }
 #gameboard #players-guesses {
   margin-top: 7.5rem;
+  /* ----------- iPhone 6+/7+/8+ ----------- */
+  /* Portrait */
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  #gameboard #players-guesses {
+    margin-top: 7rem;
+  }
 }
 #gameboard #random-numbers, #gameboard #players-guesses {
   width: 100%;
@@ -403,6 +463,10 @@ br {
 /* ============================================= */
 /*              Tables                           */
 /* ============================================= */
+#history {
+  margin-top: 0;
+}
+
 .table {
   display: flex;
   flex-direction: column;

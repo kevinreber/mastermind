@@ -542,9 +542,11 @@ function flipCard(card) {
 
 //Toggle display of instructions on home screen
 function showInstructions(e) {
+    const instructions = document.getElementById('instructions');
     const instructionsList = document.querySelector('.instructions-list');
 
     if (e.target.innerText === 'INSTRUCTIONS') {
+        instructions.classList.toggle('slideUp');
         instructionsList.classList.toggle('toggle-display');
     }
 }

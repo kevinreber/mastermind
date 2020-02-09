@@ -14,6 +14,8 @@
 }
 
 .overlay-content {
+    position: relative;
+
     &-container {
         margin-left: auto;
         margin-right: auto;
@@ -77,7 +79,23 @@
     font-size: 14px;
     letter-spacing: 1px;
     transition: all .3s ease-out;
-    margin-top: 20rem;
+    margin-top: 40%;
+
+    &.slideUp {
+        margin-top: 25%;
+
+        /* ----------- iPhone 6+/7+/8+ ----------- */
+        /* Portrait */
+        @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+            margin-top: 17rem;
+        }
+
+        /* ----------- iPhone X ----------- */
+        /* Portrait */
+        @media only screen and (max-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+            margin-top: 20rem;
+        }
+    }
 
     & .txt-instructions {
         margin: 0 auto 5px auto;
@@ -92,11 +110,19 @@
         line-height: 1.5;
         max-width: 300px;
         width: 80%;
-        transform: .2s linear all;
+        transition: all .3s ease-out;
     }
 
-    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-        margin-top: 80%;
+    /* ----------- iPhone 6+/7+/8+ ----------- */
+    /* Portrait */
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+        margin-top: 25rem;
+    }
+
+    /* ----------- iPhone X ----------- */
+    /* Portrait */
+    @media only screen and (max-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+        margin-top: 30rem;
     }
 
 }
