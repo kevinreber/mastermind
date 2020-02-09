@@ -99,7 +99,7 @@ async function startGame() {
         alert("ERROR CALLING API!");
         randomNumbersFallback(maxNumber); //Fallback to generate random numbers
     }
-    checkIfHighScoreExists();
+    checkIfBestScoreExists();
     renderGameBoard();
     startTimerBar(selectedDifficulty.timer);
 }
@@ -430,6 +430,7 @@ function gameEnds(result) {
     overlay.classList.remove('overlay-default');
 }
 
+//Listens for event on overlay of results
 function closeOverlayListener() {
     overlay.addEventListener('click', closeOverlayHandle);
 }
@@ -463,13 +464,24 @@ function resetGuessData() {
     gameData.guessPlayerIsOn = 1; // Reset guessPlayerIsOn
 }
 
-function resetPlayersGuessCards() { // Remove animation from players guess cards
+//Remove animation from players guess cards
+function resetPlayersGuessCards() { 
     const playerGuess = document.querySelectorAll('.player-guess');
     for (let guess of playerGuess) {
         guess.classList.remove('grow');
     }
 }
 
+//Clear Player Guesses
+function clearPlayersGuesses() {
+    const playerGuess = document.querySelectorAll('.player-guess');
+    for (let guess of playerGuess) {
+        guess.innerText = '-';
+    }
+    gameData.playerInput = [];
+}
+
+//Updates player's attempt history
 function updateHistory(correct, located) {
     const tableAttempts = document.querySelectorAll('.table-attempt');
     let html = `
@@ -481,15 +493,7 @@ function updateHistory(correct, located) {
     gameData.attemptPlayerIsOn++;
 }
 
-// Clear Player Guesses with animation
-function clearPlayersGuesses() {
-    const playerGuess = document.querySelectorAll('.player-guess');
-    for (let guess of playerGuess) {
-        guess.innerText = '-';
-    }
-    gameData.playerInput = [];
-}
-
+//Resets Game
 function resetGame() {
     clearTimeout(resultsTimer);
     toggleKeyboardAccess(true); // temporarily disable keyboard elements
@@ -503,6 +507,7 @@ function resetGame() {
     renderHomeScreen(); //Displays home screen
 }
 
+//Toggle player's access to keyboard
 function toggleKeyboardAccess(bool) {
     const keyboardNumber = document.querySelectorAll('.keyboard-number');
     for (let key of keyboardNumber) {
@@ -510,7 +515,8 @@ function toggleKeyboardAccess(bool) {
     }
 }
 
-function checkIfHighScoreExists() {
+//Check local storage for bestScore
+function checkIfBestScoreExists() {
     const bestScore = document.getElementById('best-score');
     if (localStorage.bestScore) { // If localStorage.bestScore exists update Best Score displayed
         gameData.bestScore = JSON.parse(localStorage.bestScore);
@@ -518,6 +524,7 @@ function checkIfHighScoreExists() {
     } else bestScore.innerText = '-'; // else display no score
 }
 
+//Reveal answers when game is over
 async function toggleAnswers() {
     const cards = document.querySelectorAll('#random-numbers .card');
     for (let [i, card] of cards.entries()) {
@@ -533,7 +540,8 @@ function flipCard(card) {
     }
 }
 
-function renderInstructions(e) {
+//Toggle display of instructions on home screen
+function showInstructions(e) {
     const instructionsList = document.querySelector('.instructions-list');
 
     if (e.target.innerText === 'INSTRUCTIONS') {
@@ -541,7 +549,8 @@ function renderInstructions(e) {
     }
 }
 
-window.onload = renderHomeScreen();
-overlay.addEventListener('click', selectDifficulty);
-overlay.addEventListener('click', renderInstructions);
-keyboard.addEventListener('click', playerMakesGuess);
+//EVENT LISTENERS
+window.onload = renderHomeScreen();     //Renders home screen on page load
+overlay.addEventListener('click', selectDifficulty);    //Listens for player to select difficulty and starts game
+overlay.addEventListener('click', showInstructions);    //Listens for player to click instructions to display
+keyboard.addEventListener('click', playerMakesGuess);   //Listens for player to make a guess
