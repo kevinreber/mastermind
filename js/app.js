@@ -170,8 +170,8 @@ function renderHistory() {
         html += `
         <tr class="table-attempt">
             <td class="attempt">----</td>
-            <td class="attempt">-</td>
-            <td class="attempt">-</td>
+            <td class="attempt">--</td>
+            <td class="attempt">--</td>
         </tr>
     `
     }
