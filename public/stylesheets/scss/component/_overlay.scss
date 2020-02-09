@@ -59,7 +59,8 @@
             transform: translateY(-.4rem);
         }
 
-        &:hover {
+        &:hover,
+        &:active {
             color: #444;
 
             &::before,
@@ -78,7 +79,6 @@
     transition: all .3s ease-out;
     margin-top: 20rem;
 
-
     & .txt-instructions {
         margin: 0 auto 5px auto;
         padding: 3px;
@@ -93,6 +93,10 @@
         max-width: 300px;
         width: 80%;
         transform: .2s linear all;
+    }
+
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+        margin-top: 80%;
     }
 
 }
