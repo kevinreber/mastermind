@@ -10,9 +10,6 @@ let selectedDifficulty; //Stores Player Selected Difficulty
 // -localStorage store scores for different difficulties
 // -add sound?
 // -debug firefox and safari
-// -try different way to access API
-// -OOP
-// -Handlebars or Ember
 
 let gameData = {
     bestScore: 11, //placeholder for lowest score
