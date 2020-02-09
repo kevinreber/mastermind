@@ -1,0 +1,461 @@
+/* ============================================= */
+/*                  Colors                       */
+/* ============================================= */
+/* ============================================= */
+/*                     Font                      */
+/* ============================================= */
+/* ============================================= */
+/*               Media Queries                   */
+/* ============================================= */
+/* ============================================= */
+/*              Mixins                           */
+/* ============================================= */
+/* ============================================= */
+/*              Animations & Keyframes           */
+/* ============================================= */
+.hide {
+  opacity: 0;
+}
+
+.animated {
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 0.8s;
+  -webkit-animation-fill-mode: both;
+}
+
+.fadeInUp {
+  opacity: 0;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+}
+
+.moveUp {
+  animation: moveUp 0.3s ease-out;
+  -webkit-animation: moveUp 0.3s ease-out;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+@-webkit-keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+/* ============================================= */
+/*              Typography                       */
+/* ============================================= */
+* {
+  font-family: "Lato", sans-serif;
+  box-sizing: border-box;
+  color: #777;
+}
+
+p {
+  line-height: 1.45em;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ============================================= */
+/*              Overlay                          */
+/* ============================================= */
+#overlay {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 10;
+}
+
+.overlay-content-container {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 90%;
+  margin-top: 1rem;
+}
+
+.start-screen {
+  font-size: 36px;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: auto;
+}
+.difficulty-btn {
+  background-color: #fff;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s all ease-in;
+}
+.difficulty-btn::before, .difficulty-btn::after {
+  transition: 0.2s all ease-in;
+  display: inline-block;
+  content: "";
+  border-top: 1px solid #444;
+  width: 0;
+  margin: 0 1rem;
+  transform: translateY(-0.4rem);
+}
+.difficulty-btn:hover {
+  color: #444;
+}
+.difficulty-btn:hover::before, .difficulty-btn:hover::after {
+  width: 4rem;
+}
+
+.instructions {
+  font-weight: lighter;
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-out;
+  margin-top: 20rem;
+}
+.instructions .txt-instructions {
+  margin: 0 auto 5px auto;
+  padding: 3px;
+  cursor: pointer;
+}
+.instructions-list {
+  font-size: 12px;
+  margin: auto;
+  text-align: start;
+  line-height: 1.5;
+  max-width: 300px;
+  width: 80%;
+  transform: 0.2s linear all;
+}
+
+.toggle-display {
+  opacity: 0;
+  display: none;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+.txt-results {
+  color: #fff;
+  -webkit-text-stroke: 2px orange;
+}
+.txt-continue {
+  color: #e2e2e2;
+}
+.txt-results, .txt-win {
+  font-size: 48px;
+}
+.txt-wrong, .txt-win, .txt-lose {
+  color: #ffce52;
+}
+.txt-correct {
+  text-align: start;
+  margin-left: 1rem;
+  font-size: 24px;
+  color: #fff;
+}
+.txt-correct-header {
+  color: #ffce52;
+}
+.txt-correct-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================= */
+/*              Keyboard                         */
+/* ============================================= */
+#keyboard {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 1rem;
+}
+
+.keyboard-container {
+  margin: auto;
+}
+.keyboard-header {
+  margin: 0 auto 8px auto;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+.keyboard-number {
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 3px;
+  background-color: #fff;
+  transition: all 0.2s ease-in;
+}
+.keyboard-number:hover {
+  transform: scale(1.1);
+}
+.keyboard-number:active {
+  transform: scale(0.9);
+}
+.keyboard-number:hover {
+  color: #444;
+  box-shadow: 0 0 10px 1px #ffce52;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+.keyboard-number:active {
+  background-color: #ffce52;
+}
+
+/* ============================================= */
+/*              Buttons                          */
+/* ============================================= */
+.btn {
+  display: block;
+  margin: 1rem auto 0 auto;
+  width: 95%;
+  max-width: 375px;
+  border: none;
+  padding: 10px 0;
+  text-transform: uppercase;
+  border-radius: 5px;
+  box-shadow: 0 0 8px #777;
+}
+.btn:hover {
+  transform: scale(1.1);
+}
+.btn:active {
+  transform: scale(0.9);
+}
+.btn:hover {
+  color: #444;
+  box-shadow: 0 0 10px 1px #ffce52;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  background-color: #ffce52;
+  border: 1px solid #fff;
+}
+.btn.reset {
+  background-color: #4d4d4d;
+  color: #fff;
+  border: 1px solid #fff;
+}
+.btn.reset:hover {
+  background-color: #ffce52;
+}
+
+#btn-game-over {
+  background-color: #ffce52;
+  border: 1px solid orange;
+}
+
+/* ============================================= */
+/*              Game Board                       */
+/* ============================================= */
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
+br {
+  margin-bottom: 1rem;
+}
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.container {
+  margin: auto;
+  text-align: center;
+}
+
+.number {
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 10px #777;
+}
+
+.header {
+  height: 120px;
+}
+.header .game-title {
+  margin: 1rem auto 0 auto;
+  letter-spacing: 1px;
+  color: #444;
+}
+.header .best-score {
+  margin: 0;
+  font-size: 12px;
+}
+
+#gameboard {
+  max-width: 375px;
+  width: 95%;
+  margin: 0.7rem auto;
+}
+#gameboard #random-numbers {
+  margin-bottom: 1rem;
+}
+#gameboard #random-numbers .card {
+  position: relative;
+  margin: auto;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: all 0.2s linear;
+}
+#gameboard #random-numbers .card-face {
+  position: absolute;
+  left: -32px;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  color: orange;
+}
+#gameboard #random-numbers .card .front {
+  transform: rotateY(180deg);
+  box-shadow: 0 0 12px 1px orange;
+}
+#gameboard #random-numbers .card .back {
+  box-shadow: 0 0 12px 1px orange, inset 0px 0px 0px 10px orange;
+}
+#gameboard #players-guesses {
+  margin-top: 7.5rem;
+}
+#gameboard #random-numbers, #gameboard #players-guesses {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#gameboard .random-number, #gameboard .player-guess {
+  padding: 1.5rem;
+  margin: 0.5rem auto;
+  border-radius: 5px;
+  font-size: 36px;
+}
+#gameboard .random-number {
+  color: #777;
+  background-color: #ffce52;
+}
+#gameboard .player-guess {
+  color: #777;
+}
+#gameboard .player-guess.shrink {
+  transform: scale(0.8);
+}
+#gameboard .player-guess.grow {
+  transform: scale(1);
+}
+#gameboard .number {
+  transition: all 0.2s linear;
+  width: 64px;
+}
+
+.active {
+  box-shadow: 0 0 15px 1px orange;
+}
+
+.flip {
+  transform: rotateY(180deg);
+  box-shadow: 0 0 20px 3px orange;
+}
+
+/* ============================================= */
+/*              Tables                           */
+/* ============================================= */
+.table {
+  display: flex;
+  flex-direction: column;
+}
+.table td {
+  height: 16px;
+}
+.table-titles-container {
+  margin-bottom: 8px;
+}
+.table-title {
+  font-size: 14px;
+  height: 16px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.attempt {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* ============================================= */
+/*              Timer                        */
+/* ============================================= */
+svg path {
+  stroke-width: 10;
+  transform: translate(20px, 5px);
+}
+
+#timer {
+  margin: 0 auto 1rem auto;
+}
+
+.timer-container {
+  height: 30px;
+}
+
+.progress {
+  display: block;
+  margin: auto;
+  width: 4.5rem;
+  height: 4.5rem;
+}
+.progress-bg {
+  fill: none;
+  stroke: #dddddd;
+}
+.progress-bar {
+  fill: none;
+  stroke: #e4757a;
+  animation: progress 3s linear;
+}
+
+/*# sourceMappingURL=styles.css.map */
