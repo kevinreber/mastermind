@@ -38,9 +38,9 @@ function renderHomeScreen() {
                 <footer id="instructions" class="instructions">
                     <p class="txt-instructions">INSTRUCTIONS</p>
                     <ul class="instructions-list toggle-display">
-                        <li>Player has 10 attempts to guess the correct location of 4 numbers</li>
-                        <li>Each attempt is timed based on the difficulty level</li>
-                        <li>Player has 10 seconds after attempt to see if any numbers were matched/located</li>                    
+                        <li>Player has 10 attempts to guess the location of 4 numbers in limited time</li>
+                        <li>After each attempt player has 10 seconds to view their results</li>
+                        <li>Game ends when player runs out of attempts or matches all numbers</li>                    
                     </ul>
                 </footer>
             </div>
