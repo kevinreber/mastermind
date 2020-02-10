@@ -6,14 +6,9 @@ let timer; //Timer that calls checkAnswers if guess time expires
 let resultsTimer; //Timer for player to view result screen
 let selectedDifficulty; //Stores Player Selected Difficulty
 
-//TO DOs
-// -localStorage store scores for different difficulties
-// -add sound?
-// -debug firefox
-
 let gameData = {
-    bestScore: 11, //placeholder for lowest score
-    attemptsPlayerHasLeft: 10,
+    bestScore: 11, // Placeholder for lowest score
+    attemptsPlayerHasLeft: 10,  // Updates on game screen
     attemptPlayerIsOn: 1, // Reference to update player history
     guessPlayerIsOn: 1, // Stores guess player is on
     randomAPIResults: [], // Stores numbers from API call
@@ -59,11 +54,11 @@ function selectDifficulty(e) {
     const gameDifficulty = { //Settings for game difficulty
         easy: {
             keyboardMax: 5,
-            timer: 10
+            timer: 15
         },
         medium: {
             keyboardMax: 7,
-            timer: 7
+            timer: 10
         },
         hard: {
             keyboardMax: 9,
@@ -303,7 +298,7 @@ function checkAnswers() {
     updateAttempts();
     if (correctMatches === 4 || gameData.attemptsPlayerHasLeft === 0) {
         gameOver = true;
-        toggleAnswers();
+        toggleAnswers();    //Shows answers
         setTimeout(renderResults, 2500, correctNumbers, correctMatches); //Calls renderResults after toggleAnswers finish
     } else {
         renderResults(correctNumbers, correctMatches);
