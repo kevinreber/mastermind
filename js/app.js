@@ -1,5 +1,5 @@
-const overlay = document.getElementById('overlay');
-const keyboard = document.getElementById('keyboard');
+const overlay = document.getElementById('overlay'); //Overlay container for event listener
+const keyboard = document.getElementById('keyboard');   //Keyboard container for event listener
 
 let gameOver, lockBoard; //Boolean values
 let timer; //Timer that calls checkAnswers if guess time expires
@@ -35,14 +35,14 @@ function renderHomeScreen() {
                         <button class="difficulty-btn">HARD</button>
                     </div>
                 </div>
-                <div id="instructions" class="instructions">
+                <footer id="instructions" class="instructions">
                     <p class="txt-instructions">INSTRUCTIONS</p>
                     <ul class="instructions-list toggle-display">
-                    <li>Player has 10 attempts to guess the correct location of 4 numbers</li>
-                    <li>Each attempt is timed based on the difficulty level</li>
-                    <li>Player has 10 seconds after attempt to see if any numbers were matched/located</li>                    
-                </ul>
-                </div>
+                        <li>Player has 10 attempts to guess the correct location of 4 numbers</li>
+                        <li>Each attempt is timed based on the difficulty level</li>
+                        <li>Player has 10 seconds after attempt to see if any numbers were matched/located</li>                    
+                    </ul>
+                </footer>
             </div>
         </div>
     `;
