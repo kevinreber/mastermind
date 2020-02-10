@@ -1,0 +1,138 @@
+<center><h1>Mastermind</h1>
+Mastermind is a game where players have 10 attempts to guess the location of 4 numbers
+
+&nbsp;
+<img src="public/images/demo.jpg" alt="demo" width="250"/>
+
+[Play Game](https://kevinreber.github.io/mastermind/) 
+&nbsp;
+&nbsp;
+[Source Code](https://github.com/kevinreber/mastermind)
+</center>
+
+<!-- ![logo](public/images/KR-Logo_100x100.png) -->
+
+## Download Game
+* ### Download from GitHub
+    * [Source Code](https://github.com/kevinreber/mastermind)
+
+* ### Download from Command Line
+    * Must have Git [installed](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+    * Paste into Command Line
+
+    ```
+    $ git clone https://github.com/kevinreber/mastermind
+    ```
+
+    * Open index.html file in browser to play game
+
+
+## How to Play
+
+ <!-- ADD GIF -->
+
+* Player selects a [difficulty](#difficulty)
+* Player has 10 attempts to guess the location of 4 numbers in limited time
+* After each attempt player has 10 seconds to view their results
+* Game ends when player runs out of attempts or matches all numbers
+
+## <a id="difficulty"></a>Difficulty levels
+
+* <strong>Easy</strong> -    Timer: 10 seconds, Keyboard Numbers: 0-5
+* <strong>Medium</strong> -  Timer: 7 seconds, Keyboard Numbers: 0-7
+* <strong>Hard</strong> -    Timer: 5 seconds, Keyboard Numbers: 0-9
+
+## 🛠️ Building Mastermind
+
+* ### Design Concept
+
+    <center><img src="public/images/design-sketch.jpg" alt="design" width="800"/></center>
+
+    * Minimalist approach
+    * Desktop & Mobile friendly
+    * Reveal answers when game is over
+
+* ### Game Data
+
+    * ```gameData``` is a global variable that stores/updates player and game information 
+
+    ```
+    let gameData = {
+        bestScore: 11, // Placeholder to compare if Best Score exists
+        attemptsPlayerHasLeft: 10,  // Updates attemtps on game screen
+        attemptPlayerIsOn: 1, // Reference to update player history
+        guessPlayerIsOn: 1, // Stores guess player is on
+        randomAPIResults: [], // Stores numbers from API call
+        playerInput: [] // Stores player's input
+    }
+    ```
+
+
+* ### Home Screen
+
+    * Each difficulty displays a different amount of numbers in the game keyboard and the amount of time players have to make an attempt. [see difficulty levels](#difficulty)
+    * Home screen listens for user to select difficulty then calls ```function selectDifficulty(e)```
+    * When user selects difficulty, that information is taken from &nbsp;```gameDifficulty```&nbsp; and stored into a global variable &nbsp; ```let selectedDifficulty;```
+    ```   
+    const gameDifficulty = {           //Settings for game difficulty
+            easy: {
+                keyboardMax: 5,
+                timer: 10
+            },
+            medium: {
+                keyboardMax: 7,
+                timer: 7
+            },
+            hard: {
+                keyboardMax: 9,
+                timer: 5
+            }
+        }
+    ```
+
+    ```
+    // Example: Player selects "easy" difficulty
+    let selectedDifficulty = {
+        keyboardMax: 5;
+        timer: 10
+    }
+    ```
+
+    * After storing difficulty, &nbsp; ```await function startGame()``` initializes and calls [Random.Org API](https://www.random.org/clients/http/api/)
+
+    * Results from API call are stored in &nbsp; ```gameData[randomAPIResults]```
+
+    * If API call fails, fallback function gets called ```randomNumbersFallback()``` that generates random integers to store in &nbsp; ```gameData[randomAPIResults]```
+
+    * Once results are stored, &nbsp; ```checkIfBestScoreExists()``` is called to check local storage if any best score's exist.
+
+    * Game Screen is then rendered &nbsp;(```renderGameBoard()```) &nbsp; and timer begins &nbsp;(```startTimerBar(seconds)```)
+
+* ### Game Screen
+
+    * Player is only allowed 4 guesses per attempt.
+
+    * ```playerMakesGuess(e)``` keeps track of player's guesses and calls &nbsp;```checkAnswers()``` when player has made 4 guesses or timer runs out.
+
+    * ```checkAnswers()``` checks if player's guesses are correct and renders results on screen.
+
+    * Game is not over until player has matched all 4 random numbers or player has 0 attempts left.
+
+    * Player who has matched all 4 random numbers in the least amount of attempts has their number of attempts stored in "Best Score"
+
+## 🛠️ Built With
+
+* [Normalize CSS](https://github.com/necolas/normalize.css/) - Modern alternative to CSS resets
+* [Sass](https://sass-lang.com/install) - CSS preprocessor
+* [Axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
+* [Random.Org](https://www.random.org/clients/http/api/) - Random number generator API
+
+## 👤 Authors
+
+* Kevin Reber &nbsp; [Github](https://github.com/kevinreber) &nbsp; | &nbsp; [Portfolio](https://kevinreber.github.io/kevin-reber-portfolio/)
+
+## Feature Add Ons
+* Local Storage different difficulties
+* Show player history on Results Screen
+* Add sound
