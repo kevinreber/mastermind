@@ -24,13 +24,14 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
     ```
     $ git clone https://github.com/kevinreber/mastermind
     ```
+ ## How to Run Game
 
-    * Open index.html file in browser to play game
+* After downloading files, open index.html in browser to play game
 
 
 ## How to Play
 
- <!-- ADD GIF -->
+<center><img src="public/images/mastermind.gif" alt="demo" width="250"/></center>
 
 * Player selects a [difficulty](#difficulty)
 * Player has 10 attempts to guess the location of 4 numbers in limited time
@@ -39,8 +40,8 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
 ## <a id="difficulty"></a>Difficulty levels
 
-* <strong>Easy</strong> -    Timer: 10 seconds, Keyboard Numbers: 0-5
-* <strong>Medium</strong> -  Timer: 7 seconds, Keyboard Numbers: 0-7
+* <strong>Easy</strong> -    Timer: 15 seconds, Keyboard Numbers: 0-5
+* <strong>Medium</strong> -  Timer: 10 seconds, Keyboard Numbers: 0-7
 * <strong>Hard</strong> -    Timer: 5 seconds, Keyboard Numbers: 0-9
 
 ## 🛠️ Building Mastermind
@@ -71,18 +72,18 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
 * ### Home Screen
 
-    * Each difficulty displays a different amount of numbers in the game keyboard and the amount of time players have to make an attempt. [see difficulty levels](#difficulty)
+    * Each difficulty displays different numbers in the game keyboard and the amount of time players have to make an attempt. [See difficulty levels](#difficulty)
     * Home screen listens for user to select difficulty then calls ```function selectDifficulty(e)```
     * When user selects difficulty, that information is taken from &nbsp;```gameDifficulty```&nbsp; and stored into a global variable &nbsp; ```let selectedDifficulty;```
     ```   
     const gameDifficulty = {           //Settings for game difficulty
             easy: {
                 keyboardMax: 5,
-                timer: 10
+                timer: 15
             },
             medium: {
                 keyboardMax: 7,
-                timer: 7
+                timer: 10
             },
             hard: {
                 keyboardMax: 9,
@@ -95,7 +96,7 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
     // Example: Player selects "easy" difficulty
     let selectedDifficulty = {
         keyboardMax: 5;
-        timer: 10
+        timer: 15
     }
     ```
 
@@ -121,6 +122,23 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
     * Player who has matched all 4 random numbers in the least amount of attempts has their number of attempts stored in "Best Score"
 
+## Extensions Implemented
+
+* Difficulty Levels
+* Instructions
+* Timer
+* Animations
+* Media Queries
+* Local Storage to store Best Score
+
+## Extensions To Add/Improve
+
+* Local Storage for different difficulties
+* Show player history on Results Screen
+* Improve animations
+* Sound
+* Different design for desktop
+
 ## 🛠️ Built With
 
 * [Normalize CSS](https://github.com/necolas/normalize.css/) - Modern alternative to CSS resets
@@ -131,8 +149,3 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 ## 👤 Authors
 
 * Kevin Reber &nbsp; [Github](https://github.com/kevinreber) &nbsp; | &nbsp; [Portfolio](https://kevinreber.github.io/kevin-reber-portfolio/)
-
-## Feature Add Ons
-* Local Storage different difficulties
-* Show player history on Results Screen
-* Add sound
