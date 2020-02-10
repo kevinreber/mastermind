@@ -9,8 +9,6 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 &nbsp;
 &nbsp;
 [Source Code](https://github.com/kevinreber/mastermind)
-</center>
-<!-- ![logo](public/images/KR-Logo_100x100.png) -->
 </div>
 
 ## Download Game
