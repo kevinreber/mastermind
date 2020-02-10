@@ -1,4 +1,5 @@
-<center><h1>Mastermind</h1>
+<div style="text-align:center">
+<h1>Mastermind</h1>
 Mastermind is a game where players have 10 attempts to guess the location of 4 numbers
 
 &nbsp;
@@ -9,8 +10,8 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 &nbsp;
 [Source Code](https://github.com/kevinreber/mastermind)
 </center>
-
 <!-- ![logo](public/images/KR-Logo_100x100.png) -->
+</div>
 
 ## Download Game
 * ### Download from GitHub
@@ -28,10 +29,9 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
 * After downloading files, open index.html in browser to play game
 
-
 ## How to Play
 
-<center><img src="public/images/mastermind.gif" alt="demo" width="250"/></center>
+<img src="public/images/mastermind.gif" alt="demo" width="250"/>
 
 * Player selects a [difficulty](#difficulty)
 * Player has 10 attempts to guess the location of 4 numbers in limited time
@@ -48,7 +48,9 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
 * ### Design Concept
 
-    <center><img src="public/images/design-sketch.jpg" alt="design" width="800"/></center>
+    <div style="text-align:center">
+    <img src="public/images/design-sketch.jpg" alt="design" width="800"/>
+    </div>
 
     * Minimalist approach
     * Desktop & Mobile friendly
