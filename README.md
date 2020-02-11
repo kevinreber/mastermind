@@ -61,7 +61,7 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
     ```
     let gameData = {
         bestScore: 11, // Placeholder to compare if Best Score exists
-        attemptsPlayerHasLeft: 10,  // Updates attemtps on game screen
+        attemptsPlayerHasLeft: 10,  // Updates attempts on game screen
         attemptPlayerIsOn: 1, // Reference to update player history
         guessPlayerIsOn: 1, // Stores guess player is on
         randomAPIResults: [], // Stores numbers from API call
