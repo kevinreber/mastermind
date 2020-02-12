@@ -48,9 +48,10 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
     * Display how many attempts player has
     * Generate 4 random integers using [Random.Org API](https://www.random.org/clients/http/api/)
     * Numbers must be between 0-7
-    * Player needs a way to guess 4 random numbers (keyboard)
+    * Player needs a way to guess 4 random numbers - make keyboard for mobile users
     * Results need to be shown after Player has made 4 guesses
     * Player needs a way to continue game after results displayed
+    * Number of attempts needs to be updated each turn
     * Player must have a way to view previous results
     * Notify player when game is over
 
