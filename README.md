@@ -44,6 +44,16 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
 ## 🛠️ Building Mastermind
 
+* ### Goals
+    * Display how many attempts player has
+    * Generate 4 random integers using [Random.Org API](https://www.random.org/clients/http/api/)
+    * Numbers must be between 0-7
+    * Player needs a way to guess 4 random numbers (keyboard)
+    * Results need to be shown after Player has made 4 guesses
+    * Player needs a way to continue game after results displayed
+    * Player must have a way to view previous results
+    * Notify player when game is over
+
 * ### Design Concept
 
     <div style="text-align:center">
@@ -60,12 +70,12 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
     ```
     let gameData = {
-        bestScore: 11, // Placeholder to compare if Best Score exists
-        attemptsPlayerHasLeft: 10,  // Updates attempts on game screen
-        attemptPlayerIsOn: 1, // Reference to update player history
-        guessPlayerIsOn: 1, // Stores guess player is on
-        randomAPIResults: [], // Stores numbers from API call
-        playerInput: [] // Stores player's input
+            bestScore: 11, // Placeholder to compare if Best Score exists
+            attemptsPlayerHasLeft: 10,  // Updates attempts on game screen
+            attemptPlayerIsOn: 1, // Reference to update player history
+            guessPlayerIsOn: 1, // Stores guess player is on
+            randomAPIResults: [], // Stores numbers from API call
+            playerInput: [] // Stores player's input
     }
     ```
 
