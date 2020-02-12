@@ -265,8 +265,7 @@ function playerMakesGuess(e) {
         gameData.guessPlayerIsOn++;
     }
     if (gameData.playerInput.length === 4) { //checkAnswers when player has made 4 guesses
-        checkAnswers();
-        gameData.guessPlayerIsOn = 0;
+        checkAnswers();   
     }
 }
 
