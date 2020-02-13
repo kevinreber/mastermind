@@ -90,15 +90,15 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
     const gameDifficulty = {           //Settings for game difficulty
             easy: {
                 keyboardMax: 5,
-                timer: 15
+                timer: 25
             },
             medium: {
                 keyboardMax: 7,
-                timer: 10
+                timer: 20
             },
             hard: {
                 keyboardMax: 9,
-                timer: 5
+                timer: 15
             }
         }
     ```
@@ -107,7 +107,7 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
     // Example: Player selects "easy" difficulty
     let selectedDifficulty = {
         keyboardMax: 5;
-        timer: 15
+        timer: 25
     }
     ```
 

@@ -12,7 +12,7 @@ let gameData = {
     attemptPlayerIsOn: 1, // Reference to update player history
     guessPlayerIsOn: 1, // Stores guess player is on
     randomAPIResults: [], // Stores numbers from API call
-    playerInput: [] // Stores player's input
+    playerInput: ['-','-','-','-'] // Stores player's input
 }
 
 //Render game's home screen
@@ -54,15 +54,15 @@ function selectDifficulty(e) {
     const gameDifficulty = { //Settings for game difficulty
         easy: {
             keyboardMax: 5,
-            timer: 15
+            timer: 25
         },
         medium: {
             keyboardMax: 7,
-            timer: 10
+            timer: 20
         },
         hard: {
             keyboardMax: 9,
-            timer: 5
+            timer: 15
         }
     }
 
@@ -139,13 +139,21 @@ function renderRandomNumbers() {
 //Displays player's guesses
 function renderPlayerGuesses() {
     const playersGuesses = document.getElementById('players-guesses');
-    let html = '';
+    playersGuesses.innerHTML = '';
+    // let html = '';
     for (let i = 0; i < 4; i++) {
-        html += `
-        <p class="player-guess number shrink">-</p>
-        `
+        const card = document.createElement('p');
+        card.id = i;
+        card.classList.add('player-guess', 'number', 'shrink');
+        card.onclick = removeCardValue;
+        card.value = '-';
+        playersGuesses.appendChild(card);
+
+        // html += `
+        // <p id="${i}" class="player-guess number shrink" onclick="removeCardValue()">-</p>
+        // `
     }
-    playersGuesses.innerHTML = html;
+    // playersGuesses.innerHTML = html;
 }
 
 //Render clean player History
@@ -259,14 +267,24 @@ function playerMakesGuess(e) {
     const playerGuess = document.querySelectorAll('.player-guess');
     const key = e.target;
     if (key.tagName === 'BUTTON') {
-        gameData.playerInput.push(key.innerText); //Store player's guess
+        gameData.playerInput[gameData.guessPlayerIsOn - 1] = key.innerText; //Store player's guess
         displayGuessMade();
         playerGuess[gameData.guessPlayerIsOn - 1].classList.toggle('grow');
         gameData.guessPlayerIsOn++;
     }
-    if (gameData.playerInput.length === 4) { //checkAnswers when player has made 4 guesses
+    if (!gameData.playerInput.includes('-')) { //checkAnswers when player has made 4 guesses
         checkAnswers();   
     }
+}
+
+// check gameData.playerInput for no '-'
+
+//  -need to also remove "grow" animation
+function removeCardValue(e){
+    const card = e.target;
+
+    card.innerText = '-';
+    gameData.playerInput[card.id] = '-';
 }
 
 //Updates display of player's guesses
@@ -282,13 +300,13 @@ function displayGuessMade() {
 function checkAnswers() {
     lockBoard = true;
     clearInterval(timer); //clearInterval of timer if checkAnswers is called before time expires
-    if (gameData.playerInput !== 4) { //If player runs out of time store a ' x '        
+    // if (gameData.playerInput !== 4) { //If player runs out of time store a ' x '        
         for (let i = 0; i < 4; i++) {
             if (!gameData.playerInput[i]) {
                 gameData.playerInput[i] = ' x ';
             }
         }
-    }
+    // }
 
     const correctNumbers = checkIfNumberExists(); //Checks if player's guesses match any of the random numbers 
     const correctMatches = checkForMatches(); //Checks if player has guessed any numbers in their correct correct location
