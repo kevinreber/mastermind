@@ -38,9 +38,9 @@ Mastermind is a game where players have 10 attempts to guess the location of 4 n
 
 ## <a id="difficulty"></a>Difficulty levels
 
-* <strong>Easy</strong> -    Timer: 15 seconds, Keyboard Numbers: 0-5
-* <strong>Medium</strong> -  Timer: 10 seconds, Keyboard Numbers: 0-7
-* <strong>Hard</strong> -    Timer: 5 seconds, Keyboard Numbers: 0-9
+* <strong>Easy</strong> -    Timer: 25 seconds, Keyboard Numbers: 0-5
+* <strong>Medium</strong> -  Timer: 20 seconds, Keyboard Numbers: 0-7
+* <strong>Hard</strong> -    Timer: 15 seconds, Keyboard Numbers: 0-9
 
 ## 🛠️ Building Mastermind
 
