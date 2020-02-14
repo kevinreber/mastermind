@@ -1,5 +1,5 @@
 const overlay = document.getElementById('overlay'); //Overlay container for event listener
-const keyboard = document.getElementById('keyboard');   //Keyboard container for event listener
+const keyboard = document.getElementById('keyboard'); //Keyboard container for event listener
 
 let gameOver, lockBoard; //Boolean values
 let timer; //Timer that calls checkAnswers if guess time expires
@@ -8,11 +8,11 @@ let selectedDifficulty; //Stores Player Selected Difficulty
 
 let gameData = {
     bestScore: 11, // Placeholder for lowest score
-    attemptsPlayerHasLeft: 10,  // Updates on game screen
+    attemptsPlayerHasLeft: 10, // Updates on game screen
     attemptPlayerIsOn: 1, // Reference to update player history
-    guessPlayerIsOn: 1, // Stores guess player is on
+    guessPlayerIsOn: 0, // Stores guess player is on
     randomAPIResults: [], // Stores numbers from API call
-    playerInput: ['-','-','-','-'] // Stores player's input
+    playerInput: ['-', '-', '-', '-'] // Stores player's input
 }
 
 //Render game's home screen
@@ -112,7 +112,7 @@ function generateRandomNumber(number) {
 
 
 //Render game board after API call attempt
-function renderGameBoard() { 
+function renderGameBoard() {
     renderRandomNumbers();
     renderPlayerGuesses();
     renderHistory();
@@ -139,21 +139,15 @@ function renderRandomNumbers() {
 //Displays player's guesses
 function renderPlayerGuesses() {
     const playersGuesses = document.getElementById('players-guesses');
-    playersGuesses.innerHTML = '';
-    // let html = '';
+
     for (let i = 0; i < 4; i++) {
         const card = document.createElement('p');
         card.id = i;
         card.classList.add('player-guess', 'number', 'shrink');
         card.onclick = removeCardValue;
-        card.value = '-';
+        card.innerText = '-';
         playersGuesses.appendChild(card);
-
-        // html += `
-        // <p id="${i}" class="player-guess number shrink" onclick="removeCardValue()">-</p>
-        // `
     }
-    // playersGuesses.innerHTML = html;
 }
 
 //Render clean player History
@@ -267,20 +261,20 @@ function playerMakesGuess(e) {
     const playerGuess = document.querySelectorAll('.player-guess');
     const key = e.target;
     if (key.tagName === 'BUTTON') {
-        gameData.playerInput[gameData.guessPlayerIsOn - 1] = key.innerText; //Store player's guess
+        gameData.playerInput[gameData.guessPlayerIsOn] = key.innerText; //Store player's guess
         displayGuessMade();
-        playerGuess[gameData.guessPlayerIsOn - 1].classList.toggle('grow');
+        playerGuess[gameData.guessPlayerIsOn].classList.toggle('grow');
         gameData.guessPlayerIsOn++;
     }
     if (!gameData.playerInput.includes('-')) { //checkAnswers when player has made 4 guesses
-        checkAnswers();   
+        checkAnswers();
     }
 }
 
 // check gameData.playerInput for no '-'
 
 //  -need to also remove "grow" animation
-function removeCardValue(e){
+function removeCardValue(e) {
     const card = e.target;
 
     card.innerText = '-';
@@ -299,14 +293,12 @@ function displayGuessMade() {
 //Checks answers 
 function checkAnswers() {
     lockBoard = true;
-    clearInterval(timer); //clearInterval of timer if checkAnswers is called before time expires
-    // if (gameData.playerInput !== 4) { //If player runs out of time store a ' x '        
-        for (let i = 0; i < 4; i++) {
-            if (!gameData.playerInput[i]) {
-                gameData.playerInput[i] = ' x ';
-            }
+    clearInterval(timer); //clearInterval of timer if checkAnswers is called before time expires   
+    for (let i = 0; i < 4; i++) { //If player runs out of time store a ' x ' 
+        if (gameData.playerInput[i] === '-') {
+            gameData.playerInput[i] = 'x';
         }
-    // }
+    }
 
     const correctNumbers = checkIfNumberExists(); //Checks if player's guesses match any of the random numbers 
     const correctMatches = checkForMatches(); //Checks if player has guessed any numbers in their correct correct location
@@ -315,7 +307,7 @@ function checkAnswers() {
     updateAttempts();
     if (correctMatches === 4 || gameData.attemptsPlayerHasLeft === 0) {
         gameOver = true;
-        toggleAnswers();    //Shows answers
+        toggleAnswers(); //Shows answers
         setTimeout(renderResults, 2500, correctNumbers, correctMatches); //Calls renderResults after toggleAnswers finish
     } else {
         renderResults(correctNumbers, correctMatches);
@@ -464,7 +456,7 @@ function closeOverlayHandle(e) {
 function continueGame() {
     clearTimeout(resultsTimer); //Stops resultsTimer when overlay of results closes
     lockBoard = false;
-    clearPlayersGuesses();
+    // clearPlayersGuesses();
     overlay.style.display = 'none'; //Closes overlay and continues game
     startTimerBar(selectedDifficulty.timer); //Reset timer
     resetGuessData();
@@ -473,31 +465,24 @@ function continueGame() {
 //Resets guess player is on
 function resetGuessData() {
     resetPlayersGuessCards(); // Remove animation from players guess cards
-    gameData.guessPlayerIsOn = 1; // Reset guessPlayerIsOn
+    gameData.guessPlayerIsOn = 0; // Reset guessPlayerIsOn
 }
 
 //Remove animation from players guess cards
-function resetPlayersGuessCards() { 
+function resetPlayersGuessCards() {
     const playerGuess = document.querySelectorAll('.player-guess');
     for (let guess of playerGuess) {
         guess.classList.remove('grow');
-    }
-}
-
-//Clear Player Guesses
-function clearPlayersGuesses() {
-    const playerGuess = document.querySelectorAll('.player-guess');
-    for (let guess of playerGuess) {
         guess.innerText = '-';
     }
-    gameData.playerInput = [];
+    gameData.playerInput = ['-', '-', '-', '-'];
 }
 
 //Updates player's attempt history
 function updateHistory(correct, located) {
     const tableAttempts = document.querySelectorAll('.table-attempt');
     let html = `
-        <td class="attempt">${gameData.playerInput}</td>
+        <td class="attempt">${gameData.playerInput.join('-')}</td>
         <td class="attempt">${correct}/4</td>
         <td class="attempt">${located}/4</td>
     `
@@ -564,7 +549,7 @@ function showInstructions(e) {
 }
 
 //EVENT LISTENERS
-window.onload = renderHomeScreen();     //Renders home screen on page load
-overlay.addEventListener('click', selectDifficulty);    //Listens for player to select difficulty and starts game
-overlay.addEventListener('click', showInstructions);    //Listens for player to click instructions to display
-keyboard.addEventListener('click', playerMakesGuess);   //Listens for player to make a guess
+window.onload = renderHomeScreen(); //Renders home screen on page load
+overlay.addEventListener('click', selectDifficulty); //Listens for player to select difficulty and starts game
+overlay.addEventListener('click', showInstructions); //Listens for player to click instructions to display
+keyboard.addEventListener('click', playerMakesGuess); //Listens for player to make a guess
