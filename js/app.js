@@ -261,11 +261,25 @@ function playerMakesGuess(e) {
     const playerGuess = document.querySelectorAll('.player-guess');
     const key = e.target;
     if (key.tagName === 'BUTTON') {
+
+        // TODO: Figure out how to fix guess player is on when removeCardValue initializes 
+        // for (let i = 0; i < gameData.playerInput; i++) {
+
+            // if (gameData.playerInput[gameData.guessPlayerIsOn] === '-') {
+            //     gameData.guessPlayerIsOn = i;
+            // }
+            
+            // playerGuess[gameData.guessPlayerIsOn].classList.contains('grow');
+            // gameData.guessPlayerIsOn++;
+
+        // }
+
         gameData.playerInput[gameData.guessPlayerIsOn] = key.innerText; //Store player's guess
         displayGuessMade();
         playerGuess[gameData.guessPlayerIsOn].classList.toggle('grow');
         gameData.guessPlayerIsOn++;
     }
+
     if (!gameData.playerInput.includes('-')) { //checkAnswers when player has made 4 guesses
         checkAnswers();
     }
@@ -277,7 +291,10 @@ function playerMakesGuess(e) {
 function removeCardValue(e) {
     const card = e.target;
 
+    gameData.guessPlayerIsOn = card.id;
+
     card.innerText = '-';
+    card.classList.toggle('grow');
     gameData.playerInput[card.id] = '-';
 }
 
@@ -456,14 +473,13 @@ function closeOverlayHandle(e) {
 function continueGame() {
     clearTimeout(resultsTimer); //Stops resultsTimer when overlay of results closes
     lockBoard = false;
-    // clearPlayersGuesses();
     overlay.style.display = 'none'; //Closes overlay and continues game
     startTimerBar(selectedDifficulty.timer); //Reset timer
-    resetGuessData();
+    resetPlayerGuessData();
 }
 
 //Resets guess player is on
-function resetGuessData() {
+function resetPlayerGuessData() {
     resetPlayersGuessCards(); // Remove animation from players guess cards
     gameData.guessPlayerIsOn = 0; // Reset guessPlayerIsOn
 }
@@ -495,8 +511,7 @@ function resetGame() {
     clearTimeout(resultsTimer);
     toggleKeyboardAccess(true); // temporarily disable keyboard elements
     fadeSections('out'); // Game fades out back to home screen
-    clearPlayersGuesses(); // Resets players guesses on screen
-    resetGuessData();
+    resetPlayerGuessData();
     gameData.attemptsPlayerHasLeft = 11; // Reset attempts player has left
     gameData.attemptPlayerIsOn = 1; // Reset attempts
     gameData.randomAPIResults = []; // clear API Results
