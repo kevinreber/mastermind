@@ -411,6 +411,7 @@ function overlayHTMLResults(numbers, matches) {
             html += `
                 <h1 class="txt-results txt-correct-header">YOU GUESSED</h1>
                 <div class="txt-correct-container">
+                    <h2 class="txt-player-input">${gameData.playerInput.join('-')}</h2>
                     <h3 class="txt-correct">&#8226 ${numbers}/4 Numbers That Exist<br>
                     &#8226 ${matches}/4 Numbers Correct Location</h3>
                 </div>
@@ -432,8 +433,8 @@ function overlayHTMLButtons() {
         html += '<button id="btn-game-over" class="btn reset">PLAY AGAIN?</button>';
     } else { //If game is not over
         html += `
+        <button id="btn-continue" class="btn continue">CONTINUE</button>
             <button id="btn-reset" class="btn reset">RESTART</button>
-            <p class="txt-continue">Click Screen to Continue</p>
         `
     }
     return html;
@@ -460,7 +461,7 @@ function closeOverlayHandle(e) {
     if (classList.contains('reset')) { //Reset game button
         resetGame();
     }
-    if (classList.contains('overlay-default')) { //Continue game if player clicks overlay      
+    if (classList.contains('continue')) { //Continue game if player clicks overlay      
         continueGame();
     }
 }
@@ -504,6 +505,7 @@ function updateHistory(correct, located) {
 
 //Resets Game
 function resetGame() {
+    document.getElementById('players-guesses').innerHTML = ''; //Clears any previous cards
     clearTimeout(resultsTimer);
     toggleKeyboardAccess(true); // temporarily disable keyboard elements
     fadeSections('out'); // Game fades out back to home screen

@@ -213,17 +213,25 @@ li {
 .txt-wrong, .txt-win, .txt-lose {
   color: #ffce52;
 }
+.txt-player-input {
+  display: block;
+  margin: auto;
+  font-size: 36px;
+}
+.txt-correct, .txt-player-input {
+  color: #fff;
+}
 .txt-correct {
   text-align: start;
   margin-left: 1rem;
   font-size: 24px;
-  color: #fff;
 }
 .txt-correct-header {
   color: #ffce52;
 }
 .txt-correct-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -300,12 +308,12 @@ li {
   background-color: #ffce52;
   border: 1px solid #fff;
 }
-.btn.reset {
+.btn.reset, .btn.continue {
   background-color: #4d4d4d;
   color: #fff;
   border: 1px solid #fff;
 }
-.btn.reset:hover {
+.btn.reset:hover, .btn.continue:hover {
   background-color: #ffce52;
 }
 

@@ -158,11 +158,21 @@ li {
         color: $color-golden;
     }
 
+    &-player-input {
+        display: block;
+        margin: auto;
+        font-size: 36px;
+    }
+
+    &-correct,
+    &-player-input {
+        color: #fff;
+    }
+
     &-correct {
         text-align: start;
         margin-left: 1rem;
         font-size: 24px;
-        color: #fff;
 
         &-header {
             color: $color-golden;
@@ -170,6 +180,7 @@ li {
 
         &-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
         }
     }
