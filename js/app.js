@@ -261,18 +261,7 @@ function playerMakesGuess(e) {
     const playerGuess = document.querySelectorAll('.player-guess');
     const key = e.target;
     if (key.tagName === 'BUTTON') {
-
-        // TODO: Figure out how to fix guess player is on when removeCardValue initializes 
-        // for (let i = 0; i < gameData.playerInput; i++) {
-
-            // if (gameData.playerInput[gameData.guessPlayerIsOn] === '-') {
-            //     gameData.guessPlayerIsOn = i;
-            // }
-            
-            // playerGuess[gameData.guessPlayerIsOn].classList.contains('grow');
-            // gameData.guessPlayerIsOn++;
-
-        // }
+        updateGuessPlayerIsOn();    //If player removes card, makes sure gameData.guessPlayerIsOn is updated
 
         gameData.playerInput[gameData.guessPlayerIsOn] = key.innerText; //Store player's guess
         displayGuessMade();
@@ -285,13 +274,20 @@ function playerMakesGuess(e) {
     }
 }
 
-// check gameData.playerInput for no '-'
+// If player removes a card value, updateGuessPlayerIsOn will make sure other card values aren't affected
+function updateGuessPlayerIsOn() {
+    for (let i = 0; i < 3; i++) {
+        if (gameData.playerInput[gameData.guessPlayerIsOn] !== '-') {   //if playerInput contains a number, guessPlayerIsOn will increment to skip that input
+            gameData.guessPlayerIsOn++;
+        }
+    }
+}
 
-//  -need to also remove "grow" animation
 function removeCardValue(e) {
     const card = e.target;
 
-    gameData.guessPlayerIsOn = card.id;
+    // gameData.guessPlayerIsOn = card.id;
+    gameData.guessPlayerIsOn = 0;   //Sets guess to 0, updateGuessPlayerIsOn() will ensure no card values are skipped
 
     card.innerText = '-';
     card.classList.toggle('grow');
