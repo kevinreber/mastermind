@@ -1,4 +1,4 @@
-<div style="text-align:center">
+<div align="center">
 <h1>Mastermind</h1>
 Mastermind is a game where players have 10 attempts to guess the location of 4 numbers
 
